@@ -1,5 +1,6 @@
 function Content(props) {
-    const previewDataSorted = props.previewData.sort((a, b) => a.title.localeCompare(b.title))
+    // Create a new array based on the array from the props so that we do not mutate state
+    const [...previewDataSorted] = props.previewData.sort((a, b) => a.title.localeCompare(b.title))
 
     return (
         previewDataSorted.map(showPreview => {
