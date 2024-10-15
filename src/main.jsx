@@ -11,6 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { lightTheme, darkTheme } from './theme';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+ // Define Root function component such that inside we check if the user prefers dark mode, and use a ternary to return the resulting theme
 function Root() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = prefersDarkMode ? darkTheme : lightTheme;
