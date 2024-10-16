@@ -1,12 +1,10 @@
 import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
+import { AppBar, Box, Toolbar, Typography, InputBase } from '@mui/material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import SortIcon from '@mui/icons-material/Sort';
+import PoddyLogo from './PoddyLogo'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -55,22 +53,21 @@ export default function SearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Box sx={{
+            paddingRight: "0.4rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+            <PoddyLogo /> 
+          </Box>
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            Poddy
           </Typography>
           <Search>
             <SearchIconWrapper>

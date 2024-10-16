@@ -78,6 +78,6 @@ ShowCard.propTypes = {
     description: PropTypes.string.isRequired,
     seasons: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    genres: PropTypes.array.isRequired,
+    genres: PropTypes.string.isRequired,
     updated: PropTypes.string.isRequired
 }
