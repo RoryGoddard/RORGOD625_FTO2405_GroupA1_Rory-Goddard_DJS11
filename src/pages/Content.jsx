@@ -3,7 +3,7 @@ import { Grid2 } from '@mui/material'
 import PropTypes from "prop-types";
 
 function Content({ previewData }) {
-    const [...previewDataSorted] = previewData.sort((a, b) => a.title.localeCompare(b.title))
+    const previewDataSorted = previewData.slice().sort((a, b) => a.title.localeCompare(b.title));
 
     return (
         <Grid2 container spacing={{ xs: 2, md: 3 }} 
