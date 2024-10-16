@@ -9,7 +9,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
 const AudioPlayer = () => {
-    const theme = useTheme();
+  const theme = useTheme();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
@@ -26,7 +26,7 @@ const AudioPlayer = () => {
 
   const handleVolumeChange = (event, newValue) => {
     setVolume(newValue);
-    audioRef.current.volume = newValue / 100; // Convert to 0-1 range for HTML audio
+    audioRef.current.volume = newValue / 100;
   };
 
   const handleSkipNext = () => {
@@ -46,22 +46,26 @@ const AudioPlayer = () => {
         position: 'fixed',
         bottom: 0,
         display: 'flex',
-        justifyContent: 'space-between',
         alignItems: 'center',
+        justifyContent: 'space-between',
         padding: '0.5rem',
       }}
     >
-      <IconButton color="inherit" onClick={handleSkipPrevious}>
-        <SkipPreviousIcon />
-      </IconButton>
-      <IconButton color="inherit" onClick={handlePlayPause}>
-        {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-      </IconButton>
-      <IconButton color="inherit" onClick={handleSkipNext}>
-        <SkipNextIcon />
-      </IconButton>
+      <Box sx={{ width: '100px' }} /> {/* Spacer */}
       
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
+        <IconButton color="inherit" onClick={handleSkipPrevious}>
+          <SkipPreviousIcon />
+        </IconButton>
+        <IconButton color="inherit" onClick={handlePlayPause}>
+          {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+        </IconButton>
+        <IconButton color="inherit" onClick={handleSkipNext}>
+          <SkipNextIcon />
+        </IconButton>
+      </Box>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', width: '100px' }}>
         <IconButton color="inherit">
           {volume === 0 ? <VolumeOffIcon /> : <VolumeUpIcon />}
         </IconButton>
@@ -73,12 +77,11 @@ const AudioPlayer = () => {
           max={100}
           sx={{
             width: 100,
-            color: theme.palette.audioPlayer.slider, // Apply black color for the slider
+            color: theme.palette.audioPlayer.slider,
           }}
         />
       </Box>
 
-      {/* Replace 'your-audio-file.mp3' with the URL of the current audio track */}
       <audio ref={audioRef} src="Your audio here" />
     </Box>
   );
