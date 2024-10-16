@@ -2,7 +2,7 @@ import ShowCard from "../components/ShowCard"
 import { Grid2 } from '@mui/material'
 import PropTypes from "prop-types";
 
-function Content({ previewData }) {
+function Content({ previewData, genres }) {
     const previewDataSorted = previewData.slice().sort((a, b) => a.title.localeCompare(b.title));
 
     return (
@@ -17,7 +17,7 @@ function Content({ previewData }) {
                         description={showPreview.description}
                         seasons={showPreview.seasons}
                         image={showPreview.image}
-                        genres={showPreview.genres}
+                        genres={showPreview.genres.map(genreId => genres.find(genre => genre.id === genreId)?.title).join(", ")} // Map each genres id to a title within the genres state array
                         updated={showPreview.updated} 
                     />
             </Grid2>
@@ -26,7 +26,7 @@ function Content({ previewData }) {
     )
 }
 
-// Define Prop Types for previewData array of objects within Content component
+// Define Prop Types for previewData array of objects and for genres array of objects
 Content.propTypes = {
     previewData: PropTypes.arrayOf(
         PropTypes.shape({
@@ -38,7 +38,16 @@ Content.propTypes = {
             genres: PropTypes.array.isRequired,
             updated: PropTypes.string.isRequired
         })
-    )
+    ).isRequired,
+    genres: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+            description: PropTypes.string,
+            shows: PropTypes.array
+        })
+    ).isRequired,
 }
+
 
 export default Content

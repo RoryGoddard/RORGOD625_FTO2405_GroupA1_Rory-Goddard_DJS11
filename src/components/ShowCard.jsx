@@ -43,10 +43,10 @@ export default function ShowCard({ title, description, seasons, image, genres, u
                     mb: "0.25rem"
                     }}>
                     <Typography variant="body2" component="h2" color="text.disabled">
-                        Horror, Action
+                        {genres}
                     </Typography>
                     <Typography variant="body2" component="h2" color="text.disabled">
-                        {"Last updated: " + new Date(updated).toLocaleDateString()}
+                        {"Updated: " + new Date(updated).toLocaleDateString()}
                     </Typography>
                 </Box>
                 <Box 
