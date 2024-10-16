@@ -6,6 +6,8 @@ import Content from "./pages/Content";
 import { useState, useEffect } from 'react';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "./utils/sortUtils";
 import AudioPlayer from './components/AudioPlayer';
+import PodcastDetailsModal from './components/PodcastDetailsModal';
+import { Box } from '@mui/material'
 
 const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
@@ -19,6 +21,8 @@ function App() {
     const [sortedData, setSortedData] = useState(previewData); // State for sorted data
     const [filteredData, setFilteredData] = useState(previewData); // State for filtered data
     const [searchQuery, setSearchQuery] = useState('');
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedShow, setSelectedShow] = useState(null);
 
     useEffect(() => {
         if (!previewData) return;
@@ -91,24 +95,46 @@ function App() {
     };
 
     const handleFilterChange = (genre) => {
-        setSelectedGenre(genre);
+      setSelectedGenre(genre);
     };
 
     const handleSearchChange = (query) => {
       setSearchQuery(query);
     };
 
+    // New handler for opening the modal
+    const handleShowClick = (show) => {
+        setSelectedShow(show);
+        setModalOpen(true);
+    };
 
-    if (loading || loadingGenres) return <LoadingSpinner />;
+      // New handler for closing the modal
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
+
+    if (loading || loadingGenres) return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
+        <LoadingSpinner />
+      </Box>
+      )
     if (error) return <ErrorPage />;
 
     return (
-        <>
-            {genres && <SearchAppBar onSortChange={handleSortChange} onFilterChange={handleFilterChange} onSearchChange={handleSearchChange} genres={genres}/>}
-            {filteredData && <Content showData={filteredData} genres={genres} />}
-            <AudioPlayer />
-        </>
-    );
+      <>
+          {genres && <SearchAppBar onSortChange={handleSortChange} onFilterChange={handleFilterChange} onSearchChange={handleSearchChange} genres={genres}/>}
+          {filteredData && <Content showData={filteredData} genres={genres} onShowClick={handleShowClick} />}
+          <AudioPlayer />
+          {selectedShow && (
+              <PodcastDetailsModal
+                  show={selectedShow}
+                  open={modalOpen}
+                  onClose={handleCloseModal}
+              />
+          )}
+      </>
+  );
 }
 
 export default App;

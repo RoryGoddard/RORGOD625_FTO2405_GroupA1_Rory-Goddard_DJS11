@@ -1,9 +1,9 @@
 import { Paper, CardMedia, Typography, Box} from '@mui/material';
 import PropTypes from "prop-types";
 
-export default function ShowCard({ title, description, seasons, image, genres, updated }) {
+export default function ShowCard({ title, description, seasons, image, genres, updated, onClick }) {
     return (
-        <Paper>
+        <Paper onClick={onClick}>
             <CardMedia
                 component="img"
                 image={image}
@@ -80,5 +80,6 @@ ShowCard.propTypes = {
     seasons: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
     genres: PropTypes.string.isRequired,
-    updated: PropTypes.string.isRequired
+    updated: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
 }
