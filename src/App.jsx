@@ -102,6 +102,12 @@ function App() {
       setSearchQuery(query);
     };
 
+    const handlePlayEpisode = (episode) => {
+      // Implement your logic to play the episode
+      console.log('Playing episode:', episode);
+  };
+  
+
     // New handler for opening the modal
     const handleShowClick = (show) => {
         setSelectedShow(show);
@@ -131,6 +137,7 @@ function App() {
                   show={selectedShow}
                   open={modalOpen}
                   onClose={handleCloseModal}
+                  onPlayEpisode={handlePlayEpisode}
               />
           )}
       </>
