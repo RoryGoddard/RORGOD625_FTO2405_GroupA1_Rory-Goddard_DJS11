@@ -1,5 +1,4 @@
 import { Paper, CardMedia, Typography, Box} from '@mui/material';
-import { Grid2 } from '@mui/material'
 import PropTypes from "prop-types";
 
 export default function ShowCard({ title, description, seasons, image, genres, updated }) {

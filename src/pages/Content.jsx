@@ -1,5 +1,4 @@
 import ShowCard from "../components/ShowCard"
-import { Paper, CardMedia, Typography, Box} from '@mui/material';
 import { Grid2 } from '@mui/material'
 import PropTypes from "prop-types";
 
