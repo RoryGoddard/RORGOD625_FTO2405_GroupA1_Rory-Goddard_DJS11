@@ -3,7 +3,6 @@ import { Grid2 } from '@mui/material'
 import PropTypes from "prop-types";
 
 function Content({ showData, genres }) {
-    {console.log(showData)}
 
     return (
         <Grid2 container spacing={{ xs: 2, md: 3 }} 

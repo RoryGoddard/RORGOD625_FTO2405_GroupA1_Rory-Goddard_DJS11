@@ -1,12 +1,11 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, Typography, InputBase, IconButton, Menu, MenuItem } from '@mui/material/';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
 import PoddyLogo from './PoddyLogo';
-import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "../utils/sortUtils"
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -49,10 +48,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ onSortChange, onFilterChange }) {
+export default function SearchAppBar({ onSortChange, onFilterChange, genres }) {
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
-
   const handleSortClick = (event) => {
     setSortAnchorEl(event.currentTarget);
   };
@@ -129,13 +127,21 @@ export default function SearchAppBar({ onSortChange, onFilterChange }) {
             open={Boolean(filterAnchorEl)}
             onClose={handleFilterClose}
           >
-            {/* Replace with dynamic list of genres */}
-            <MenuItem onClick={() => handleFilterSelect('comedy')}>Comedy</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('drama')}>Drama</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('action')}>Action</MenuItem>
+            <MenuItem onClick={() => handleFilterSelect(null)}>Show All</MenuItem>
+            {genres.map((genre) => (
+              <MenuItem key={genre.id} onClick={() => handleFilterSelect(genre)}>
+                {genre.title}
+              </MenuItem>
+            ))}
           </Menu>
         </Toolbar>
       </AppBar>
     </Box>
   );
 }
+
+SearchAppBar.propTypes = {
+  onSortChange: PropTypes.func.isRequired,
+  onFilterChange: PropTypes.func.isRequired,
+  genres: PropTypes.array.isRequired, // Validate genres as an array
+};

@@ -11,26 +11,24 @@ const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
 
 function App() {
-    const { data: previewData, loading, error } = useFetchData(PREVIEW_URL); // Grab the data, loading, and error values from the useFetchData helper
-    const [genres, setGenres] = useState([]); 
+    const { data: previewData, loading, error } = useFetchData(PREVIEW_URL);
+    const [genres, setGenres] = useState([]);
     const [loadingGenres, setLoadingGenres] = useState(true);
-    const [sortOption, setSortOption] = useState("A-Z"); // State to track the sort option
-    const [sortedData, setSortedData] = useState(previewData || []); // State for sorted data
+    const [sortOption, setSortOption] = useState("A-Z"); // Default sort option
+    const [selectedGenre, setSelectedGenre] = useState(null); // State for selected genre
+    const [sortedData, setSortedData] = useState(previewData); // State for sorted data
+    const [filteredData, setFilteredData] = useState(previewData); // State for filtered data
 
     useEffect(() => {
         if (!previewData) return;
 
         const fetchGenres = async () => {
             try {
-                // Create a set consisting of unique genre ID's from previewData by using flatMap to flatten each array of ID's to one array of ID's
                 const genreIds = new Set(previewData.flatMap(show => show.genres));
-                
-                // Fetch genres asynchronously, returning response genre object and saving it within an array
                 const genrePromises = Array.from(genreIds).map(async (id) => {
                     const response = await fetch(`${GENRE_URL}${id}`);
-                    return await response.json(); // Store the whole object
+                    return await response.json();
                 });
-                // Save the array of genre objects to state
                 const fetchedGenres = await Promise.all(genrePromises);
                 setGenres(fetchedGenres);
             } catch (err) {
@@ -43,32 +41,50 @@ function App() {
         fetchGenres();
     }, [previewData]);
 
+    // Sorting effect
     useEffect(() => {
-      // Apply the sorting function whenever the sort option or previewData changes
-      if (previewData) {
-          let sorted;
-          switch (sortOption) {
-              case 'A-Z':
-                  sorted = sortByTitleAscending(previewData);
-                  break;
-              case 'Z-A':
-                  sorted = sortByTitleDescending(previewData);
-                  break;
-              case 'newest':
-                  sorted = sortByDateDescending(previewData);
-                  break;
-              case 'oldest':
-                  sorted = sortByDateAscending(previewData);
-                  break;
-              default:
-                  sorted = previewData;
-          }
-          setSortedData(sorted);
+        if (previewData) {
+            let sorted;
+            switch (sortOption) {
+                case 'A-Z':
+                    sorted = sortByTitleAscending(previewData);
+                    break;
+                case 'Z-A':
+                    sorted = sortByTitleDescending(previewData);
+                    break;
+                case 'newest':
+                    sorted = sortByDateDescending(previewData);
+                    break;
+                case 'oldest':
+                    sorted = sortByDateAscending(previewData);
+                    break;
+                default:
+                    sorted = previewData;
+            }
+            setSortedData(sorted);
+        }
+    }, [sortOption, previewData]);
+
+    useEffect(() => {
+      // Apply filtering whenever the selected genre changes
+      let filteredData = sortedData; // Start with sorted data
+    
+      if (selectedGenre) {
+        filteredData = sortedData.filter((show) => 
+          show.genres.includes(selectedGenre.id) // Check if the show includes the selected genre
+        );
       }
-  }, [sortOption, previewData]);
+    
+      setFilteredData(filteredData); // Update the state with filtered data
+    }, [selectedGenre, sortedData]); // Re-run when selected genre or sorted data changes
+    
 
     const handleSortChange = (option) => {
-      setSortOption(option);
+        setSortOption(option);
+    };
+
+    const handleFilterChange = (genre) => {
+        setSelectedGenre(genre);
     };
 
     if (loading || loadingGenres) return <LoadingSpinner />;
@@ -76,8 +92,8 @@ function App() {
 
     return (
         <>
-            <SearchAppBar onSortChange={handleSortChange} />
-            {sortedData && <Content showData={sortedData} genres={genres} />}
+            {genres && <SearchAppBar onSortChange={handleSortChange} onFilterChange={handleFilterChange} genres={genres}/>}
+            {filteredData && <Content showData={filteredData} genres={genres} />}
             <PlaybackFooter />
         </>
     );
