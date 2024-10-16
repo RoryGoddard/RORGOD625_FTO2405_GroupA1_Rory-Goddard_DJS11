@@ -10,7 +10,7 @@ function Content({ showData, genres }) {
             margin:"1.5rem",
         }}>
         {showData.map((showPreview) => (
-            <Grid2 key={showPreview.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }}>
+            <Grid2 key={showPreview.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }} sx={{borderRadius: "2%"}}>
                 <ShowCard                 
                         title={showPreview.title}
                         description={showPreview.description}

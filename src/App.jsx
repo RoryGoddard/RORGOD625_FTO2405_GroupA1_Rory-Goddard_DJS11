@@ -18,6 +18,7 @@ function App() {
     const [selectedGenre, setSelectedGenre] = useState(null); // State for selected genre
     const [sortedData, setSortedData] = useState(previewData); // State for sorted data
     const [filteredData, setFilteredData] = useState(previewData); // State for filtered data
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         if (!previewData) return;
@@ -66,17 +67,23 @@ function App() {
     }, [sortOption, previewData]);
 
     useEffect(() => {
-      // Apply filtering whenever the selected genre changes
-      let filteredData = sortedData; // Start with sorted data
+      let filteredData = sortedData;
     
       if (selectedGenre) {
-        filteredData = sortedData.filter((show) => 
-          show.genres.includes(selectedGenre.id) // Check if the show includes the selected genre
+        filteredData = sortedData.filter((show) =>
+          show.genres.includes(selectedGenre.id)
         );
       }
     
-      setFilteredData(filteredData); // Update the state with filtered data
-    }, [selectedGenre, sortedData]); // Re-run when selected genre or sorted data changes
+      if (searchQuery) {
+        const lowerCaseQuery = searchQuery.toLowerCase();
+        filteredData = filteredData.filter((show) =>
+          show.title.toLowerCase().includes(lowerCaseQuery)
+        );
+      }
+    
+      setFilteredData(filteredData);
+    }, [selectedGenre, sortedData, searchQuery]);    
     
 
     const handleSortChange = (option) => {
@@ -87,12 +94,17 @@ function App() {
         setSelectedGenre(genre);
     };
 
+    const handleSearchChange = (query) => {
+      setSearchQuery(query);
+    };
+
+
     if (loading || loadingGenres) return <LoadingSpinner />;
     if (error) return <ErrorPage />;
 
     return (
         <>
-            {genres && <SearchAppBar onSortChange={handleSortChange} onFilterChange={handleFilterChange} genres={genres}/>}
+            {genres && <SearchAppBar onSortChange={handleSortChange} onFilterChange={handleFilterChange} onSearchChange={handleSearchChange} genres={genres}/>}
             {filteredData && <Content showData={filteredData} genres={genres} />}
             <PlaybackFooter />
         </>

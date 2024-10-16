@@ -10,7 +10,8 @@ export default function ShowCard({ title, description, seasons, image, genres, u
                 alt={"Show Image for" + {title}}
                 sx={{
                 height: "100%", // You can set fixed height, or use width depending on your needs
-                objectFit: 'cover',
+                objectFit: "cover",
+                borderRadius: "2%"
                 }}
             />
             <Box 

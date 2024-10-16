@@ -48,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ onSortChange, onFilterChange, genres }) {
+export default function SearchAppBar({ onSortChange, onFilterChange, onSearchChange, genres }) {
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const handleSortClick = (event) => {
@@ -104,6 +104,7 @@ export default function SearchAppBar({ onSortChange, onFilterChange, genres }) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={(e) => onSearchChange(e.target.value)}
             />
           </Search>
           <IconButton color="inherit" onClick={handleSortClick}>
