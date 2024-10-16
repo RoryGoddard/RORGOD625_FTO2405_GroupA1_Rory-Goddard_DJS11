@@ -2,15 +2,15 @@ import ShowCard from "../components/ShowCard"
 import { Grid2 } from '@mui/material'
 import PropTypes from "prop-types";
 
-function Content({ previewData, genres }) {
-    const previewDataSorted = previewData.slice().sort((a, b) => a.title.localeCompare(b.title));
+function Content({ showData, genres }) {
+    {console.log(showData)}
 
     return (
         <Grid2 container spacing={{ xs: 2, md: 3 }} 
         sx={{ 
             margin:"1.5rem",
         }}>
-        {previewDataSorted.map((showPreview) => (
+        {showData.map((showPreview) => (
             <Grid2 key={showPreview.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }}>
                 <ShowCard                 
                         title={showPreview.title}
@@ -28,7 +28,7 @@ function Content({ previewData, genres }) {
 
 // Define Prop Types for previewData array of objects and for genres array of objects
 Content.propTypes = {
-    previewData: PropTypes.arrayOf(
+    showData: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,

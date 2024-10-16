@@ -5,14 +5,17 @@ import SearchAppBar from './components/SearchAppBar';
 import Content from "./pages/Content";
 import PlaybackFooter from './components/PlaybackFooter';
 import { useState, useEffect } from 'react';
+import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "./utils/sortUtils";
 
 const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
 
 function App() {
-    const { data: previewData, loading, error } = useFetchData(PREVIEW_URL);
-    const [genres, setGenres] = useState([]);
+    const { data: previewData, loading, error } = useFetchData(PREVIEW_URL); // Grab the data, loading, and error values from the useFetchData helper
+    const [genres, setGenres] = useState([]); 
     const [loadingGenres, setLoadingGenres] = useState(true);
+    const [sortOption, setSortOption] = useState("A-Z"); // State to track the sort option
+    const [sortedData, setSortedData] = useState(previewData || []); // State for sorted data
 
     useEffect(() => {
         if (!previewData) return;
@@ -40,13 +43,41 @@ function App() {
         fetchGenres();
     }, [previewData]);
 
+    useEffect(() => {
+      // Apply the sorting function whenever the sort option or previewData changes
+      if (previewData) {
+          let sorted;
+          switch (sortOption) {
+              case 'A-Z':
+                  sorted = sortByTitleAscending(previewData);
+                  break;
+              case 'Z-A':
+                  sorted = sortByTitleDescending(previewData);
+                  break;
+              case 'newest':
+                  sorted = sortByDateDescending(previewData);
+                  break;
+              case 'oldest':
+                  sorted = sortByDateAscending(previewData);
+                  break;
+              default:
+                  sorted = previewData;
+          }
+          setSortedData(sorted);
+      }
+  }, [sortOption, previewData]);
+
+    const handleSortChange = (option) => {
+      setSortOption(option);
+    };
+
     if (loading || loadingGenres) return <LoadingSpinner />;
     if (error) return <ErrorPage />;
 
     return (
         <>
-            <SearchAppBar />
-            {previewData && <Content previewData={previewData} genres={genres} />}
+            <SearchAppBar onSortChange={handleSortChange} />
+            {sortedData && <Content showData={sortedData} genres={genres} />}
             <PlaybackFooter />
         </>
     );
