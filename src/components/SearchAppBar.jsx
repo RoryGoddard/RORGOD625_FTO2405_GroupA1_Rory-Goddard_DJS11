@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, Typography, InputBase, IconButton, Menu, MenuItem } from '@mui/material/';
@@ -10,10 +11,6 @@ import PoddyLogo from './PoddyLogo';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
@@ -30,11 +27,13 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: theme.palette.text.primary, // Ensure icon in search field is visible across modes
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
+  color: theme.palette.text.primary, // Matches text colour to theme
+  backgroundColor: alpha(theme.palette.common.black, 0.15), // Consistent darker styling across modes for better visibility
+  borderRadius: theme.shape.borderRadius,
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -49,6 +48,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ onSortChange, onFilterChange, onSearchChange, genres }) {
+  const theme = useTheme();
+
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const handleSortClick = (event) => {
@@ -78,8 +79,14 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <AppBar
+      elevation={0}
+      position="static"
+      sx={{
+        backgroundColor: theme.palette.searchAppBar.background,
+        color: theme.palette.searchAppBar.color,
+      }}
+    >
         <Toolbar>
           <Box sx={{
             paddingRight: "0.4rem",
@@ -137,12 +144,12 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
           </Menu>
         </Toolbar>
       </AppBar>
-    </Box>
   );
 }
 
 SearchAppBar.propTypes = {
   onSortChange: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
-  genres: PropTypes.array.isRequired, // Validate genres as an array
+  onSearchChange: PropTypes.func.isRequired,
+  genres: PropTypes.array.isRequired,
 };

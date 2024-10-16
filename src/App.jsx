@@ -3,9 +3,9 @@ import LoadingSpinner from "./pages/LoadingSpinner";
 import ErrorPage from './pages/ErrorPage';
 import SearchAppBar from './components/SearchAppBar';
 import Content from "./pages/Content";
-import PlaybackFooter from './components/PlaybackFooter';
 import { useState, useEffect } from 'react';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "./utils/sortUtils";
+import AudioPlayer from './components/AudioPlayer';
 
 const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
@@ -106,7 +106,7 @@ function App() {
         <>
             {genres && <SearchAppBar onSortChange={handleSortChange} onFilterChange={handleFilterChange} onSearchChange={handleSearchChange} genres={genres}/>}
             {filteredData && <Content showData={filteredData} genres={genres} />}
-            <PlaybackFooter />
+            <AudioPlayer />
         </>
     );
 }

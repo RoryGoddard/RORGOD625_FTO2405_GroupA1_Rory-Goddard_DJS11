@@ -3,13 +3,36 @@ import { createTheme } from '@mui/material/styles';
 export const lightTheme = createTheme({
   palette: {
     mode: 'light',
-    // Add more light mode customization here
+    searchAppBar: {
+      background: '#f5f5f5', 
+      color: '#121212', 
+      inputBackground: '#e0e0e0', 
+      inputText: '#000000',
+    },
+    audioPlayer: {
+      background: '#f5f5f5', 
+      controls: '#121212',
+      slider: '#121212', 
+    }
   },
 });
 
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
-    // Add more dark mode customization here
+    searchAppBar: {
+      background: '#212121',
+      color: '#fafafa'
+    },
+    appBar: {
+      background: '#212121'
+    },
+    AppBar: {
+      background: '#212121'
+    },
+    audioPlayer: {
+      background: '#212121',
+      controls: '#fafafa', 
+    }
   },
 });
