@@ -9,10 +9,10 @@ export const sortByTitleDescending = (data) => {
   };
 
 export const sortByDateAscending = (data) => {
-    return [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+    return [...data].sort((a, b) => new Date(a.updated) - new Date(b.updated));
   };
 
 export const sortByDateDescending = (data) => {
-    return [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+    return [...data].sort((a, b) => new Date(b.updated) - new Date(a.updated));
   };
 
