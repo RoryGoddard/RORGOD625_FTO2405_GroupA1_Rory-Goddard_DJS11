@@ -59,9 +59,11 @@ export default function ShowCard({ title, description, seasons, image, genresArr
                     mt: "0.25rem",
                     mb: "0.25rem"
                     }}>
+                    <Box>
                         {getGenreTitles().map((genre, index) => (
-                            <Chip key={index} label={genre} sx={{ mr: 1, mb: 1 }} />
+                            <Chip key={index} label={genre} sx={{ mt: "0.25rem", mb: "0.25rem", mr: "0.5rem" }} />
                         ))}
+                    </Box>
                     <Typography variant="body2" component="h2" color="text.disabled">
                         {"Updated: " + new Date(updated).toLocaleDateString()}
                     </Typography>
