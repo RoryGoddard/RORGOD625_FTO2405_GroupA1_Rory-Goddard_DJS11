@@ -9,7 +9,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
-const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious }) => {
+const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow }) => {
   const theme = useTheme();
   const audioRef = useRef(null);
   const [volume, setVolume] = useState(100);
@@ -18,10 +18,11 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
 
   useEffect(() => {
     if (episode && audioRef.current) {
+      console.log('Loading episode:', episode);
       audioRef.current.src = episode.file;
       audioRef.current.load();
       if (isPlaying) {
-        audioRef.current.play();
+        audioRef.current.play().catch((err) => console.error('Error playing audio:', err));
       }
     }
   }, [episode]);
@@ -52,6 +53,7 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
   }, []);
 
   const handlePlayPause = () => {
+    console.log(episode)
     onPlayPause(!isPlaying);
   };
 
@@ -67,10 +69,12 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
   };
 
   const handleSkipNext = () => {
+    console.log("In handle skip next")
     onSkipNext();
   };
 
   const handleSkipPrevious = () => {
+    console.log("In handle skip previous")
     if (currentTime > 3) {
       audioRef.current.currentTime = 0;
     } else {
@@ -193,17 +197,36 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
   );
 };
 
+// Define prop types
 AudioPlayer.propTypes = {
   episode: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    file: PropTypes.string.isRequired,
-    episode: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      episode: PropTypes.number.isRequired,
+      file: PropTypes.string.isRequired,
   }),
   isPlaying: PropTypes.bool.isRequired,
   onPlayPause: PropTypes.func.isRequired,
   onSkipNext: PropTypes.func.isRequired,
   onSkipPrevious: PropTypes.func.isRequired,
+  playingShow: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      genres: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.number),
+        PropTypes.arrayOf(PropTypes.string)
+      ]),
+      seasons: PropTypes.arrayOf(PropTypes.shape({
+          episodes: PropTypes.arrayOf(PropTypes.shape({
+              title: PropTypes.string.isRequired,
+              description: PropTypes.string,
+              episode: PropTypes.number.isRequired,
+              file: PropTypes.string.isRequired,
+          }))
+      }))
+  }),
 };
+
 
 export default AudioPlayer;

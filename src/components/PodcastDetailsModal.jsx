@@ -3,7 +3,7 @@ import { Modal, Box, Typography, Button, CircularProgress, Select, MenuItem, Lis
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PropTypes from 'prop-types';
 
-const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading }) => {
+const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loading }) => {
     const [selectedSeason, setSelectedSeason] = useState(null);
 
     useEffect(() => {
@@ -21,11 +21,9 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading }) =>
         return new Date(dateString).toLocaleDateString();
     };
 
-    const getGenreTitles = () => {
-        return show.genres.filter((genre) => {
-            return genre !== "All" && genre !== "Featured";
-        });
-    };    
+    const showGenres = genres.filter(genre => 
+        genre.shows.includes(show.id)
+    );
 
 
 
@@ -75,9 +73,13 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading }) =>
                                     {show.description}
                                 </Typography>
                                 <Box sx={{ mb: 2 }}>
-                                    {getGenreTitles().map((genre, index) => (
-                                        <Chip key={index} label={genre} sx={{ mr: 1, mb: 1 }}/>
-                                    ))}
+                                {showGenres.length > 0 ? (
+                                    showGenres.map((genre) => (
+                                        <Chip key={genre.id} label={genre.title} sx={{ mr: 1, mb: 1}}/>
+                                    ))
+                                ) : (
+                                    <Typography>No genres available</Typography>
+                                )}
                                 </Box>
                                 <Box>
                                 <Typography variant="body2" sx={{ mb: 2 }}>
