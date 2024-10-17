@@ -3,30 +3,17 @@ import { Modal, Box, Typography, Button, CircularProgress, Select, MenuItem, Lis
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PropTypes from 'prop-types';
 
-const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode }) => {
-    const [detailedShow, setDetailedShow] = useState(null);
-    const [loading, setLoading] = useState(true);
+const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading }) => {
     const [selectedSeason, setSelectedSeason] = useState(null);
 
     useEffect(() => {
-        if (open && show) {
-            setLoading(true);
-            fetch(`https://podcast-api.netlify.app/id/${show.id}`)
-                .then(response => response.json())
-                .then(data => {
-                    setDetailedShow(data);
-                    setSelectedSeason(data.seasons[0]);
-                    setLoading(false);
-                })
-                .catch(error => {
-                    console.error('Error fetching show details:', error);
-                    setLoading(false);
-                });
+        if (show && show.seasons && Array.isArray(show.seasons)) {
+            setSelectedSeason(show.seasons[0]);
         }
-    }, [open, show]);
+    }, [show]);
 
     const handleSeasonChange = (event) => {
-        const season = detailedShow.seasons.find(s => s.season === event.target.value);
+        const season = show.seasons.find(s => s.season === event.target.value);
         setSelectedSeason(season);
     };
 
@@ -35,11 +22,12 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode }) => 
     };
 
     const getGenreTitles = () => {
-        return show.genres.map(genreId => {
-          const genre = genres.find(g => g.id === genreId);
-          return genre ? genre.title : 'Unknown Genre';
+        return show.genres.filter((genre) => {
+            return genre !== "All" && genre !== "Featured";
         });
-      };
+    };    
+
+
 
     return (
         <Modal
@@ -69,32 +57,31 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode }) => 
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                         <CircularProgress />
                     </Box>
-                ) : detailedShow ? (
+                ) : show ? (
                     <>
                         <Box sx={{ display: 'flex', mb: 2 }}>
                             <Box sx={{ width: '30%', mr: 2 }}>
-                                <img 
-                                    src={selectedSeason ? selectedSeason.image : detailedShow.image} 
-                                    alt={detailedShow.title} 
+                                <img
+                                    src={selectedSeason ? selectedSeason.image : show.image} 
+                                    alt={show.title} 
                                     style={{ width: '100%', height: 'auto', objectFit: 'contain' }} 
                                 />
                             </Box>
                             <Box sx={{ width: '70%' }}>
                                 <Typography variant="h4" component="h2" sx={{ mb: 1 }}>
-                                    {detailedShow.title}
+                                    {show.title}
                                 </Typography>
                                 <Typography variant="body2" sx={{ mb: 2, maxHeight: '100px', overflow: 'auto' }}>
-                                    {detailedShow.description}
+                                    {show.description}
                                 </Typography>
                                 <Box sx={{ mb: 2 }}>
-                                    {genres && getGenreTitles()
-                                    .map((genre, index) => (
-                                        <Chip key={index} label={genre} sx={{ mr: 1, mb: 1 }} />
+                                    {getGenreTitles().map((genre, index) => (
+                                        <Chip key={index} label={genre} sx={{ mr: 1, mb: 1 }}/>
                                     ))}
                                 </Box>
                                 <Box>
                                 <Typography variant="body2" sx={{ mb: 2 }}>
-                                    Updated: {formatDate(detailedShow.updated)}
+                                    Updated: {formatDate(show.updated)}
                                 </Typography>
                                 </Box>
                                 <Box sx={{
@@ -102,20 +89,30 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode }) => 
                                     justifyContent: 'start',
                                     alignItems: 'center',
                                 }}>
-                                    <Select
-                                        value={selectedSeason ? selectedSeason.season : ''}
-                                        onChange={handleSeasonChange}
-                                        sx={{ minWidth: 120, mr: 2 }}
-                                    >
-                                        {detailedShow.seasons.map((season) => (
-                                            <MenuItem key={season.season} value={season.season}>
-                                                Season {season.season}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                    <Typography variant="body1" component="p">
-                                        Episodes: {selectedSeason.episodes.length}
-                                    </Typography>
+                                    {Array.isArray(show.seasons) && (
+                                        <Select
+                                            value={selectedSeason ? selectedSeason.season : ''}
+                                            onChange={handleSeasonChange}
+                                            sx={{ minWidth: 120, mr: 2 }}
+                                        >
+                                            {show.seasons.map((season) => (
+                                                <MenuItem key={season.season} value={season.season}>
+                                                    Season {season.season}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    )}
+                                    <Box>
+                                        {Array.isArray(selectedSeason?.episodes) ? (
+                                            <Typography variant="body1" component="p">
+                                                Episodes: {selectedSeason.episodes.length}
+                                            </Typography>
+                                        ) : (
+                                            <Typography variant="body1" component="p">
+                                                No episodes available
+                                            </Typography>
+                                        )}
+                                    </Box>
                                 </Box>
                             </Box>
                         </Box>
@@ -155,7 +152,8 @@ PodcastDetailsModal.propTypes = {
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         description: PropTypes.string
-      })).isRequired,
+    })).isRequired,
+    loading: PropTypes.bool.isRequired,
 };
 
 export default PodcastDetailsModal;
