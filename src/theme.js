@@ -15,7 +15,31 @@ export const lightTheme = createTheme({
       slider: '#121212', 
     }
   },
-});
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          '*::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px',
+          },
+          '*::-webkit-scrollbar-thumb': {
+            backgroundColor: '#ccc',
+            borderRadius: '4px',
+          },
+          '*::-webkit-scrollbar-track': {
+            backgroundColor: '#f0f0f0', 
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            color: '#121212', 
+          },
+        },
+      },
+    },
+  });
 
 export const darkTheme = createTheme({
   palette: {
@@ -29,5 +53,29 @@ export const darkTheme = createTheme({
       controls: '#fafafa', 
       slider: '#fafafa'
     }
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        '*::-webkit-scrollbar': {
+          width: '8px',
+          height: '8px',
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: '#555',
+          borderRadius: '4px',
+        },
+        '*::-webkit-scrollbar-track': {
+          backgroundColor: '#333',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: '#fafafa',
+        },
+      },
+    },
   },
 });
