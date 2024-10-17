@@ -52,19 +52,34 @@ export default function ShowCard({ title, description, seasons, image, genresArr
                         {seasonText()}
                     </Typography>
                 </Box>
-                <Box 
+                <Box
                 sx={{
                     display: "flex",
                     justifyContent: "space-between",
+                    alignItems: "center", // Ensures vertical alignment
                     mt: "0.25rem",
                     mb: "0.25rem"
-                    }}>
-                    <Box>
+                }}
+                >
+                    <Box
+                        sx={{
+                        display: "flex", 
+                        flexWrap: "wrap", // Allows chips to wrap if needed
+                        }}
+                    >
                         {getGenreTitles().map((genre, index) => (
-                            <Chip key={index} label={genre} sx={{ mt: "0.25rem", mb: "0.25rem", mr: "0.5rem" }} />
+                        <Chip key={index} label={genre} sx={{ mt: "0.25rem", mb: "0.25rem", mr: "0.5rem" }} />
                         ))}
                     </Box>
-                    <Typography variant="body2" component="h2" color="text.disabled">
+                    <Typography
+                        variant="body2"
+                        component="h2"
+                        color="text.disabled"
+                        sx={{
+                        marginLeft: "auto", // Pushes the text to the right
+                        whiteSpace: "nowrap" // Prevents the text from wrapping
+                        }}
+                    >
                         {"Updated: " + new Date(updated).toLocaleDateString()}
                     </Typography>
                 </Box>

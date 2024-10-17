@@ -92,7 +92,7 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode }) => 
                                         <Chip key={index} label={genre} sx={{ mr: 1, mb: 1 }} />
                                     ))}
                                 </Box>
-                                <Typography variant="body2" sx={{ mb: 2 }}>
+                                <Typography variant="body2">
                                     Updated: {formatDate(detailedShow.updated)}
                                 </Typography>
                                 <Box sx={{
