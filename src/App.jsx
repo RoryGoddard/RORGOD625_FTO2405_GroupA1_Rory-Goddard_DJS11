@@ -138,6 +138,7 @@ function App() {
                   open={modalOpen}
                   onClose={handleCloseModal}
                   onPlayEpisode={handlePlayEpisode}
+                  genres={genres}
               />
           )}
       </>

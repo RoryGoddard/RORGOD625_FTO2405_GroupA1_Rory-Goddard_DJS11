@@ -15,7 +15,8 @@ function Content({ showData, genres, onShowClick }) {
                     description={showPreview.description}
                     seasons={showPreview.seasons}
                     image={showPreview.image}
-                    genres={showPreview.genres.map(genreId => genres.find(genre => genre.id === genreId)?.title).join(", ")}
+                    genresArray={genres}
+                    showsGenre={showPreview.genres}
                     updated={showPreview.updated}
                     onClick={() => onShowClick(showPreview)}
                 />

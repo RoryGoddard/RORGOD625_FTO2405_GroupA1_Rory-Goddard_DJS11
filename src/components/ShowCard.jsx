@@ -1,7 +1,23 @@
-import { Paper, CardMedia, Typography, Box} from '@mui/material';
+import { Paper, CardMedia, Typography, Box, Chip} from '@mui/material';
 import PropTypes from "prop-types";
 
-export default function ShowCard({ title, description, seasons, image, genres, updated, onClick }) {
+export default function ShowCard({ title, description, seasons, image, genresArray, showsGenre, updated, onClick }) {
+
+    const getGenreTitles = () => {
+        return showsGenre.map(genreId => {
+            const genre = genresArray.find(g => g.id === genreId);
+            return genre ? genre.title : 'Unknown Genre';
+        });
+    };
+    
+    const seasonText = () => {
+        if (seasons > 1) {
+            return `${seasons} Seasons`
+        } 
+        else {
+            return `${seasons} Season`
+        }   }
+
     return (
         <Paper onClick={onClick}>
             <CardMedia
@@ -9,14 +25,14 @@ export default function ShowCard({ title, description, seasons, image, genres, u
                 image={image}
                 alt={"Show Image for" + {title}}
                 sx={{
-                height: "100%", // You can set fixed height, or use width depending on your needs
+                height: "100%",
                 objectFit: "cover",
                 borderRadius: "2%"
                 }}
             />
             <Box 
             sx={{
-                m: "0.5rem"
+                m: "0.5rem",
             }}>
                 <Box 
                 sx={{
@@ -33,7 +49,7 @@ export default function ShowCard({ title, description, seasons, image, genres, u
                         ml: "1rem",
                         textWrap: "nowrap"
                     }}>
-                        {seasons} Seasons
+                        {seasonText()}
                     </Typography>
                 </Box>
                 <Box 
@@ -43,9 +59,9 @@ export default function ShowCard({ title, description, seasons, image, genres, u
                     mt: "0.25rem",
                     mb: "0.25rem"
                     }}>
-                    <Typography variant="body2" component="h2" color="text.disabled">
-                        {genres}
-                    </Typography>
+                        {getGenreTitles().map((genre, index) => (
+                            <Chip key={index} label={genre} sx={{ mr: 1, mb: 1 }} />
+                        ))}
                     <Typography variant="body2" component="h2" color="text.disabled">
                         {"Updated: " + new Date(updated).toLocaleDateString()}
                     </Typography>
@@ -79,7 +95,8 @@ ShowCard.propTypes = {
     description: PropTypes.string.isRequired,
     seasons: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    genres: PropTypes.string.isRequired,
+    genresArray: PropTypes.array.isRequired,
+    showsGenre: PropTypes.array.isRequired,
     updated: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
 }
