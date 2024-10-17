@@ -24,15 +24,10 @@ export const darkTheme = createTheme({
       background: '#212121',
       color: '#fafafa'
     },
-    appBar: {
-      background: '#212121'
-    },
-    AppBar: {
-      background: '#212121'
-    },
     audioPlayer: {
       background: '#212121',
       controls: '#fafafa', 
+      slider: '#fafafa'
     }
   },
 });
