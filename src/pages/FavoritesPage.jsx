@@ -39,14 +39,16 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackTo
     };
 
     return (
-        <Box sx={{ padding: 2, mb:"5rem"}}>
-            <Typography variant="h4" gutterBottom>
-                Your Favorite Episodes
-            </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: "1.5rem", mb: 2 }}>
-                <Button variant="outlined" onClick={onBackToShows}>
-                    Back to Shows
-                </Button>
+        <Box sx={{ padding: 2, mt:"2rem", mb:"5rem"}}>
+            <Box sx={{display: "flex", justifyContent:"space-between", alignItems:"center"}}>
+                <Typography variant="h4" gutterBottom>
+                    Your Favorite Episodes
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+                    <Button variant="outlined" onClick={onBackToShows}>
+                        Back to Shows
+                    </Button>
+                </Box>
             </Box>
             <List sx={{ mb: "3rem" }}>
                 {sortedFavorites.map((fav, index) => (
