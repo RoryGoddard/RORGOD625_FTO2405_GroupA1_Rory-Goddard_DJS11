@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { styled, alpha } from '@mui/material/styles';
@@ -9,6 +9,7 @@ import SortIcon from '@mui/icons-material/Sort';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { debounce } from 'lodash';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,6 +55,11 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
+
+  const debouncedSearch = useMemo(
+    () => debounce(onSearchChange, 300),
+    [onSearchChange]
+  );
 
   const handleSortClick = (event) => {
     setSortAnchorEl(event.currentTarget);
@@ -129,7 +135,7 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={(e) => debouncedSearch(e.target.value)}
           />
         </Search>
         <IconButton color="inherit" onClick={handleSortClick}>

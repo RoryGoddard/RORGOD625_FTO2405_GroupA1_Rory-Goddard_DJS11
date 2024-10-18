@@ -7,7 +7,7 @@ function Content({ showData, genres, onShowClick }) {
         <Grid2 container spacing={{ xs: 2, md: 3 }} 
         sx={{ 
             margin:"1.5rem",
-            marginTop:"3rem"
+            marginTop:"5rem"
         }}>
         {showData.map((showPreview) => (
             <Grid2 key={showPreview.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }} sx={{borderRadius: "2%"}}>

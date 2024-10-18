@@ -9,12 +9,29 @@ import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import PropTypes from 'prop-types';
 
-const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete }) => {
+const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
     const [progress, setProgress] = useState(0);
     const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);
+
+    useEffect(() => {
+      const audio = audioRef.current;
+      if (!audio) return;
+  
+      const handleTimeUpdate = () => {
+        if (playingShow && episode) {
+          updateEpisodeTimestamp(playingShow.id, episode.title, Math.floor(audio.currentTime));
+        }
+      };
+  
+      audio.addEventListener('timeupdate', handleTimeUpdate);
+  
+      return () => {
+        audio.removeEventListener('timeupdate', handleTimeUpdate);
+      };
+    }, [playingShow, episode, updateEpisodeTimestamp]);
 
     // Handle play/pause
     useEffect(() => {
@@ -164,6 +181,7 @@ AudioPlayer.propTypes = {
         }))
     }),
     onEpisodeComplete: PropTypes.func.isRequired,
+    updateEpisodeTimestamp: PropTypes.func.isRequired
 };
 
 export default AudioPlayer;

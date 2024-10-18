@@ -3,13 +3,14 @@ import LoadingSpinner from "./pages/LoadingSpinner";
 import ErrorPage from './pages/ErrorPage';
 import SearchAppBar from './components/SearchAppBar';
 import Content from "./pages/Content";
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "./utils/sortUtils";
 import AudioPlayer from './components/AudioPlayer';
 import PodcastDetailsModal from './components/PodcastDetailsModal';
 import FavoritesPage from './pages/FavoritesPage';
 import { Box, Button } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
+import { initializeFuzzySearch, performFuzzySearch } from './utils/fuzzySearch';
 
 const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
@@ -42,6 +43,31 @@ function App() {
         return storedListenedEpisodes ? JSON.parse(storedListenedEpisodes) : [];
     });
     const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
+    const [episodeTimestamps, setEpisodeTimestamps] = useState(() => {
+        const storedTimestamps = localStorage.getItem('episodeTimestamps');
+        return storedTimestamps ? JSON.parse(storedTimestamps) : {};
+      });
+    const [fuse, setFuse] = useState(null);
+
+    useEffect(() => {
+        if (previewData && previewData.length > 0) {
+          setFuse(initializeFuzzySearch(previewData));
+        }
+      }, [previewData]);
+
+    const updateEpisodeTimestamp = useCallback((showId, episodeTitle, timestamp) => {
+    setEpisodeTimestamps(prev => {
+        const newTimestamps = {
+        ...prev,
+        [showId]: {
+            ...prev[showId],
+            [episodeTitle]: timestamp
+        }
+        };
+        localStorage.setItem('episodeTimestamps', JSON.stringify(newTimestamps));
+        return newTimestamps;
+    });
+    }, []);
 
     const markEpisodeAsListened = useCallback((episode) => {
         setListenedEpisodes(prev => {
@@ -207,8 +233,14 @@ function App() {
     };
 
     const handleSearchChange = (query) => {
-      setSearchQuery(query);
-    };
+        setSearchQuery(query);
+        if (query && fuse) {
+          const results = performFuzzySearch(fuse, query);
+          setFilteredData(results.map(result => result.item));
+        } else {
+          setFilteredData(sortedData);
+        }
+      };
 
     const handleShowClick = async (show) => {
         if (playingShow && playingShow.id === show.id) {
@@ -377,6 +409,7 @@ function App() {
                 onSkipPrevious={handleSkipPrevious}
                 playingShow={playingShow}
                 onEpisodeComplete={handleEpisodeComplete}
+                updateEpisodeTimestamp={updateEpisodeTimestamp}
             />
             {detailedShow && modalOpen && (
                 <PodcastDetailsModal
@@ -389,6 +422,7 @@ function App() {
                     toggleFavorite={toggleFavorite}
                     favoriteEpisodes={favoriteEpisodes}
                     listenedEpisodes={listenedEpisodes}
+                    episodeTimestamps={episodeTimestamps}
                 />
             )}
             <ResetConfirmationDialog
