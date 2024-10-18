@@ -13,24 +13,37 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
     const [progress, setProgress] = useState(0);
     const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);
 
+    // Handle play/pause
     useEffect(() => {
-        if (isPlaying) {
-            audioRef.current.play().catch(error => console.error("Playback failed", error));
-        } else {
-            audioRef.current.pause();
-        }
-    }, [isPlaying]);
-
-    useEffect(() => {
-        if (episode) {
-            audioRef.current.src = episode.file;
+        if (audioRef.current && isLoaded) {
             if (isPlaying) {
-                audioRef.current.play().catch(error => console.error("Playback failed", error));
+                const playPromise = audioRef.current.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => console.error("Playback failed", error));
+                }
+            } else {
+                audioRef.current.pause();
             }
         }
-    }, [episode, isPlaying]);
+    }, [isPlaying, isLoaded]);
+
+    // Handle episode change
+    useEffect(() => {
+        if (episode && audioRef.current) {
+            setIsLoaded(false);
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            audioRef.current.src = episode.file;
+            
+            // Wait for audio to be loaded before attempting to play
+            audioRef.current.addEventListener('loadeddata', () => {
+                setIsLoaded(true);
+            }, { once: true });
+        }
+    }, [episode]);
 
     useEffect(() => {
         if (audioRef.current) {
@@ -40,13 +53,16 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
 
     const handleTimeUpdate = () => {
         if (audioRef.current) {
-            setProgress((audioRef.current.currentTime / audioRef.current.duration) * 100 || 0);
+            const currentProgress = (audioRef.current.currentTime / audioRef.current.duration) * 100 || 0;
+            setProgress(currentProgress);
         }
     };
 
     const handleProgressChange = (event, newValue) => {
-        const time = (newValue / 100) * (audioRef.current.duration || 0);
-        audioRef.current.currentTime = time;
+        if (audioRef.current) {
+            const time = (newValue / 100) * audioRef.current.duration;
+            audioRef.current.currentTime = time;
+        }
         setProgress(newValue);
     };
 
@@ -70,6 +86,7 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
         }
         onSkipNext();
     };
+    console.log(episode)
 
     return (
         <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: 'background.paper', p: 2 }}>
@@ -82,7 +99,7 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
                 <IconButton onClick={onSkipPrevious}>
                     <SkipPreviousIcon />
                 </IconButton>
-                <IconButton onClick={() => onPlayPause(!isPlaying)}>
+                <IconButton onClick={() => onPlayPause(!isPlaying)} disabled={!isLoaded}>
                     {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                 </IconButton>
                 <IconButton onClick={onSkipNext}>
@@ -119,38 +136,35 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
     );
 };
 
-
-// Define prop types
 AudioPlayer.propTypes = {
-  episode: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      episode: PropTypes.number.isRequired,
-      file: PropTypes.string.isRequired,
-  }),
-  isPlaying: PropTypes.bool.isRequired,
-  onPlayPause: PropTypes.func.isRequired,
-  onSkipNext: PropTypes.func.isRequired,
-  onSkipPrevious: PropTypes.func.isRequired,
-  playingShow: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      genres: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.number),
-        PropTypes.arrayOf(PropTypes.string)
-      ]),
-      seasons: PropTypes.arrayOf(PropTypes.shape({
-          episodes: PropTypes.arrayOf(PropTypes.shape({
-              title: PropTypes.string.isRequired,
-              description: PropTypes.string,
-              episode: PropTypes.number.isRequired,
-              file: PropTypes.string.isRequired,
-          }))
-      }))
-  }),
-  onEpisodeComplete: PropTypes.func.isRequired,
+    episode: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        episode: PropTypes.number.isRequired,
+        file: PropTypes.string.isRequired,
+    }),
+    isPlaying: PropTypes.bool.isRequired,
+    onPlayPause: PropTypes.func.isRequired,
+    onSkipNext: PropTypes.func.isRequired,
+    onSkipPrevious: PropTypes.func.isRequired,
+    playingShow: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        genres: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.number),
+            PropTypes.arrayOf(PropTypes.string)
+        ]),
+        seasons: PropTypes.arrayOf(PropTypes.shape({
+            episodes: PropTypes.arrayOf(PropTypes.shape({
+                title: PropTypes.string.isRequired,
+                description: PropTypes.string,
+                episode: PropTypes.number.isRequired,
+                file: PropTypes.string.isRequired,
+            }))
+        }))
+    }),
+    onEpisodeComplete: PropTypes.func.isRequired,
 };
-
 
 export default AudioPlayer;

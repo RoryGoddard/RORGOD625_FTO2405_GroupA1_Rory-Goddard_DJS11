@@ -43,11 +43,22 @@ function App() {
 
     const markEpisodeAsListened = useCallback((episode) => {
         setListenedEpisodes(prev => {
+            // Check if this episode is already marked as listened
+            const isAlreadyListened = prev.some(
+                listened => listened.showId === episode.showId && 
+                           listened.episodeTitle === episode.episodeTitle
+            );
+
+            if (isAlreadyListened) {
+                return prev;
+            }
+
             const newListenedEpisodes = [...prev, episode];
             localStorage.setItem('listenedEpisodes', JSON.stringify(newListenedEpisodes));
             return newListenedEpisodes;
         });
     }, []);
+
 
     const resetListeningHistory = () => {
         setListenedEpisodes([]);
@@ -302,21 +313,13 @@ function App() {
         setCurrentEpisode(episodeWithSeason);
         setPlayingShow(detailedShow);
         setIsPlaying(true);
-
-        // Check if the episode has been listened to
-        const isListened = listenedEpisodes.some(
-            listened => listened.showId === detailedShow.id && listened.episodeTitle === episode.title
-        );
-
-        if (!isListened) {
-            markEpisodeAsListened({
-                showId: detailedShow.id,
-                showTitle: detailedShow.title,
-                episodeTitle: episode.title,
-                listenedAt: new Date().toISOString()
-            });
-        }
+        // Remove the immediate marking as listened here
     };
+
+    const handleEpisodeComplete = (episodeData) => {
+        markEpisodeAsListened(episodeData);
+    };
+
 
     if (loading || loadingGenres) return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
@@ -362,7 +365,7 @@ function App() {
                 onSkipNext={handleSkipNext}
                 onSkipPrevious={handleSkipPrevious}
                 playingShow={playingShow}
-                onEpisodeComplete={markEpisodeAsListened}
+                onEpisodeComplete={handleEpisodeComplete}
             />
             {detailedShow && modalOpen && (
                 <PodcastDetailsModal
