@@ -3,12 +3,12 @@ import LoadingSpinner from "./pages/LoadingSpinner";
 import ErrorPage from './pages/ErrorPage';
 import SearchAppBar from './components/SearchAppBar';
 import Content from "./pages/Content";
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "./utils/sortUtils";
 import AudioPlayer from './components/AudioPlayer';
 import PodcastDetailsModal from './components/PodcastDetailsModal';
 import FavoritesPage from './pages/FavoritesPage';
-import { Box, Button } from '@mui/material'
+import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { initializeFuzzySearch, performFuzzySearch } from './utils/fuzzySearch';
 
