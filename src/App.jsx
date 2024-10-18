@@ -9,6 +9,7 @@ import AudioPlayer from './components/AudioPlayer';
 import PodcastDetailsModal from './components/PodcastDetailsModal';
 import FavoritesPage from './pages/FavoritesPage';
 import { Box, Button } from '@mui/material'
+import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 
 const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
@@ -40,6 +41,7 @@ function App() {
         const storedListenedEpisodes = localStorage.getItem('listenedEpisodes');
         return storedListenedEpisodes ? JSON.parse(storedListenedEpisodes) : [];
     });
+    const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
 
     const markEpisodeAsListened = useCallback((episode) => {
         setListenedEpisodes(prev => {
@@ -60,9 +62,18 @@ function App() {
     }, []);
 
 
-    const resetListeningHistory = () => {
+    const handleResetClick = () => {
+        setIsResetDialogOpen(true);
+    };
+    
+    const handleResetCancel = () => {
+        setIsResetDialogOpen(false);
+    };
+    
+    const handleResetConfirm = () => {
         setListenedEpisodes([]);
         localStorage.removeItem('listenedEpisodes');
+        setIsResetDialogOpen(false);
     };
 
     const handleBackToShows = () => {
@@ -336,8 +347,8 @@ function App() {
                 onSearchChange={handleSearchChange}
                 onFavoritesClick={handleFavoritesClick}
                 genres={genres}
+                onResetClick={handleResetClick}
             />
-            <Button onClick={resetListeningHistory}>Reset Listening History</Button>
             {!showFavorites && filteredData && (
                 <Content 
                     showData={filteredData} 
@@ -380,6 +391,11 @@ function App() {
                     listenedEpisodes={listenedEpisodes}
                 />
             )}
+            <ResetConfirmationDialog
+                open={isResetDialogOpen}
+                onClose={handleResetCancel}
+                onConfirm={handleResetConfirm}
+            />
         </>
     );
 }

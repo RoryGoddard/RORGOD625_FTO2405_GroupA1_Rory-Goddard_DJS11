@@ -8,6 +8,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -48,10 +49,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, genres }) {
+export default function SearchAppBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, onResetClick, genres }) {
   const theme = useTheme();
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
+  const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
 
   const handleSortClick = (event) => {
     setSortAnchorEl(event.currentTarget);
@@ -77,6 +79,19 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
   const handleFilterSelect = (genre) => {
     onFilterChange(genre);
     handleFilterClose();
+  };
+
+  const handleSettingsClick = (event) => {
+    setSettingsAnchorEl(event.currentTarget);
+  };
+
+  const handleSettingsClose = () => {
+    setSettingsAnchorEl(null);
+  };
+
+  const handleResetClick = () => {
+    onResetClick();
+    handleSettingsClose();
   };
 
   return (
@@ -139,6 +154,12 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
         <IconButton color="inherit" onClick={onFavoritesClick}>
           <FavoriteIcon />
         </IconButton>
+        <IconButton color="inherit" onClick={handleSettingsClick}>
+          <SettingsIcon />
+        </IconButton>
+        <Menu anchorEl={settingsAnchorEl} open={Boolean(settingsAnchorEl)} onClose={handleSettingsClose}>
+          <MenuItem onClick={handleResetClick}>Reset Listening History</MenuItem>
+        </Menu>
       </Toolbar>
     </AppBar>
   );
@@ -149,5 +170,6 @@ SearchAppBar.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
   onFavoritesClick: PropTypes.func.isRequired,
+  onResetClick: PropTypes.func.isRequired,
   genres: PropTypes.array.isRequired,
 };
