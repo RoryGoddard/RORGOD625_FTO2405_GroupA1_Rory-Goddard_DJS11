@@ -8,6 +8,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import PropTypes from 'prop-types';
+import { useTheme } from '@mui/material/styles';
 
 const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
     const [progress, setProgress] = useState(0);
@@ -15,6 +16,31 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
     const [isMuted, setIsMuted] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);
+    const theme = useTheme();
+    const [duration, setDuration] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
+
+    useEffect(() => {
+      const audio = audioRef.current;
+      const updateTime = () => setCurrentTime(audio.currentTime);
+      const updateDuration = () => setDuration(audio.duration);
+  
+      audio.addEventListener('timeupdate', updateTime);
+      audio.addEventListener('loadedmetadata', updateDuration);
+      audio.addEventListener('durationchange', updateDuration);
+  
+      return () => {
+        audio.removeEventListener('timeupdate', updateTime);
+        audio.removeEventListener('loadedmetadata', updateDuration);
+        audio.removeEventListener('durationchange', updateDuration);
+      };
+    }, []);
+
+    const formatTime = (time) => {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
 
     useEffect(() => {
       const audio = audioRef.current;
@@ -79,6 +105,7 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
         if (audioRef.current) {
             const time = (newValue / 100) * audioRef.current.duration;
             audioRef.current.currentTime = time;
+            setCurrentTime(time);
         }
         setProgress(newValue);
     };
@@ -105,52 +132,103 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
     };
 
     return (
-        <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: 'background.paper', p: 2 }}>
-            <audio 
-                ref={audioRef} 
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={handleEpisodeEnd}
-            />
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <IconButton onClick={onSkipPrevious}>
-                    <SkipPreviousIcon />
-                </IconButton>
-                <IconButton onClick={() => onPlayPause(!isPlaying)} disabled={!isLoaded}>
-                    {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-                </IconButton>
-                <IconButton onClick={onSkipNext}>
-                    <SkipNextIcon />
-                </IconButton>
-                <Box sx={{ width: '100%', ml: 2, mr: 2 }}>
-                    <Slider
-                        value={progress}
-                        onChange={handleProgressChange}
-                        aria-labelledby="progress-slider"
-                    />
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', width: '150px' }}>
-                    <IconButton onClick={toggleMute}>
-                        {isMuted ? <VolumeMuteIcon /> : volume > 0.5 ? <VolumeUpIcon /> : <VolumeDownIcon />}
-                    </IconButton>
-                    <Slider
-                        value={isMuted ? 0 : volume}
-                        onChange={handleVolumeChange}
-                        aria-labelledby="volume-slider"
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        sx={{ ml: 1 }}
-                    />
-                </Box>
-            </Box>
-            {episode && (
-                <Typography variant="body2" color="text.secondary">
-                    Now Playing: {episode.title}
-                </Typography>
-            )}
+      <Box     sx={{
+        backgroundColor: theme.palette.audioPlayer.background,
+        color: theme.palette.audioPlayer.color,
+        width: '100%',
+        position: 'fixed',
+        bottom: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '0.5rem',
+      }}>
+        <audio
+          ref={audioRef}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleEpisodeEnd}
+        />
+        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', mb: 1 }}>
+          <Typography variant="body1" sx={{ mr: 1, fontSize: '1.2rem'}}>
+            {formatTime(currentTime)}
+          </Typography>
+          <Slider
+            value={progress}
+            onChange={handleProgressChange}
+            aria-labelledby="progress-slider"
+            sx={{
+              flexGrow: 1,
+              mx: 2,
+              color: theme.palette.audioPlayer.slider,
+            }}
+          />
+          <Typography variant="body1" sx={{ ml: 1, fontSize: '1.2rem'}}>
+            {formatTime(duration)}
+          </Typography>
         </Box>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          <Box sx={{ width: '140px', ml: "0.5rem" }} /> {/* Spacer */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
+            <IconButton onClick={onSkipPrevious} sx={{ 
+              mt: '12px',
+              padding: '8px',
+              width: '48px',
+              height: '48px',
+              '& .MuiIconButton-root': { padding: 0 }
+            }}>
+              <SkipPreviousIcon sx={{ fontSize: '2rem' }} />
+            </IconButton>
+            <IconButton onClick={() => onPlayPause(!isPlaying)} disabled={!isLoaded}  sx={{ 
+              padding: '12px',
+              width: '72px',
+              height: '72px',
+              '& .MuiIconButton-root': { padding: 0 }
+            }}>
+              {isPlaying ? <PauseIcon sx={{ fontSize: '3rem' }} /> : <PlayArrowIcon sx={{ fontSize: '3rem' }} />}
+            </IconButton>
+            <IconButton onClick={onSkipNext} sx={{ 
+              mt: '12px',
+              padding: '8px',
+              width: '48px',
+              height: '48px',
+              '& .MuiIconButton-root': { padding: 0 }
+            }}>
+              <SkipNextIcon sx={{ fontSize: '2rem' }}/>
+            </IconButton>
+          </Box>
+          {/* Volume Controls */}
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '140px', mr: "0.5rem" }}>
+            <IconButton onClick={toggleMute} sx={{ 
+              padding: '8px',
+              width: '48px',
+              height: '48px',
+              '& .MuiIconButton-root': { padding: 0 }
+            }}>
+              {isMuted ? <VolumeMuteIcon sx={{ fontSize: '2rem' }} /> : volume > 0.5 ? <VolumeUpIcon sx={{ fontSize: '2rem' }} /> : <VolumeDownIcon  sx={{ fontSize: '2rem' }}/>}
+            </IconButton>
+            <Slider
+              value={isMuted ? 0 : volume}
+              onChange={handleVolumeChange}
+              aria-labelledby="volume-slider"
+              min={0}
+              max={1}
+              step={0.01}
+              sx={{
+                width: 100,
+                color: theme.palette.audioPlayer.slider,
+              }}
+            />
+          </Box>
+        </Box>
+        {episode && (
+          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+            Now Playing: {episode.title}
+          </Typography>
+        )}
+      </Box>
     );
-};
+}
 
 AudioPlayer.propTypes = {
     episode: PropTypes.shape({
