@@ -58,7 +58,7 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, search
                                 primary={fav.showTitle}
                                 secondary={`${fav.seasonTitle} - Episode ${fav.episodeNumber} - ${fav.episodeTitle}`}
                             />
-                            <Box>
+                            <Box sx={{display: "flex", flexDirection:'column', justifyContent:'center', alignItems: "center", textAlign: "end", whiteSpace: "nowrap"}}>
                                 <ListItemText sx={{ mr: "2rem" }} secondary={"Added: " + ((new Date(fav.savedAt)).toLocaleString(undefined, {
                                     year: 'numeric',
                                     month: 'long',
@@ -66,6 +66,7 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, search
                                     hour: '2-digit',
                                     minute: '2-digit',
                                     hour12: false,
+                                    textAlign: "end"
                                 }))} />
                                 <ListItemText sx={{ mr: "2rem" }} secondary={"Updated: " + ((new Date(fav.updated)).toLocaleString(undefined, {
                                     year: 'numeric',
@@ -74,6 +75,7 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, search
                                     hour: '2-digit',
                                     minute: '2-digit',
                                     hour12: false,
+                                    textAlign: "end"
                                 }))} />
                                 <ListItemSecondaryAction>
                                     <IconButton edge="end" aria-label="delete" onClick={() => handleRemoveFavorite(fav)}>
