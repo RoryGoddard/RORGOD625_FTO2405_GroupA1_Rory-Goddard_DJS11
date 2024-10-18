@@ -39,13 +39,15 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackTo
     };
 
     return (
-        <Box sx={{ padding: 2, mb:"160px"}}>
+        <Box sx={{ padding: 2, mb:"5rem"}}>
             <Typography variant="h4" gutterBottom>
                 Your Favorite Episodes
             </Typography>
-            <Button variant="outlined" onClick={onBackToShows} sx={{ mb: 2 }}>
-                Back to Shows
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: "1.5rem", mb: 2 }}>
+                <Button variant="outlined" onClick={onBackToShows}>
+                    Back to Shows
+                </Button>
+            </Box>
             <List>
                 {sortedFavorites.map((fav, index) => (
                     <React.Fragment key={`${fav.showId}-${fav.episodeTitle}`}>
