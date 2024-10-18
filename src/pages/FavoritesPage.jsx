@@ -48,7 +48,7 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackTo
                     Back to Shows
                 </Button>
             </Box>
-            <List>
+            <List sx={{ mb: "3rem" }}>
                 {sortedFavorites.map((fav, index) => (
                     <React.Fragment key={`${fav.showId}-${fav.episodeTitle}`}>
                         <ListItem>
