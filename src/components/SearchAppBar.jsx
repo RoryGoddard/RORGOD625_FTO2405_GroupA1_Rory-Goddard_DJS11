@@ -151,6 +151,7 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
           <FilterListIcon />
         </IconButton>
         <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
+        <MenuItem onClick={() => handleFilterSelect(null)}>Show All</MenuItem>
           {genres.map((genre) => (
             <MenuItem key={genre.id} onClick={() => handleFilterSelect(genre)}>
               {genre.title}
