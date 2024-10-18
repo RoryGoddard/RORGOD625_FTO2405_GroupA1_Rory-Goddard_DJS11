@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "../utils/sortUtils";
 import PropTypes from 'prop-types';
 
-const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackToShows, searchTerm, sortOption, filterOption }) => {
+const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, searchTerm, sortOption }) => {
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
     useEffect(() => {
@@ -22,10 +22,10 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackTo
                 sorted = sortByTitleDescending(filtered, 'showTitle');
                 break;
             case 'newest':
-                sorted = sortByDateDescending(filtered, 'savedAt');
+                sorted = sortByDateDescending(filtered, 'updated'); // Change to 'updated'
                 break;
             case 'oldest':
-                sorted = sortByDateAscending(filtered, 'savedAt');
+                sorted = sortByDateAscending(filtered, 'updated'); // Change to 'updated'
                 break;
             default:
                 sorted = filtered;
@@ -39,8 +39,8 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackTo
     };
 
     return (
-        <Box sx={{ padding: 2, mt:"4rem", mb:"6rem"}}>
-            <Box sx={{display: "flex", justifyContent:"space-between", alignItems:"center"}}>
+        <Box sx={{ padding: 2, mt: "4rem", mb: "6rem" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <Typography variant="h4" gutterBottom>
                     Your Favorite Episodes
                 </Typography>
@@ -59,14 +59,22 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackTo
                                 secondary={`${fav.seasonTitle} - Episode ${fav.episodeNumber} - ${fav.episodeTitle}`}
                             />
                             <Box>
-                                <ListItemText sx={{mr:"2rem"}} secondary={"Added: " + ((new Date(fav.savedAt)).toLocaleString(undefined, {
+                                <ListItemText sx={{ mr: "2rem" }} secondary={"Added: " + ((new Date(fav.savedAt)).toLocaleString(undefined, {
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',
                                     hour: '2-digit',
                                     minute: '2-digit',
                                     hour12: false,
-                                }))}/>
+                                }))} />
+                                <ListItemText sx={{ mr: "2rem" }} secondary={"Updated: " + ((new Date(fav.updated)).toLocaleString(undefined, {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: false,
+                                }))} />
                                 <ListItemSecondaryAction>
                                     <IconButton edge="end" aria-label="delete" onClick={() => handleRemoveFavorite(fav)}>
                                         <DeleteIcon />
@@ -84,25 +92,20 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackTo
 
 FavoritesPage.propTypes = {
     favoriteEpisodes: PropTypes.arrayOf(
-      PropTypes.shape({
-        showId: PropTypes.string.isRequired,
-        showTitle: PropTypes.string.isRequired,
-        seasonTitle: PropTypes.string.isRequired,
-        episodeTitle: PropTypes.string.isRequired,
-        episodeNumber: PropTypes.number.isRequired,
-        savedAt: PropTypes.string.isRequired,
-      })
+        PropTypes.shape({
+            showId: PropTypes.string.isRequired,
+            showTitle: PropTypes.string.isRequired,
+            seasonTitle: PropTypes.string.isRequired,
+            episodeTitle: PropTypes.string.isRequired,
+            episodeNumber: PropTypes.number.isRequired,
+            savedAt: PropTypes.string.isRequired,
+            updated: PropTypes.string.isRequired, // Ensure updated is included
+        })
     ).isRequired,
     toggleFavorite: PropTypes.func.isRequired,
-    onShowClick: PropTypes.func.isRequired,
     onBackToShows: PropTypes.func.isRequired,
     searchTerm: PropTypes.string.isRequired,
     sortOption: PropTypes.oneOf(['A-Z', 'Z-A', 'newest', 'oldest']).isRequired,
-    filterOption: PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-    }),
-  };
-  
+};
 
 export default FavoritesPage;

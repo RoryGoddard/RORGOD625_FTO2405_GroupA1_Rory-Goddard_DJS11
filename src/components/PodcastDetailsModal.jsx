@@ -43,6 +43,7 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
             seasonTitle: selectedSeason.title,
             episodeTitle: episode.title,
             episodeNumber: episode.episode,
+            updated: show.updated
         });
     };
 
@@ -64,10 +65,6 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
     const handleSeasonChange = (event) => {
         const season = show.seasons.find(s => s.season === event.target.value);
         setSelectedSeason(season);
-    };
-
-    const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleString(); // Changed to display date and time
     };
 
     const showGenres = genres.filter(genre =>
