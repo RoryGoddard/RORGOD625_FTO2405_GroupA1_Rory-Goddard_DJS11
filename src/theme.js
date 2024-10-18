@@ -37,14 +37,21 @@ export const lightTheme = createTheme({
             color: '#121212', 
           },
           outlined: {
-            border: '2px solid #121212', // Customize border color
+            border: '2px solid #121212', 
             '&:hover': {
-              backgroundColor: 'rgba(18, 18, 18, 0.04)', // Optional hover effect
+              backgroundColor: 'rgba(18, 18, 18, 0.04)',
             },
           },
         },
       },
+      MuiSlider: {
+        styleOverrides: {
+          root: {
+            color: '#121212', 
+          },
+      }
     },
+  }
   });
 
 export const darkTheme = createTheme({
@@ -82,12 +89,19 @@ export const darkTheme = createTheme({
           color: '#fafafa',
         },
         outlined: {
-          border: '2px solid #fafafa', // Customize border color
+          border: '2px solid #fafafa',
           '&:hover': {
-            backgroundColor: 'rgba(18, 18, 18, 0.04)', // Optional hover effect
+            backgroundColor: 'rgba(18, 18, 18, 0.04)',
           },
         },
       },
     },
+    MuiSlider: {
+      styleOverrides: {
+        root: {
+          color: '#fafafa', 
+        },
+    }
+  },
   },
 });
