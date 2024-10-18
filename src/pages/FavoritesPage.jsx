@@ -39,7 +39,7 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onShowClick, onBackTo
     };
 
     return (
-        <Box sx={{ padding: 2, mt:"4rem", mb:"5rem"}}>
+        <Box sx={{ padding: 2, mt:"4rem", mb:"6rem"}}>
             <Box sx={{display: "flex", justifyContent:"space-between", alignItems:"center"}}>
                 <Typography variant="h4" gutterBottom>
                     Your Favorite Episodes
