@@ -31,6 +31,22 @@ function App() {
     const [playingShow, setPlayingShow] = useState(null);
 
     useEffect(() => {
+        const handleBeforeUnload = (event) => {
+          if (isPlaying) {
+            event.preventDefault();
+            event.returnValue = ''; // This is required for some browsers
+          }
+        };
+    
+        window.addEventListener('beforeunload', handleBeforeUnload);
+    
+        return () => {
+          window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+      }, [isPlaying]);
+      
+
+    useEffect(() => {
         if (!previewData) return;
 
         const fetchGenres = async () => {
