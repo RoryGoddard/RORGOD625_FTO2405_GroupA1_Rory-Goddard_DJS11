@@ -80,7 +80,12 @@ export default function ShowCard({ title, description, seasons, image, genresArr
                         whiteSpace: "nowrap" // Prevents the text from wrapping
                         }}
                     >
-                        {"Updated: " + new Date(updated).toLocaleDateString()}
+                        {"Updated: " + new Date(updated).toLocaleString(undefined, {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour12: false,
+                                })}
                     </Typography>
                 </Box>
                 <Box 

@@ -8,7 +8,7 @@ import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortB
 import AudioPlayer from './components/AudioPlayer';
 import PodcastDetailsModal from './components/PodcastDetailsModal';
 import FavoritesPage from './pages/FavoritesPage';
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 
 const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
@@ -36,6 +36,23 @@ function App() {
     const [showFavorites, setShowFavorites] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterOption, setFilterOption] = useState(null);
+    const [listenedEpisodes, setListenedEpisodes] = useState(() => {
+        const storedListenedEpisodes = localStorage.getItem('listenedEpisodes');
+        return storedListenedEpisodes ? JSON.parse(storedListenedEpisodes) : [];
+    });
+
+    const markEpisodeAsListened = useCallback((episode) => {
+        setListenedEpisodes(prev => {
+            const newListenedEpisodes = [...prev, episode];
+            localStorage.setItem('listenedEpisodes', JSON.stringify(newListenedEpisodes));
+            return newListenedEpisodes;
+        });
+    }, []);
+
+    const resetListeningHistory = () => {
+        setListenedEpisodes([]);
+        localStorage.removeItem('listenedEpisodes');
+    };
 
     const handleBackToShows = () => {
         setShowFavorites(false);
@@ -285,6 +302,20 @@ function App() {
         setCurrentEpisode(episodeWithSeason);
         setPlayingShow(detailedShow);
         setIsPlaying(true);
+
+        // Check if the episode has been listened to
+        const isListened = listenedEpisodes.some(
+            listened => listened.showId === detailedShow.id && listened.episodeTitle === episode.title
+        );
+
+        if (!isListened) {
+            markEpisodeAsListened({
+                showId: detailedShow.id,
+                showTitle: detailedShow.title,
+                episodeTitle: episode.title,
+                listenedAt: new Date().toISOString()
+            });
+        }
     };
 
     if (loading || loadingGenres) return (
@@ -296,27 +327,32 @@ function App() {
 
     return (
         <>
-            {genres && (
-                <SearchAppBar
-                    onSortChange={handleSortChange}
-                    onFilterChange={handleFilterChange}
-                    onSearchChange={handleSearchChange}
-                    onFavoritesClick={handleFavoritesClick} // Pass the handler
-                    genres={genres}
-                />
-            )}
+            <SearchAppBar
+                onSortChange={handleSortChange}
+                onFilterChange={handleFilterChange}
+                onSearchChange={handleSearchChange}
+                onFavoritesClick={handleFavoritesClick}
+                genres={genres}
+            />
+            <Button onClick={resetListeningHistory}>Reset Listening History</Button>
             {!showFavorites && filteredData && (
-                <Content showData={filteredData} genres={genres} onShowClick={handleShowClick} />
+                <Content 
+                    showData={filteredData} 
+                    genres={genres} 
+                    onShowClick={handleShowClick}
+                    listenedEpisodes={listenedEpisodes}
+                />
             )}
             {showFavorites && (
                 <FavoritesPage
                     favoriteEpisodes={favoriteEpisodes}
                     toggleFavorite={toggleFavorite}
-                    onShowClick={handleShowClick} // Assuming FavoritesPage also allows clicking on shows
+                    onShowClick={handleShowClick}
                     onBackToShows={handleBackToShows}
                     searchTerm={searchTerm}
                     sortOption={sortOption}
                     filterOption={filterOption}
+                    listenedEpisodes={listenedEpisodes}
                 />
             )}
             <AudioPlayer
@@ -326,6 +362,7 @@ function App() {
                 onSkipNext={handleSkipNext}
                 onSkipPrevious={handleSkipPrevious}
                 playingShow={playingShow}
+                onEpisodeComplete={markEpisodeAsListened}
             />
             {detailedShow && modalOpen && (
                 <PodcastDetailsModal
@@ -337,6 +374,7 @@ function App() {
                     genres={genres}
                     toggleFavorite={toggleFavorite}
                     favoriteEpisodes={favoriteEpisodes}
+                    listenedEpisodes={listenedEpisodes}
                 />
             )}
         </>

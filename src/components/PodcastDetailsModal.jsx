@@ -18,8 +18,9 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes }) => {
+const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes, listenedEpisodes }) => {
     const [selectedSeason, setSelectedSeason] = useState(null);
 
     useEffect(() => {
@@ -43,6 +44,13 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
             fav.showId === show.id && 
             fav.episodeTitle === episode.title && 
             fav.seasonTitle === selectedSeason.title
+        );
+    };
+
+    const isListened = (episode) => {
+        return listenedEpisodes.some(listened => 
+            listened.showId === show.id && 
+            listened.episodeTitle === episode.title
         );
     };
 
@@ -115,7 +123,12 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
                                 </Box>
                                 <Box>
                                     <Typography variant="body2" sx={{ mb: 2 }}>
-                                        Updated: {formatDate(show.updated)}
+                                        Updated: {(new Date(show.updated)).toLocaleString(undefined, {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour12: false,
+                                })}
                                     </Typography>
                                 </Box>
                                 <Box sx={{
@@ -162,6 +175,9 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
                                             secondary={episode.description}
                                         />
                                         <ListItemSecondaryAction>
+                                            {isListened(episode) && (
+                                                <CheckCircleIcon color="primary" sx={{ mr: 1 }} />
+                                            )}
                                             <IconButton edge="end" aria-label="play" onClick={() => onPlayEpisode(episode)}>
                                                 <PlayArrowIcon />
                                             </IconButton>
@@ -193,6 +209,7 @@ PodcastDetailsModal.propTypes = {
     loading: PropTypes.bool.isRequired,
     toggleFavorite: PropTypes.func.isRequired,
     favoriteEpisodes: PropTypes.array.isRequired,
+    listenedEpisodes: PropTypes.array.isRequired,
 };
 
 export default PodcastDetailsModal;

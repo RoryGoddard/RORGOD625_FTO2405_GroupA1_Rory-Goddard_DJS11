@@ -1,201 +1,124 @@
-import { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect, useRef } from 'react';
 import { Box, IconButton, Slider, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeDownIcon from '@mui/icons-material/VolumeDown';
+import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
+import PropTypes from 'prop-types';
 
-const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow }) => {
-  const theme = useTheme();
-  const audioRef = useRef(null);
-  const [volume, setVolume] = useState(100);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete }) => {
+    const [progress, setProgress] = useState(0);
+    const [volume, setVolume] = useState(1);
+    const [isMuted, setIsMuted] = useState(false);
+    const audioRef = useRef(null);
 
-  useEffect(() => {
-    if (episode && audioRef.current) {
-      console.log('Loading episode:', episode);
-      audioRef.current.src = episode.file;
-      audioRef.current.load();
-      if (isPlaying) {
-        audioRef.current.play().catch((err) => console.error('Error playing audio:', err));
-      }
-    }
-  }, [episode]);
+    useEffect(() => {
+        if (isPlaying) {
+            audioRef.current.play().catch(error => console.error("Playback failed", error));
+        } else {
+            audioRef.current.pause();
+        }
+    }, [isPlaying]);
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (isPlaying) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  }, [isPlaying]);
+    useEffect(() => {
+        if (episode) {
+            audioRef.current.src = episode.file;
+            if (isPlaying) {
+                audioRef.current.play().catch(error => console.error("Playback failed", error));
+            }
+        }
+    }, [episode, isPlaying]);
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration);
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = isMuted ? 0 : volume;
+        }
+    }, [volume, isMuted]);
 
-    audio.addEventListener('timeupdate', updateTime);
-    audio.addEventListener('loadedmetadata', updateDuration);
-    audio.addEventListener('durationchange', updateDuration);
-
-    return () => {
-      audio.removeEventListener('timeupdate', updateTime);
-      audio.removeEventListener('loadedmetadata', updateDuration);
-      audio.removeEventListener('durationchange', updateDuration);
+    const handleTimeUpdate = () => {
+        if (audioRef.current) {
+            setProgress((audioRef.current.currentTime / audioRef.current.duration) * 100 || 0);
+        }
     };
-  }, []);
 
-  const handlePlayPause = () => {
-    console.log(episode)
-    onPlayPause(!isPlaying);
-  };
+    const handleProgressChange = (event, newValue) => {
+        const time = (newValue / 100) * (audioRef.current.duration || 0);
+        audioRef.current.currentTime = time;
+        setProgress(newValue);
+    };
 
-  const handleVolumeChange = (event, newValue) => {
-    setVolume(newValue);
-    audioRef.current.volume = newValue / 100;
-  };
+    const handleVolumeChange = (event, newValue) => {
+        setVolume(newValue);
+        setIsMuted(newValue === 0);
+    };
 
-  const handleProgressChange = (event, newValue) => {
-    const newTime = (newValue / 100) * duration;
-    setCurrentTime(newTime);
-    audioRef.current.currentTime = newTime;
-  };
+    const toggleMute = () => {
+        setIsMuted(!isMuted);
+    };
 
-  const handleSkipNext = () => {
-    console.log("In handle skip next")
-    onSkipNext();
-  };
+    const handleEpisodeEnd = () => {
+        if (episode && playingShow) {
+            onEpisodeComplete({
+                showId: playingShow.id,
+                showTitle: playingShow.title,
+                episodeTitle: episode.title,
+                listenedAt: new Date().toISOString()
+            });
+        }
+        onSkipNext();
+    };
 
-  const handleSkipPrevious = () => {
-    console.log("In handle skip previous")
-    if (currentTime > 3) {
-      audioRef.current.currentTime = 0;
-    } else {
-      onSkipPrevious();
-    }
-  };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
-
-  return (
-    <Box
-      sx={{
-        backgroundColor: theme.palette.audioPlayer.background,
-        color: theme.palette.audioPlayer.color,
-        width: '100%',
-        position: 'fixed',
-        bottom: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '0.5rem',
-      }}
-    >
-      <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', mb: 1 }}>
-        <Typography variant="body1" sx={{ mr: 1, fontSize: '1.2rem'}}>
-          {formatTime(currentTime)}
-        </Typography>
-        <Slider
-          value={(currentTime / duration) * 100 || 0}
-          onChange={handleProgressChange}
-          aria-labelledby="continuous-slider"
-          sx={{
-            flexGrow: 1,
-            mx: 2,
-            color: theme.palette.audioPlayer.slider,
-          }}
-        />
-        <Typography variant="body1" sx={{ ml: 1, fontSize: '1.2rem'}}>
-          {formatTime(duration)}
-        </Typography>
-      </Box>
-      
-      <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-        <Box sx={{ width: '100px' }} /> {/* Spacer */}
-        
-        <Box sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
-          <IconButton 
-            color="inherit" 
-            onClick={handleSkipPrevious} 
-            sx={{ 
-              mt: '12px',
-              padding: '8px',
-              width: '48px',
-              height: '48px',
-              '& .MuiIconButton-root': { padding: 0 }
-            }}
-          >
-            <SkipPreviousIcon sx={{ fontSize: '2rem' }} />
-          </IconButton>
-          <IconButton 
-            color="inherit" 
-            onClick={handlePlayPause} 
-            sx={{ 
-              padding: '12px',
-              width: '72px',
-              height: '72px',
-              '& .MuiIconButton-root': { padding: 0 }
-            }}
-          >
-            {isPlaying ? <PauseIcon sx={{ fontSize: '3rem' }} /> : <PlayArrowIcon sx={{ fontSize: '3rem' }} />}
-          </IconButton>
-          <IconButton 
-            color="inherit" 
-            onClick={handleSkipNext} 
-            sx={{ 
-              mt: '12px',
-              padding: '8px',
-              width: '48px',
-              height: '48px',
-              '& .MuiIconButton-root': { padding: 0 }
-            }}
-          >
-            <SkipNextIcon sx={{ fontSize: '2rem' }} />
-          </IconButton>
+    return (
+        <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: 'background.paper', p: 2 }}>
+            <audio 
+                ref={audioRef} 
+                onTimeUpdate={handleTimeUpdate}
+                onEnded={handleEpisodeEnd}
+            />
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                <IconButton onClick={onSkipPrevious}>
+                    <SkipPreviousIcon />
+                </IconButton>
+                <IconButton onClick={() => onPlayPause(!isPlaying)}>
+                    {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                </IconButton>
+                <IconButton onClick={onSkipNext}>
+                    <SkipNextIcon />
+                </IconButton>
+                <Box sx={{ width: '100%', ml: 2, mr: 2 }}>
+                    <Slider
+                        value={progress}
+                        onChange={handleProgressChange}
+                        aria-labelledby="progress-slider"
+                    />
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', width: '150px' }}>
+                    <IconButton onClick={toggleMute}>
+                        {isMuted ? <VolumeMuteIcon /> : volume > 0.5 ? <VolumeUpIcon /> : <VolumeDownIcon />}
+                    </IconButton>
+                    <Slider
+                        value={isMuted ? 0 : volume}
+                        onChange={handleVolumeChange}
+                        aria-labelledby="volume-slider"
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        sx={{ ml: 1 }}
+                    />
+                </Box>
+            </Box>
+            {episode && (
+                <Typography variant="body2" color="text.secondary">
+                    Now Playing: {episode.title}
+                </Typography>
+            )}
         </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '140px', mr: "0.5rem" }}>
-          <IconButton 
-            color="inherit" 
-            onClick={() => handleVolumeChange(null, volume === 0 ? 100 : 0)}
-            sx={{ 
-              padding: '8px',
-              width: '48px',
-              height: '48px',
-              '& .MuiIconButton-root': { padding: 0 }
-            }}
-          >
-            {volume === 0 ? <VolumeOffIcon sx={{ fontSize: '2rem' }} /> : <VolumeUpIcon sx={{ fontSize: '2rem' }} />}
-          </IconButton>
-          <Slider
-            value={volume}
-            onChange={handleVolumeChange}
-            aria-labelledby="continuous-slider"
-            min={0}
-            max={100}
-            sx={{
-              width: 100,
-              color: theme.palette.audioPlayer.slider,
-            }}
-          />
-        </Box>
-      </Box>
-
-      <audio ref={audioRef} />
-    </Box>
-  );
+    );
 };
+
 
 // Define prop types
 AudioPlayer.propTypes = {
@@ -226,6 +149,7 @@ AudioPlayer.propTypes = {
           }))
       }))
   }),
+  onEpisodeComplete: PropTypes.func.isRequired,
 };
 
 
