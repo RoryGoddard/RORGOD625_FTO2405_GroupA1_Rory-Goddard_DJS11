@@ -168,7 +168,13 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          <Box sx={{ width: '140px', ml: "0.5rem" }} /> {/* Spacer */}
+          <Box sx={{ width: '140px', ml: "0.5rem" }}>
+          {episode && (
+            <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                Now Playing: {episode.title}
+              </Typography>
+            )}
+          </Box> {/* Spacer */}
           <Box sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
             <IconButton onClick={onSkipPrevious} sx={{ 
               mt: '12px',
@@ -221,11 +227,6 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
             />
           </Box>
         </Box>
-        {episode && (
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-            Now Playing: {episode.title}
-          </Typography>
-        )}
       </Box>
     );
 }

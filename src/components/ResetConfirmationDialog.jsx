@@ -5,8 +5,6 @@ const ResetConfirmationDialog = ({ open, onClose, onConfirm }) => {
     <Dialog
       open={open}
       onClose={onClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
         Are you sure?
