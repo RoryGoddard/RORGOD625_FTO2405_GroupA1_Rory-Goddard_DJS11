@@ -86,7 +86,6 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
         }
         onSkipNext();
     };
-    console.log(episode)
 
     return (
         <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: 'background.paper', p: 2 }}>
