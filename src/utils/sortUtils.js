@@ -1,18 +1,33 @@
-// Functions to handle sorting for shows
+// Functions to handle sorting for shows and favorite episodes
 
-export const sortByTitleAscending = (data) => {
-    return [...data].sort((a, b) => a.title.localeCompare(b.title));
-  };
-  
-export const sortByTitleDescending = (data) => {
-    return [...data].sort((a, b) => b.title.localeCompare(a.title));
-  };
+export const sortByTitleAscending = (data, titleKey = 'title') => {
+  return [...data].sort((a, b) => {
+    const titleA = a[titleKey] || a.showTitle || '';
+    const titleB = b[titleKey] || b.showTitle || '';
+    return titleA.localeCompare(titleB);
+  });
+};
 
-export const sortByDateAscending = (data) => {
-    return [...data].sort((a, b) => new Date(a.updated) - new Date(b.updated));
-  };
+export const sortByTitleDescending = (data, titleKey = 'title') => {
+  return [...data].sort((a, b) => {
+    const titleA = a[titleKey] || a.showTitle || '';
+    const titleB = b[titleKey] || b.showTitle || '';
+    return titleB.localeCompare(titleA);
+  });
+};
 
-export const sortByDateDescending = (data) => {
-    return [...data].sort((a, b) => new Date(b.updated) - new Date(a.updated));
-  };
+export const sortByDateAscending = (data, dateKey = 'updated') => {
+  return [...data].sort((a, b) => {
+    const dateA = new Date(a[dateKey] || a.savedAt || 0);
+    const dateB = new Date(b[dateKey] || b.savedAt || 0);
+    return dateA - dateB;
+  });
+};
 
+export const sortByDateDescending = (data, dateKey = 'updated') => {
+  return [...data].sort((a, b) => {
+    const dateA = new Date(a[dateKey] || a.savedAt || 0);
+    const dateB = new Date(b[dateKey] || b.savedAt || 0);
+    return dateB - dateA;
+  });
+};

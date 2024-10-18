@@ -36,6 +36,12 @@ export const lightTheme = createTheme({
           root: {
             color: '#121212', 
           },
+          outlined: {
+            border: '2px solid #121212', // Customize border color
+            '&:hover': {
+              backgroundColor: 'rgba(18, 18, 18, 0.04)', // Optional hover effect
+            },
+          },
         },
       },
     },
@@ -74,6 +80,12 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           color: '#fafafa',
+        },
+        outlined: {
+          border: '2px solid #fafafa', // Customize border color
+          '&:hover': {
+            backgroundColor: 'rgba(18, 18, 18, 0.04)', // Optional hover effect
+          },
         },
       },
     },

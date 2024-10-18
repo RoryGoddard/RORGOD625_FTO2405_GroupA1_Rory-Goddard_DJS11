@@ -3,10 +3,11 @@ import LoadingSpinner from "./pages/LoadingSpinner";
 import ErrorPage from './pages/ErrorPage';
 import SearchAppBar from './components/SearchAppBar';
 import Content from "./pages/Content";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "./utils/sortUtils";
 import AudioPlayer from './components/AudioPlayer';
 import PodcastDetailsModal from './components/PodcastDetailsModal';
+import FavoritesPage from './pages/FavoritesPage';
 import { Box } from '@mui/material'
 
 const PREVIEW_URL = "https://podcast-api.netlify.app";
@@ -23,12 +24,61 @@ function App() {
     const [filteredData, setFilteredData] = useState(previewData);
     const [searchQuery, setSearchQuery] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
-    // const [selectedShow, setSelectedShow] = useState(null);
     const [detailedShow, setDetailedShow] = useState(null);
     const [currentEpisode, setCurrentEpisode] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [loadingShow, setLoadingShow] = useState(false);
     const [playingShow, setPlayingShow] = useState(null);
+    const [favoriteEpisodes, setFavoriteEpisodes] = useState(() => {
+        const storedFavorites = localStorage.getItem('favoriteEpisodes');
+        return storedFavorites ? JSON.parse(storedFavorites) : [];
+    });
+    const [showFavorites, setShowFavorites] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterOption, setFilterOption] = useState(null);
+
+    const handleBackToShows = () => {
+        setShowFavorites(false);
+    };    
+
+    const handleFavoritesClick = () => {
+        setShowFavorites(true); // Set to true when the favorites button is clicked
+    };
+
+    const toggleFavorite = useCallback((episode) => {
+        setFavoriteEpisodes(prev => {
+            const isAlreadyFavorite = prev.some(fav => 
+                fav.showId === episode.showId && 
+                fav.episodeTitle === episode.episodeTitle && 
+                fav.seasonTitle === episode.seasonTitle
+            );
+    
+            let updatedFavorites;
+            if (isAlreadyFavorite) {
+                updatedFavorites = prev.filter(fav => 
+                    !(fav.showId === episode.showId && 
+                      fav.episodeTitle === episode.episodeTitle && 
+                      fav.seasonTitle === episode.seasonTitle)
+                );
+            } else {
+                const favoriteWithDate = {
+                    ...episode,
+                    savedAt: new Date().toISOString(),
+                };
+                updatedFavorites = [...prev, favoriteWithDate];
+            }
+            localStorage.setItem('favoriteEpisodes', JSON.stringify(updatedFavorites));
+            return updatedFavorites;
+        });
+    }, []);
+    
+
+    useEffect(() => {
+        const storedFavorites = localStorage.getItem('favoriteEpisodes');
+        if (storedFavorites) {
+            setFavoriteEpisodes(JSON.parse(storedFavorites));
+        }
+    }, []);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -44,7 +94,6 @@ function App() {
           window.removeEventListener('beforeunload', handleBeforeUnload);
         };
       }, [isPlaying]);
-      
 
     useEffect(() => {
         if (!previewData) return;
@@ -68,7 +117,6 @@ function App() {
         fetchGenres();
     }, [previewData]);
 
-    // Sorting effect
     useEffect(() => {
         if (previewData) {
             let sorted;
@@ -111,7 +159,6 @@ function App() {
       setFilteredData(filteredData);
     }, [selectedGenre, sortedData, searchQuery]);    
     
-
     const handleSortChange = (option) => {
         setSortOption(option);
     };
@@ -126,157 +173,174 @@ function App() {
 
     const handleShowClick = async (show) => {
         if (playingShow && playingShow.id === show.id) {
-            setModalOpen(true); // Open modal immediately if the same show is clicked
-            return; // Don't fetch details again if it's the same show
+            setModalOpen(true);
+            return;
         }
     
-        setModalOpen(true); // Open modal immediately for user feedback
-        setLoadingShow(true); // Indicate that the modal is still loading full details
+        setModalOpen(true);
+        setLoadingShow(true);
         try {
             const response = await fetch(`${SHOW_URL}${show.id}`);
             const data = await response.json();
             setDetailedShow(data);
-            setPlayingShow(data); // Track the newly loaded show as the playing show
+            setPlayingShow(data);
         } catch (error) {
             console.error('Error fetching show details:', error);
         } finally {
-            setLoadingShow(false); // Stop the loading spinner once fetching completes
+            setLoadingShow(false);
         }
     };
     
-
-  const handleCloseModal = () => {
-      setModalOpen(false);
-    //   setDetailedShow(null);
-  };
-
-  const handlePlayEpisode = (episode) => {
-    // Ensure the episode object has a season property
-    const episodeWithSeason = {
-        ...episode,
-        season: episode.season || 1 // Default to season 1 if not specified
+    const handleCloseModal = () => {
+        setModalOpen(false);
     };
-    setCurrentEpisode(episodeWithSeason);
-    setPlayingShow(detailedShow);
-    setIsPlaying(true);
-};
 
-const getAllEpisodes = (show) => {
-    if (!show || !Array.isArray(show.seasons)) {
-        console.error('Invalid show structure:', show);
-        return [];
-    }
-    return show.seasons.flatMap((season, seasonIndex) => {
-        if (Array.isArray(season.episodes)) {
-            return season.episodes.map(episode => ({
-                ...episode,
-                season: seasonIndex + 1 // Add season number to each episode
-            }));
+    const getAllEpisodes = (show) => {
+        if (!show || !Array.isArray(show.seasons)) {
+            console.error('Invalid show structure:', show);
+            return [];
         }
-        console.error('Invalid season structure:', season);
-        return [];
-    });
-};
+        return show.seasons.flatMap((season, seasonIndex) => {
+            if (Array.isArray(season.episodes)) {
+                return season.episodes.map(episode => ({
+                    ...episode,
+                    season: seasonIndex + 1 // Add season number to each episode
+                }));
+            }
+            console.error('Invalid season structure:', season);
+            return [];
+        });
+    };
+    
+    const findEpisodeIndex = (allEpisodes, currentEpisode) => {
+        return allEpisodes.findIndex(e => 
+            e.episode === currentEpisode.episode && 
+            (e.season === currentEpisode.season || e.season === undefined)
+        );
+    };
 
-const findEpisodeIndex = (allEpisodes, currentEpisode) => {
-    return allEpisodes.findIndex(e => 
-        e.episode === currentEpisode.episode && 
-        (e.season === currentEpisode.season || e.season === undefined)
+    const handleSkipNext = () => {
+        console.log("HANDLE SKIP NEXT ENGAGED");
+        console.log("CURRENT EPISODE:", currentEpisode);
+    
+        if (detailedShow && currentEpisode) {
+            const allEpisodes = getAllEpisodes(detailedShow);
+            let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
+    
+            console.log('Current Index:', currentIndex);
+            console.log('All Episodes:', allEpisodes);
+    
+            // If currentIndex is still -1, assume we're at the first episode
+            if (currentIndex === -1) {
+                currentIndex = 0;
+            }
+    
+            if (currentIndex < allEpisodes.length - 1) {
+                const nextEpisode = allEpisodes[currentIndex + 1];
+                setCurrentEpisode(nextEpisode);
+                setIsPlaying(true);
+                console.log("Loading next episode:", nextEpisode);
+            } else {
+                console.log("Reached the end of all episodes.");
+            }
+        } else {
+            console.log("No detailed show or current episode found.");
+        }
+    };
+
+    const handleSkipPrevious = () => {
+        console.log("HANDLE SKIP PREVIOUS ENGAGED");
+        console.log("CURRENT EPISODE:", currentEpisode);
+    
+        if (detailedShow && currentEpisode) {
+            const allEpisodes = getAllEpisodes(detailedShow);
+            let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
+    
+            console.log('Current Index:', currentIndex);
+            console.log('All Episodes:', allEpisodes);
+    
+            // If currentIndex is still -1, assume we're at the first episode
+            if (currentIndex === -1) {
+                currentIndex = 0;
+            }
+    
+            if (currentIndex > 0) {
+                const previousEpisode = allEpisodes[currentIndex - 1];
+                setCurrentEpisode(previousEpisode);
+                setIsPlaying(true);
+                console.log("Loading previous episode:", previousEpisode);
+            } else {
+                console.log("Already at the first episode.");
+            }
+        } else {
+            console.log("No detailed show or current episode found.");
+        }
+    };
+
+    const handlePlayEpisode = (episode) => {
+        const episodeWithSeason = {
+            ...episode,
+            season: episode.season || 1
+        };
+        setCurrentEpisode(episodeWithSeason);
+        setPlayingShow(detailedShow);
+        setIsPlaying(true);
+    };
+
+    if (loading || loadingGenres) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
+            <LoadingSpinner />
+        </Box>
     );
-};
+    if (error) return <ErrorPage />;
 
-const handleSkipNext = () => {
-    console.log("HANDLE SKIP NEXT ENGAGED");
-    console.log("CURRENT EPISODE:", currentEpisode);
-
-    if (detailedShow && currentEpisode) {
-        const allEpisodes = getAllEpisodes(detailedShow);
-        let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
-
-        console.log('Current Index:', currentIndex);
-        console.log('All Episodes:', allEpisodes);
-
-        // If currentIndex is still -1, assume we're at the first episode
-        if (currentIndex === -1) {
-            currentIndex = 0;
-        }
-
-        if (currentIndex < allEpisodes.length - 1) {
-            const nextEpisode = allEpisodes[currentIndex + 1];
-            setCurrentEpisode(nextEpisode);
-            setIsPlaying(true);
-            console.log("Loading next episode:", nextEpisode);
-        } else {
-            console.log("Reached the end of all episodes.");
-        }
-    } else {
-        console.log("No detailed show or current episode found.");
-    }
-};
-    
-const handleSkipPrevious = () => {
-    console.log("HANDLE SKIP PREVIOUS ENGAGED");
-    console.log("CURRENT EPISODE:", currentEpisode);
-
-    if (detailedShow && currentEpisode) {
-        const allEpisodes = getAllEpisodes(detailedShow);
-        let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
-
-        console.log('Current Index:', currentIndex);
-        console.log('All Episodes:', allEpisodes);
-
-        // If currentIndex is still -1, assume we're at the first episode
-        if (currentIndex === -1) {
-            currentIndex = 0;
-        }
-
-        if (currentIndex > 0) {
-            const previousEpisode = allEpisodes[currentIndex - 1];
-            setCurrentEpisode(previousEpisode);
-            setIsPlaying(true);
-            console.log("Loading previous episode:", previousEpisode);
-        } else {
-            console.log("Already at the first episode.");
-        }
-    } else {
-        console.log("No detailed show or current episode found.");
-    }
-};
-    
-
-  if (loading || loadingGenres) return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
-      <LoadingSpinner />
-    </Box>
-    )
-  if (error) return <ErrorPage />;
-
-
-  return (
-      <>
-          {genres && <SearchAppBar onSortChange={handleSortChange} onFilterChange={handleFilterChange} onSearchChange={handleSearchChange} genres={genres}/>}
-          {filteredData && <Content showData={filteredData} genres={genres} onShowClick={handleShowClick} />}
-          <AudioPlayer
-            episode={currentEpisode}
-            isPlaying={isPlaying}
-            onPlayPause={(playState) => setIsPlaying(playState)}
-            onSkipNext={handleSkipNext}
-            onSkipPrevious={handleSkipPrevious}
-            playingShow={playingShow} // Pass the playing show to AudioPlayer
-        />
-          {detailedShow && modalOpen && (
-            <PodcastDetailsModal
-                show={detailedShow}
-                loading={loadingShow}
-                open={modalOpen}
-                onClose={handleCloseModal}
-                onPlayEpisode={handlePlayEpisode}
-                genres={genres}
+    return (
+        <>
+            {genres && (
+                <SearchAppBar
+                    onSortChange={handleSortChange}
+                    onFilterChange={handleFilterChange}
+                    onSearchChange={handleSearchChange}
+                    onFavoritesClick={handleFavoritesClick} // Pass the handler
+                    genres={genres}
+                />
+            )}
+            {!showFavorites && filteredData && (
+                <Content showData={filteredData} genres={genres} onShowClick={handleShowClick} />
+            )}
+            {showFavorites && (
+                <FavoritesPage
+                    favoriteEpisodes={favoriteEpisodes}
+                    toggleFavorite={toggleFavorite}
+                    onShowClick={handleShowClick} // Assuming FavoritesPage also allows clicking on shows
+                    onBackToShows={handleBackToShows}
+                    searchTerm={searchTerm}
+                    sortOption={sortOption}
+                    filterOption={filterOption}
+                />
+            )}
+            <AudioPlayer
+                episode={currentEpisode}
+                isPlaying={isPlaying}
+                onPlayPause={(playState) => setIsPlaying(playState)}
+                onSkipNext={handleSkipNext}
+                onSkipPrevious={handleSkipPrevious}
+                playingShow={playingShow}
             />
-        )}
-
-      </>
-  );
+            {detailedShow && modalOpen && (
+                <PodcastDetailsModal
+                    show={detailedShow}
+                    loading={loadingShow}
+                    open={modalOpen}
+                    onClose={handleCloseModal}
+                    onPlayEpisode={handlePlayEpisode}
+                    genres={genres}
+                    toggleFavorite={toggleFavorite}
+                    favoriteEpisodes={favoriteEpisodes}
+                />
+            )}
+        </>
+    );
 }
 
 export default App;

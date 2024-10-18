@@ -1,9 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Modal, Box, Typography, Button, CircularProgress, Select, MenuItem, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Chip } from '@mui/material';
+import {
+    Modal,
+    Box,
+    Typography,
+    Button,
+    CircularProgress,
+    Select,
+    MenuItem,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemSecondaryAction,
+    IconButton,
+    Chip,
+} from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 
-const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loading }) => {
+const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes }) => {
     const [selectedSeason, setSelectedSeason] = useState(null);
 
     useEffect(() => {
@@ -12,20 +28,36 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
         }
     }, [show]);
 
+    const handleToggleFavorite = (episode) => {
+        toggleFavorite({
+            showId: show.id,
+            showTitle: show.title,
+            seasonTitle: selectedSeason.title,
+            episodeTitle: episode.title,
+            episodeNumber: episode.episode,
+        });
+    };
+
+    const isFavorite = (episode) => {
+        return favoriteEpisodes.some(fav => 
+            fav.showId === show.id && 
+            fav.episodeTitle === episode.title && 
+            fav.seasonTitle === selectedSeason.title
+        );
+    };
+
     const handleSeasonChange = (event) => {
         const season = show.seasons.find(s => s.season === event.target.value);
         setSelectedSeason(season);
     };
 
     const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString();
+        return new Date(dateString).toLocaleString(); // Changed to display date and time
     };
 
-    const showGenres = genres.filter(genre => 
+    const showGenres = genres.filter(genre =>
         genre.shows.includes(show.id)
     );
-
-
 
     return (
         <Modal
@@ -60,9 +92,9 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
                         <Box sx={{ display: 'flex', mb: 2 }}>
                             <Box sx={{ width: '30%', mr: 2 }}>
                                 <img
-                                    src={selectedSeason ? selectedSeason.image : show.image} 
-                                    alt={show.title} 
-                                    style={{ width: '100%', height: 'auto', objectFit: 'contain' }} 
+                                    src={selectedSeason ? selectedSeason.image : show.image}
+                                    alt={show.title}
+                                    style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
                                 />
                             </Box>
                             <Box sx={{ width: '70%' }}>
@@ -73,18 +105,18 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
                                     {show.description}
                                 </Typography>
                                 <Box sx={{ mb: 2 }}>
-                                {showGenres.length > 0 ? (
-                                    showGenres.map((genre) => (
-                                        <Chip key={genre.id} label={genre.title} sx={{ mr: 1, mb: 1}}/>
-                                    ))
-                                ) : (
-                                    <Typography>No genres available</Typography>
-                                )}
+                                    {showGenres.length > 0 ? (
+                                        showGenres.map((genre) => (
+                                            <Chip key={genre.id} label={genre.title} sx={{ mr: 1, mb: 1 }} />
+                                        ))
+                                    ) : (
+                                        <Typography>No genres available</Typography>
+                                    )}
                                 </Box>
                                 <Box>
-                                <Typography variant="body2" sx={{ mb: 2 }}>
-                                    Updated: {formatDate(show.updated)}
-                                </Typography>
+                                    <Typography variant="body2" sx={{ mb: 2 }}>
+                                        Updated: {formatDate(show.updated)}
+                                    </Typography>
                                 </Box>
                                 <Box sx={{
                                     display: 'flex',
@@ -122,6 +154,9 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
                             <List>
                                 {selectedSeason && selectedSeason.episodes.map((episode) => (
                                     <ListItem key={episode.episode} divider>
+                                        <IconButton onClick={() => handleToggleFavorite(episode)}>
+                                            {isFavorite(episode) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                        </IconButton>
                                         <ListItemText
                                             primary={`Episode ${episode.episode}: ${episode.title}`}
                                             secondary={episode.description}
@@ -156,6 +191,8 @@ PodcastDetailsModal.propTypes = {
         description: PropTypes.string
     })).isRequired,
     loading: PropTypes.bool.isRequired,
+    toggleFavorite: PropTypes.func.isRequired,
+    favoriteEpisodes: PropTypes.array.isRequired,
 };
 
 export default PodcastDetailsModal;

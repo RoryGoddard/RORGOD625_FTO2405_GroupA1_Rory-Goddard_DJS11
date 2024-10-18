@@ -6,6 +6,7 @@ import { AppBar, Box, Toolbar, Typography, InputBase, IconButton, Menu, MenuItem
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
 
 const Search = styled('div')(({ theme }) => ({
@@ -27,12 +28,12 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: theme.palette.text.primary, // Ensure icon in search field is visible across modes
+  color: theme.palette.text.primary,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: theme.palette.text.primary, // Matches text colour to theme
-  backgroundColor: alpha(theme.palette.common.black, 0.15), // Consistent darker styling across modes for better visibility
+  color: theme.palette.text.primary,
+  backgroundColor: alpha(theme.palette.common.black, 0.15),
   borderRadius: theme.shape.borderRadius,
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
@@ -47,11 +48,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ onSortChange, onFilterChange, onSearchChange, genres }) {
+export default function SearchAppBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, genres }) {
   const theme = useTheme();
-
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
+
   const handleSortClick = (event) => {
     setSortAnchorEl(event.currentTarget);
   };
@@ -81,69 +82,65 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
   return (
     <AppBar
       elevation={0}
-      position="static"
+      position="fixed"
       sx={{
         backgroundColor: theme.palette.searchAppBar.background,
         color: theme.palette.searchAppBar.color,
       }}
     >
-        <Toolbar>
-          <Box sx={{
-            paddingRight: "0.4rem",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center"
-          }}>
-            <PoddyLogo />
-          </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            Poddy
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={(e) => onSearchChange(e.target.value)}
-            />
-          </Search>
-          <IconButton color="inherit" onClick={handleSortClick}>
-            <SortIcon />
-          </IconButton>
-          <Menu
-            anchorEl={sortAnchorEl}
-            open={Boolean(sortAnchorEl)}
-            onClose={handleSortClose}
-          >
-            <MenuItem onClick={() => handleSortSelect('A-Z')}>Sort A-Z</MenuItem>
-            <MenuItem onClick={() => handleSortSelect('Z-A')}>Sort Z-A</MenuItem>
-            <MenuItem onClick={() => handleSortSelect('newest')}>Newest First</MenuItem>
-            <MenuItem onClick={() => handleSortSelect('oldest')}>Oldest First</MenuItem>
-          </Menu>
-          <IconButton color="inherit" onClick={handleFilterClick}>
-            <FilterListIcon />
-          </IconButton>
-          <Menu
-            anchorEl={filterAnchorEl}
-            open={Boolean(filterAnchorEl)}
-            onClose={handleFilterClose}
-          >
-            <MenuItem onClick={() => handleFilterSelect(null)}>Show All</MenuItem>
-            {genres.map((genre) => (
-              <MenuItem key={genre.id} onClick={() => handleFilterSelect(genre)}>
-                {genre.title}
-              </MenuItem>
-            ))}
-          </Menu>
-        </Toolbar>
-      </AppBar>
+      <Toolbar>
+        <Box
+          sx={{
+            paddingRight: '0.4rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <PoddyLogo />
+        </Box>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+        >
+          Poddy
+        </Typography>
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder="Search…"
+            inputProps={{ 'aria-label': 'search' }}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
+        </Search>
+        <IconButton color="inherit" onClick={handleSortClick}>
+          <SortIcon />
+        </IconButton>
+        <Menu anchorEl={sortAnchorEl} open={Boolean(sortAnchorEl)} onClose={handleSortClose}>
+          <MenuItem onClick={() => handleSortSelect('A-Z')}>Title A-Z</MenuItem>
+          <MenuItem onClick={() => handleSortSelect('Z-A')}>Title Z-A</MenuItem>
+          <MenuItem onClick={() => handleSortSelect('newest')}>Newest Added</MenuItem>
+          <MenuItem onClick={() => handleSortSelect('oldest')}>Oldest Added</MenuItem>
+        </Menu>
+        <IconButton color="inherit" onClick={handleFilterClick}>
+          <FilterListIcon />
+        </IconButton>
+        <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
+          {genres.map((genre) => (
+            <MenuItem key={genre.id} onClick={() => handleFilterSelect(genre)}>
+              {genre.title}
+            </MenuItem>
+          ))}
+        </Menu>
+        <IconButton color="inherit" onClick={onFavoritesClick}>
+          <FavoriteIcon />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
   );
 }
 
@@ -151,5 +148,6 @@ SearchAppBar.propTypes = {
   onSortChange: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
+  onFavoritesClick: PropTypes.func.isRequired,
   genres: PropTypes.array.isRequired,
 };
