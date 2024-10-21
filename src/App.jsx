@@ -21,7 +21,7 @@ function App() {
     const [genres, setGenres] = useState([]); // Iterate over unique genre ID's and generate array of fetched genre objects
     const [loadingGenres, setLoadingGenres] = useState(true); // State to manage when we are fetching the genre objects and crated the above array
     const [sortOption, setSortOption] = useState("A-Z"); // Manage the sort option defined by the user, defaults to A-Z
-    const [selectedGenre, setSelectedGenre] = useState(null);
+    const [selectedGenre, setSelectedGenre] = useState(null); // Manages the user defined selected genre for filtering shows, defaults to null for all shows
     const [sortedData, setSortedData] = useState(previewData);
     const [filteredData, setFilteredData] = useState(previewData);
     const [searchQuery, setSearchQuery] = useState('');
@@ -208,6 +208,8 @@ function App() {
         }
     }, [sortOption, previewData]);
 
+    // Iterates over shows, filtering for shows with genre ID's that match the selected genres ID
+    // Then filters additionally for a text search query if there is one
     useEffect(() => {
       let filteredData = sortedData;
     
@@ -232,6 +234,7 @@ function App() {
         setSortOption(option);
     };
 
+    // Click handler to set the selected genre 
     const handleFilterChange = (genre) => {
       setSelectedGenre(genre);
     };
