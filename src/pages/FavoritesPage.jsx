@@ -4,13 +4,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "../utils/sortUtils";
 import PropTypes from 'prop-types';
 
-const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, searchTerm, sortOption }) => {
+const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, searchQuery, sortOption }) => {
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
     useEffect(() => {
         let filtered = favoriteEpisodes.filter((fav) =>
-            fav.showTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            fav.episodeTitle.toLowerCase().includes(searchTerm.toLowerCase())
+            fav.showTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            fav.episodeTitle.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
         let sorted;
@@ -32,7 +32,7 @@ const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, search
         }
 
         setSortedFavorites(sorted);
-    }, [favoriteEpisodes, searchTerm, sortOption]);
+    }, [favoriteEpisodes, searchQuery, sortOption]);
 
     const handleRemoveFavorite = (episode) => {
         toggleFavorite(episode);
@@ -106,7 +106,7 @@ FavoritesPage.propTypes = {
     ).isRequired,
     toggleFavorite: PropTypes.func.isRequired,
     onBackToShows: PropTypes.func.isRequired,
-    searchTerm: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
     sortOption: PropTypes.oneOf(['A-Z', 'Z-A', 'newest', 'oldest']).isRequired,
 };
 

@@ -36,7 +36,6 @@ function App() {
         return storedFavorites ? JSON.parse(storedFavorites) : [];
     });
     const [showFavorites, setShowFavorites] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
     const [filterOption, setFilterOption] = useState(null);
     const [listenedEpisodes, setListenedEpisodes] = useState(() => {
         const storedListenedEpisodes = localStorage.getItem('listenedEpisodes');
@@ -395,7 +394,7 @@ function App() {
                     toggleFavorite={toggleFavorite}
                     onShowClick={handleShowClick}
                     onBackToShows={handleBackToShows}
-                    searchTerm={searchTerm}
+                    searchQuery={searchQuery}
                     sortOption={sortOption}
                     filterOption={filterOption}
                     listenedEpisodes={listenedEpisodes}
