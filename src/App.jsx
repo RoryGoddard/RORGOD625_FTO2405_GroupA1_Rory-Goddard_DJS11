@@ -158,7 +158,10 @@ function App() {
           window.removeEventListener('beforeunload', handleBeforeUnload);
         };
       }, [isPlaying]);
+      
 
+    // Iterates over the previewData, grabbing genre id's, making a set of the unique ID's, and then fetches each genres information from the genre endpoint
+    // We then save an array of genre objects to state with setGenres - The dependency array is our previewData 
     useEffect(() => {
         if (!previewData) return;
 
