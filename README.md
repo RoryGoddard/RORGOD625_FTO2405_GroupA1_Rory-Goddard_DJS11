@@ -23,7 +23,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://delightful-platypus-1a7604.netlify.app/">
+  <a href="https://poddy.netlify.app/">
     <img src="/src/assets/poddy_logo_darkmode.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -93,7 +93,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 ## Getting Started
 
 Welcome to Poddy, a responsive and unique Podcast web app experience. 
-To dive right in and use Poddy, click here [Poddy](https://delightful-platypus-1a7604.netlify.app/). Otherwise, read on for more information.
+To dive right in and use Poddy, click here [Poddy](https://poddy.netlify.app/). Otherwise, read on for more information.
 
 ### Prerequisites
 
@@ -125,7 +125,7 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Poddy is a Responsive Podcast web application. Simply go to [Poddy](https://delightful-platypus-1a7604.netlify.app/) to start using the application. You can sort podcasts by title, when they were updated, filter by genre, search for keywords, and more. You are able to save your favourite episodes to the "Favourites" section. Episodes can be played and fucntionality is included that allows you to start your favourite podcast, sit back, relax, and enjoy as Poddy handles going to the next episode for you. You are also able to see where you last left off on each episode. Poddy is equiped with these features and so many more, please try Poddy for yourself!
+Poddy is a Responsive Podcast web application. Simply go to [Poddy](https://poddy.netlify.app/) to start using the application. You can sort podcasts by title, when they were updated, filter by genre, search for keywords, and more. You are able to save your favourite episodes to the "Favourites" section. Episodes can be played and fucntionality is included that allows you to start your favourite podcast, sit back, relax, and enjoy as Poddy handles going to the next episode for you. You are also able to see where you last left off on each episode. Poddy is equiped with these features and so many more, please try Poddy for yourself!
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
