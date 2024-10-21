@@ -17,10 +17,10 @@ const GENRE_URL = "https://podcast-api.netlify.app/genre/";
 const SHOW_URL = "https://podcast-api.netlify.app/id/";
 
 function App() {
-    const { data: previewData, loading, error } = useFetchData(PREVIEW_URL);
-    const [genres, setGenres] = useState([]);
-    const [loadingGenres, setLoadingGenres] = useState(true);
-    const [sortOption, setSortOption] = useState("A-Z");
+    const { data: previewData, loading, error } = useFetchData(PREVIEW_URL); // Fetch the initial data for the show cards
+    const [genres, setGenres] = useState([]); // Iterate over unique genre ID's and generate array of fetched genre objects
+    const [loadingGenres, setLoadingGenres] = useState(true); // State to manage when we are fetching the genre objects and crated the above array
+    const [sortOption, setSortOption] = useState("A-Z"); // Manage the sort option defined by the user, defaults to A-Z
     const [selectedGenre, setSelectedGenre] = useState(null);
     const [sortedData, setSortedData] = useState(previewData);
     const [filteredData, setFilteredData] = useState(previewData);
@@ -158,7 +158,7 @@ function App() {
           window.removeEventListener('beforeunload', handleBeforeUnload);
         };
       }, [isPlaying]);
-      
+
 
     // Iterates over the previewData, grabbing genre id's, making a set of the unique ID's, and then fetches each genres information from the genre endpoint
     // We then save an array of genre objects to state with setGenres - The dependency array is our previewData 
@@ -184,6 +184,7 @@ function App() {
         fetchGenres();
     }, [previewData]);
 
+    // Process user defined sort option and array show cards as such
     useEffect(() => {
         if (previewData) {
             let sorted;
@@ -226,6 +227,7 @@ function App() {
       setFilteredData(filteredData);
     }, [selectedGenre, sortedData, searchQuery]);    
     
+    // Click handler to set new sorting option
     const handleSortChange = (option) => {
         setSortOption(option);
     };
