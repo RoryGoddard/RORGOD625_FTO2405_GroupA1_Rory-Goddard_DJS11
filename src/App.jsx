@@ -22,31 +22,30 @@ function App() {
     const [loadingGenres, setLoadingGenres] = useState(true); // State to manage when we are fetching the genre objects and crated the above array
     const [sortOption, setSortOption] = useState("A-Z"); // Manage the sort option defined by the user, defaults to A-Z
     const [selectedGenre, setSelectedGenre] = useState(null); // Manages the user defined selected genre for filtering shows, defaults to null for all shows
-    const [sortedData, setSortedData] = useState(previewData);
-    const [filteredData, setFilteredData] = useState(previewData);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [modalOpen, setModalOpen] = useState(false);
-    const [detailedShow, setDetailedShow] = useState(null);
-    const [currentEpisode, setCurrentEpisode] = useState(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [loadingShow, setLoadingShow] = useState(false);
-    const [playingShow, setPlayingShow] = useState(null);
-    const [favoriteEpisodes, setFavoriteEpisodes] = useState(() => {
+    const [sortedData, setSortedData] = useState(previewData); // State array of sorted previewData
+    const [filteredData, setFilteredData] = useState(previewData); // Filtered version of sortedData array
+    const [searchQuery, setSearchQuery] = useState(''); // Search field text input saved to state
+    const [modalOpen, setModalOpen] = useState(false); // State to manage the PodcastDetails Modal being open or closed based on boolean
+    const [detailedShow, setDetailedShow] = useState(null); // When a show card is clicked, a get request is done and the shows detailed data is stored here
+    const [currentEpisode, setCurrentEpisode] = useState(null); // State used by skip handlers to store current episodes data
+    const [isPlaying, setIsPlaying] = useState(false); // Handle play state of episodes
+    const [loadingShow, setLoadingShow] = useState(false); // Handle loading state when a show is clicked on
+    const [playingShow, setPlayingShow] = useState(null); // Sets the playing show equal to the detail show from the PodcastDetails Modal
+    const [favoriteEpisodes, setFavoriteEpisodes] = useState(() => { // Sets favorite episodes equal to the episodes in state, or an empty array if no episodes exist
         const storedFavorites = localStorage.getItem('favoriteEpisodes');
         return storedFavorites ? JSON.parse(storedFavorites) : [];
     });
-    const [showFavorites, setShowFavorites] = useState(false);
-    const [filterOption, setFilterOption] = useState(null);
-    const [listenedEpisodes, setListenedEpisodes] = useState(() => {
+    const [showFavorites, setShowFavorites] = useState(false); // State which triggers whether or not we open the favorites view
+    const [listenedEpisodes, setListenedEpisodes] = useState(() => { // Checks for listened episodes in local storage and sets itself equal to that, or empty array
         const storedListenedEpisodes = localStorage.getItem('listenedEpisodes');
         return storedListenedEpisodes ? JSON.parse(storedListenedEpisodes) : [];
     });
-    const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
-    const [episodeTimestamps, setEpisodeTimestamps] = useState(() => {
+    const [isResetDialogOpen, setIsResetDialogOpen] = useState(false); // State to control whether listening reset dialog is open or closed
+    const [episodeTimestamps, setEpisodeTimestamps] = useState(() => { // State which manages tracking of timestamps of episodes played
         const storedTimestamps = localStorage.getItem('episodeTimestamps');
         return storedTimestamps ? JSON.parse(storedTimestamps) : {};
       });
-    const [fuse, setFuse] = useState(null);
+    const [fuse, setFuse] = useState(null); 
 
     useEffect(() => {
         if (previewData && previewData.length > 0) {
@@ -298,15 +297,9 @@ function App() {
     };
 
     const handleSkipNext = () => {
-        console.log("HANDLE SKIP NEXT ENGAGED");
-        console.log("CURRENT EPISODE:", currentEpisode);
-    
         if (detailedShow && currentEpisode) {
             const allEpisodes = getAllEpisodes(detailedShow);
             let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
-    
-            console.log('Current Index:', currentIndex);
-            console.log('All Episodes:', allEpisodes);
     
             // If currentIndex is still -1, assume we're at the first episode
             if (currentIndex === -1) {
@@ -317,25 +310,14 @@ function App() {
                 const nextEpisode = allEpisodes[currentIndex + 1];
                 setCurrentEpisode(nextEpisode);
                 setIsPlaying(true);
-                console.log("Loading next episode:", nextEpisode);
-            } else {
-                console.log("Reached the end of all episodes.");
             }
-        } else {
-            console.log("No detailed show or current episode found.");
         }
     };
 
     const handleSkipPrevious = () => {
-        console.log("HANDLE SKIP PREVIOUS ENGAGED");
-        console.log("CURRENT EPISODE:", currentEpisode);
-    
         if (detailedShow && currentEpisode) {
             const allEpisodes = getAllEpisodes(detailedShow);
             let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
-    
-            console.log('Current Index:', currentIndex);
-            console.log('All Episodes:', allEpisodes);
     
             // If currentIndex is still -1, assume we're at the first episode
             if (currentIndex === -1) {
@@ -346,12 +328,7 @@ function App() {
                 const previousEpisode = allEpisodes[currentIndex - 1];
                 setCurrentEpisode(previousEpisode);
                 setIsPlaying(true);
-                console.log("Loading previous episode:", previousEpisode);
-            } else {
-                console.log("Already at the first episode.");
             }
-        } else {
-            console.log("No detailed show or current episode found.");
         }
     };
 
@@ -363,7 +340,6 @@ function App() {
         setCurrentEpisode(episodeWithSeason);
         setPlayingShow(detailedShow);
         setIsPlaying(true);
-        // Remove the immediate marking as listened here
     };
 
     const handleEpisodeComplete = (episodeData) => {
@@ -404,7 +380,6 @@ function App() {
                     onBackToShows={handleBackToShows}
                     searchQuery={searchQuery}
                     sortOption={sortOption}
-                    filterOption={filterOption}
                     listenedEpisodes={listenedEpisodes}
                 />
             )}
