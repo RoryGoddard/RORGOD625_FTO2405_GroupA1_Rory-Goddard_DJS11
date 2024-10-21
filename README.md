@@ -67,7 +67,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Poddy][./src/assets/Screenshot.png]](./src/assets/Screenshot.png)
+![Poddy](/src/assets/Screenshot.png)
 
 Poddy is a react web app designed to be your best friend when it comes to podcasts.
 
