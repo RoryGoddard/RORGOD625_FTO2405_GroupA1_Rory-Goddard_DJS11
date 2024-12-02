@@ -9,6 +9,9 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { lightTheme, darkTheme } from './theme';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import store from './app/store'
+import { Provider } from 'react-redux'
+
 
  // Define Root function component such that inside we check if the user prefers dark mode, and use a ternary to return the resulting theme
 function Root() {
@@ -18,7 +21,9 @@ function Root() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ThemeProvider>
   );
 }
