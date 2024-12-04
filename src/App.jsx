@@ -12,7 +12,6 @@ import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { initializeFuzzySearch, performFuzzySearch } from './utils/fuzzySearch';
 import { useGetAllPodcastsQuery, useGetPodcastByIdQuery, useGetGenreByGenreIdQuery } from './services/fetchPodcasts'
 
-const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
 const SHOW_URL = "https://podcast-api.netlify.app/id/";
 
