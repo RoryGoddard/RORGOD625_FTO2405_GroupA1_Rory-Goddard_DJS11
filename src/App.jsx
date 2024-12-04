@@ -16,7 +16,7 @@ const GENRE_URL = "https://podcast-api.netlify.app/genre/";
 const SHOW_URL = "https://podcast-api.netlify.app/id/";
 
 function App() {
-    const { data: allPodcastsData, error, loading } = useGetAllPodcastsQuery(); // Fetch the initial data for the show cards
+    const { data: allPodcastsData, error, isLoading } = useGetAllPodcastsQuery(); // Fetch the initial data for the show cards
     const [genres, setGenres] = useState([]); // Iterate over unique genre ID's and generate array of fetched genre objects
     const [loadingGenres, setLoadingGenres] = useState(true); // State to manage when we are fetching the genre objects and crated the above array
     const [sortOption, setSortOption] = useState("A-Z"); // Manage the sort option defined by the user, defaults to A-Z
@@ -346,7 +346,7 @@ function App() {
     };
 
 
-    if (loading || loadingGenres) return (
+    if (isLoading || loadingGenres) return (
         <Box sx={{ position: 'absolute', top: '50%', left: '50%' }}>
             <LoadingSpinner />
         </Box>
