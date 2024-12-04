@@ -1,4 +1,3 @@
-import useFetchData from './hooks/useFetchData';
 import LoadingSpinner from "./pages/LoadingSpinner";
 import ErrorPage from './pages/ErrorPage';
 import SearchAppBar from './components/SearchAppBar';
