@@ -20,19 +20,19 @@ interface Genre {
 // Define a service using a base URL and expected endpoints
 export const podcastApi = createApi({
   reducerPath: 'podcastApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://podcast-api.netlify.app' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://podcast-api.netlify.app/' }),
   endpoints: (builder) => ({
 
     getAllPodcasts: builder.query<Podcast[], void>({
-      query: () => `podcasts`,
+      query: () => ``,
     }),
 
     getPodcastById: builder.query<Podcast, string>({
-      query: (podcastId) => `podcasts/id/${podcastId}`
+      query: (podcastId) => `id/${podcastId}`
     }),
 
     getGenreByGenreId: builder.query<Genre, string>({
-      query: (genreId) => `podcasts/genre/${genreId}`
+      query: (genreId) => `genre/${genreId}`
     })
 
   }),

@@ -9,7 +9,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { lightTheme, darkTheme } from './theme';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import store from './store/store.js'
+import { store } from './store/store.js'
 import { Provider } from 'react-redux'
 
 

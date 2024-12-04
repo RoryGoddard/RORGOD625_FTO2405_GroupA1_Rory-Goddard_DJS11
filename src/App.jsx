@@ -11,19 +11,20 @@ import FavoritesPage from './pages/FavoritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { initializeFuzzySearch, performFuzzySearch } from './utils/fuzzySearch';
+import { useGetAllPodcastsQuery, useGetPodcastByIdQuery, useGetGenreByGenreIdQuery } from './services/fetchPodcasts'
 
 const PREVIEW_URL = "https://podcast-api.netlify.app";
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
 const SHOW_URL = "https://podcast-api.netlify.app/id/";
 
 function App() {
-    const { data: previewData, loading, error } = useFetchData(PREVIEW_URL); // Fetch the initial data for the show cards
+    const { data: allPodcastsData, error, loading } = useGetAllPodcastsQuery(); // Fetch the initial data for the show cards
     const [genres, setGenres] = useState([]); // Iterate over unique genre ID's and generate array of fetched genre objects
     const [loadingGenres, setLoadingGenres] = useState(true); // State to manage when we are fetching the genre objects and crated the above array
     const [sortOption, setSortOption] = useState("A-Z"); // Manage the sort option defined by the user, defaults to A-Z
     const [selectedGenre, setSelectedGenre] = useState(null); // Manages the user defined selected genre for filtering shows, defaults to null for all shows
-    const [sortedData, setSortedData] = useState(previewData); // State array of sorted previewData
-    const [filteredData, setFilteredData] = useState(previewData); // Filtered version of sortedData array
+    const [sortedData, setSortedData] = useState(allPodcastsData); // State array of sorted allPodcastsData
+    const [filteredData, setFilteredData] = useState(allPodcastsData); // Filtered version of sortedData array
     const [searchQuery, setSearchQuery] = useState(''); // Search field text input saved to state
     const [modalOpen, setModalOpen] = useState(false); // State to manage the PodcastDetails Modal being open or closed based on boolean
     const [detailedShow, setDetailedShow] = useState(null); // When a show card is clicked, a get request is done and the shows detailed data is stored here
@@ -48,10 +49,10 @@ function App() {
     const [fuse, setFuse] = useState(null); 
 
     useEffect(() => {
-        if (previewData && previewData.length > 0) {
-          setFuse(initializeFuzzySearch(previewData));
+        if (allPodcastsData && allPodcastsData.length > 0) {
+          setFuse(initializeFuzzySearch(allPodcastsData));
         }
-      }, [previewData]);
+      }, [allPodcastsData]);
 
     const updateEpisodeTimestamp = useCallback((showId, episodeTitle, timestamp) => {
     setEpisodeTimestamps(prev => {
@@ -159,14 +160,14 @@ function App() {
       }, [isPlaying]);
 
 
-    // Iterates over the previewData, grabbing genre id's, making a set of the unique ID's, and then fetches each genres information from the genre endpoint
-    // We then save an array of genre objects to state with setGenres - The dependency array is our previewData 
+    // Iterates over the allPodcastsData, grabbing genre id's, making a set of the unique ID's, and then fetches each genres information from the genre endpoint
+    // We then save an array of genre objects to state with setGenres - The dependency array is our allPodcastsData 
     useEffect(() => {
-        if (!previewData) return;
+        if (!allPodcastsData) return;
 
         const fetchGenres = async () => {
             try {
-                const genreIds = new Set(previewData.flatMap(show => show.genres));
+                const genreIds = new Set(allPodcastsData.flatMap(show => show.genres));
                 const genrePromises = Array.from(genreIds).map(async (id) => {
                     const response = await fetch(`${GENRE_URL}${id}`);
                     return await response.json();
@@ -181,31 +182,31 @@ function App() {
         };
 
         fetchGenres();
-    }, [previewData]);
+    }, [allPodcastsData]);
 
     // Process user defined sort option and array show cards as such
     useEffect(() => {
-        if (previewData) {
+        if (allPodcastsData) {
             let sorted;
             switch (sortOption) {
                 case 'A-Z':
-                    sorted = sortByTitleAscending(previewData);
+                    sorted = sortByTitleAscending(allPodcastsData);
                     break;
                 case 'Z-A':
-                    sorted = sortByTitleDescending(previewData);
+                    sorted = sortByTitleDescending(allPodcastsData);
                     break;
                 case 'newest':
-                    sorted = sortByDateDescending(previewData);
+                    sorted = sortByDateDescending(allPodcastsData);
                     break;
                 case 'oldest':
-                    sorted = sortByDateAscending(previewData);
+                    sorted = sortByDateAscending(allPodcastsData);
                     break;
                 default:
-                    sorted = previewData;
+                    sorted = allPodcastsData;
             }
             setSortedData(sorted);
         }
-    }, [sortOption, previewData]);
+    }, [sortOption, allPodcastsData]);
 
     // Iterates over shows, filtering for shows with genre ID's that match the selected genres ID
     // Then filters additionally for a text search query if there is one

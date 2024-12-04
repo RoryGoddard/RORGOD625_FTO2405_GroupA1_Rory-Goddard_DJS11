@@ -7,9 +7,9 @@ export const store = configureStore({
     [podcastApi.reducerPath]: podcastApi.reducer
   },
 
-  middleware: (getDefaultMiddleware) => {
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(podcastApi.middleware)
-  }
+  ,
 })
 
 setupListeners(store.dispatch)
