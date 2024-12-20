@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 export const lightTheme = createTheme({
   palette: {
     mode: 'light',
-    searchAppBar: {
+    NavBar: {
       background: '#f5f5f5', 
       color: '#121212', 
       inputBackground: '#e0e0e0', 
@@ -57,7 +57,7 @@ export const lightTheme = createTheme({
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
-    searchAppBar: {
+    NavBar: {
       background: '#212121',
       color: '#fafafa'
     },

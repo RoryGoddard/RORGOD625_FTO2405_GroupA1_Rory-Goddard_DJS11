@@ -107,8 +107,8 @@ export default function NavBar({ onSortChange, onFilterChange, onSearchChange, o
       elevation={0}
       position="fixed"
       sx={{
-        backgroundColor: theme.palette.searchAppBar.background,
-        color: theme.palette.searchAppBar.color,
+        backgroundColor: theme.palette.NavBar.background,
+        color: theme.palette.NavBar.color,
       }}
     >
       <Toolbar>
