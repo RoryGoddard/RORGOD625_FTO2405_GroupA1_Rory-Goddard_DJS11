@@ -1,6 +1,6 @@
 import LoadingSpinner from "./pages/LoadingSpinner";
 import ErrorPage from './pages/ErrorPage';
-import SearchAppBar from './components/SearchAppBar';
+import SearchAppBar from './components/NavBar';
 import Content from "./pages/Content";
 import { useState, useEffect, useCallback } from 'react';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "./utils/sortUtils";
