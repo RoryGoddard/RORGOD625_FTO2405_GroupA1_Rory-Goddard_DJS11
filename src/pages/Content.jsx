@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 function Content({ onShowClick }) {
     const podcasts = useSelector((state) => state.podcasts.enrichedPodcasts)
 
-
     return (
         <Grid2 container spacing={{ xs: 2, md: 3 }} 
         sx={{ 
