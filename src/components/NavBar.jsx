@@ -10,6 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { debounce } from 'lodash';
+import { useSelector } from 'react-redux'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -50,7 +51,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, onResetClick, genres }) {
+export default function NavBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
+  const genres = useSelector((state) => state.podcasts.genres)
   const theme = useTheme();
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
@@ -172,11 +174,10 @@ export default function SearchAppBar({ onSortChange, onFilterChange, onSearchCha
   );
 }
 
-SearchAppBar.propTypes = {
+NavBar.propTypes = {
   onSortChange: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
   onFavoritesClick: PropTypes.func.isRequired,
   onResetClick: PropTypes.func.isRequired,
-  genres: PropTypes.array.isRequired,
 };
