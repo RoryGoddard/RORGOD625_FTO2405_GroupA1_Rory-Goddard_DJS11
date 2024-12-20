@@ -33,25 +33,6 @@ function Content({ onShowClick }) {
 
 // Define Prop Types for previewData array of objects and for genres array of objects
 Content.propTypes = {
-    showData: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            seasons: PropTypes.number.isRequired,
-            image: PropTypes.string.isRequired,
-            genres: PropTypes.array.isRequired,
-            updated: PropTypes.string.isRequired
-        })
-    ).isRequired,
-    genres: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            title: PropTypes.string.isRequired,
-            description: PropTypes.string,
-            shows: PropTypes.array
-        })
-    ).isRequired,
     onShowClick: PropTypes.func.isRequired,
 }
 
