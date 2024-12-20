@@ -23,7 +23,7 @@ interface EnrichedPodcast extends Omit<Podcast, 'genres'> {
 
 interface TransformedResponse {
   enrichedPodcasts: EnrichedPodcast[];
-  allGenres: Genre[];
+  genres: Genre[];
 }
 
 // Define a service using a base URL and expected endpoints
@@ -69,7 +69,7 @@ export const podcastApi = createApi({
           return {
             data: {
               enrichedPodcasts,
-              allGenres: Object.values(genres)
+              genres: Object.values(genres)
             }
           };
         } catch (error) {

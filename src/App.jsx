@@ -10,15 +10,14 @@ import FavoritesPage from './pages/FavoritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { initializeFuzzySearch, performFuzzySearch } from './utils/fuzzySearch';
-import { useGetAllPodcastsQuery, useGetPodcastByIdQuery, useGetGenreByGenreIdQuery, useGetAllPodcastsEnrichedQuery } from './services/fetchPodcasts'
+import { useGetAllPodcastsQuery, useGetPodcastByIdQuery, useGetGenreByGenreIdQuery, useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
 
 
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
 const SHOW_URL = "https://podcast-api.netlify.app/id/";
 
 function App() {
-    const { data: podcastDataPrime, isSuccess } = useGetAllPodcastsEnrichedQuery()
-    console.log(podcastDataPrime)
+    const { data, isError } = useGetAllPodcastsEnrichedQuery()
 
     const { data: allPodcastsData, error, isLoading } = useGetAllPodcastsQuery(); // Fetch the initial data for the show cards
     const [genres, setGenres] = useState([]); // Iterate over unique genre ID's and generate array of fetched genre objects
@@ -370,8 +369,6 @@ function App() {
             />
             {!showFavorites && filteredData && (
                 <Content 
-                    showData={filteredData} 
-                    genres={genres} 
                     onShowClick={handleShowClick}
                     listenedEpisodes={listenedEpisodes}
                 />

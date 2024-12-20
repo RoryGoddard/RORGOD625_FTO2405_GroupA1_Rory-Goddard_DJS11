@@ -1,25 +1,30 @@
 import ShowCard from "../components/ShowCard";
 import { Grid2 } from '@mui/material';
 import PropTypes from "prop-types";
+import { useSelector } from 'react-redux'
 
-function Content({ showData, genres, onShowClick }) {
+
+function Content({ onShowClick }) {
+    const podcasts = useSelector((state) => state.podcasts.enrichedPodcasts)
+
+
     return (
         <Grid2 container spacing={{ xs: 2, md: 3 }} 
         sx={{ 
             margin:"1.5rem",
             marginTop:"5rem"
         }}>
-        {showData.map((showPreview) => (
-            <Grid2 key={showPreview.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }} sx={{borderRadius: "2%"}}>
+        {podcasts.map((podcast) => (
+            <Grid2 key={podcast.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }} sx={{borderRadius: "2%"}}>
                 <ShowCard                 
-                    title={showPreview.title}
-                    description={showPreview.description}
-                    seasons={showPreview.seasons}
-                    image={showPreview.image}
-                    genresArray={genres}
-                    showsGenre={showPreview.genres}
-                    updated={showPreview.updated}
-                    onClick={() => onShowClick(showPreview)}
+                    title={podcast.title}
+                    description={podcast.description}
+                    seasons={podcast.seasons}
+                    image={podcast.image}
+                    genres={podcast.genres}
+                    showsGenre={podcast.genres}
+                    updated={podcast.updated}
+                    onClick={() => onShowClick(podcast)}
                 />
             </Grid2>
         ))}

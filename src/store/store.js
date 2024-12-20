@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { podcastApi } from '../services/fetchPodcasts'
+import { podcastApi } from '../services/podcastApi'
+import podcastReducer from '../state/podcastSlice'
 
 export const store = configureStore({
   reducer: {
+    podcasts: podcastReducer,
     [podcastApi.reducerPath]: podcastApi.reducer
   },
 
