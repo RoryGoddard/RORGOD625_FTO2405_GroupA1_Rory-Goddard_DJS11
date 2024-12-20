@@ -10,12 +10,16 @@ import FavoritesPage from './pages/FavoritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { initializeFuzzySearch, performFuzzySearch } from './utils/fuzzySearch';
-import { useGetAllPodcastsQuery, useGetPodcastByIdQuery, useGetGenreByGenreIdQuery } from './services/fetchPodcasts'
+import { useGetAllPodcastsQuery, useGetPodcastByIdQuery, useGetGenreByGenreIdQuery, useGetAllPodcastsEnrichedQuery } from './services/fetchPodcasts'
+
 
 const GENRE_URL = "https://podcast-api.netlify.app/genre/";
 const SHOW_URL = "https://podcast-api.netlify.app/id/";
 
 function App() {
+    const { data: podcastDataPrime, isSuccess } = useGetAllPodcastsEnrichedQuery()
+    console.log(podcastDataPrime)
+
     const { data: allPodcastsData, error, isLoading } = useGetAllPodcastsQuery(); // Fetch the initial data for the show cards
     const [genres, setGenres] = useState([]); // Iterate over unique genre ID's and generate array of fetched genre objects
     const [loadingGenres, setLoadingGenres] = useState(true); // State to manage when we are fetching the genre objects and crated the above array
@@ -157,7 +161,8 @@ function App() {
         };
       }, [isPlaying]);
 
-
+    // TODO
+    // CONVERT THIS USE EFFECT TO REDUX
     // Iterates over the allPodcastsData, grabbing genre id's, making a set of the unique ID's, and then fetches each genres information from the genre endpoint
     // We then save an array of genre objects to state with setGenres - The dependency array is our allPodcastsData 
     useEffect(() => {
