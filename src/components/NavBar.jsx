@@ -15,7 +15,7 @@ import StyledInputBase from './StyledInputBase'
 import { useDispatch, useSelector } from 'react-redux';
 import { setSortOption, setFilterOption } from '../state/podcastSlice';
 
-export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
+export default function NavBar({ onSearchChange, onFavoritesClick, onResetClick }) {
   const dispatch = useDispatch();
   const handleSort = (option) => {
     dispatch(setSortOption(option));
@@ -50,11 +50,6 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
 
   const handleFilterMenuClose = () => {
     setFilterAnchorEl(null);
-  };
-
-  const handleFilterSelect = (genre) => {
-    onFilterChange(genre);
-    handleFilterMenuClose();
   };
 
   const handleSettingsMenuOpen = (event) => {
@@ -143,7 +138,6 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
 }
 
 NavBar.propTypes = {
-  onFilterChange: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
   onFavoritesClick: PropTypes.func.isRequired,
   onResetClick: PropTypes.func.isRequired,
