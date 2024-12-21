@@ -10,6 +10,7 @@ import PoddyLogo from './PoddyLogo';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Search from './Search'
 import SearchIconWrapper from './SearchIconWrapper'
+import StyledInputBase from './StyledInputBase'
 import { debounce } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux'
 import { setSortOption } from '../state/podcastSlice'
