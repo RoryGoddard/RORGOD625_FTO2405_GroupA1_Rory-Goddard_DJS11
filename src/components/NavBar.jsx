@@ -15,7 +15,7 @@ import { debounce } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux'
 import { setSortOption } from '../state/podcastSlice'
 
-export default function NavBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
+export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
   const dispatch = useDispatch()
 
   const handleSort = (option) => {
