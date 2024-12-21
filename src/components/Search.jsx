@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 
-export const Search = styled('div')(({ theme }) => ({
+const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     marginLeft: 0,
@@ -10,3 +10,5 @@ export const Search = styled('div')(({ theme }) => ({
       width: 'auto',
     },
   }));
+
+export default Search
