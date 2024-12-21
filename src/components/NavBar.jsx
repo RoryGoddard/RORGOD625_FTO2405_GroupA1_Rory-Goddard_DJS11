@@ -42,11 +42,6 @@ export default function NavBar({ onSortChange, onFilterChange, onSearchChange, o
     setSortAnchorEl(null);
   };
 
-  const handleSortSelect = (sortOption) => {
-    onSortChange(sortOption);
-    handleSortClose();
-  };
-
   const handleFilterClick = (event) => {
     setFilterAnchorEl(event.currentTarget);
   };
