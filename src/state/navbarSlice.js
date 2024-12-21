@@ -13,17 +13,34 @@ const navbarSlice = createSlice({
     name: 'navbar',
     initialState,
     reducers: {
-        toggleSortMenu: (state) => {
-            state.isSortMenuOpen = !state.isSortMenuOpen
+        setSortAnchorEl(state, action) {
+            state.sortAnchorEl = action.payload
         },
-        toggleFilterMenu: (state) => {
-            state.isFilterMenuOpen = !state.isFilterMenuOpen
+        setFilterAnchorEl(state, action) {
+            state.filterAnchorEl = action.payload
         },
-        toggleSettingsMenu: (state) => {
-            state.isSettingsMenuOpen = !state.isSettingsMenuOpen
+        setSettingsAnchorEl(state, action) {
+            state.settingsAnchorEl = action.payload
+        },
+        clearSortAnchorEl(state) {
+            state.sortAnchorEl = null
+        },
+        clearFilterAnchorEl(state) {
+            state.filterAnchorEl = null
+        },
+        clearSettingsAnchorEl(state) {
+            state.settingsAnchorEl = null
         },
     }
 });
 
-export const { toggleSortMenu } = navbarSlice.actions
+export const { 
+    setSortAnchorEl, 
+    setFilterAnchorEl, 
+    setSettingsAnchorEl, 
+    clearSortAnchorEl, 
+    clearFilterAnchorEl, 
+    clearSettingsAnchorEl 
+} = navbarSlice.actions
+
 export default navbarSlice.reducer;

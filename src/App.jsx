@@ -18,8 +18,6 @@ const SHOW_URL = "https://podcast-api.netlify.app/id/";
 
 function App() {
     const { data, isError } = useGetAllPodcastsEnrichedQuery()
-    console.log(data)
-
     const { data: allPodcastsData, error, isLoading } = useGetAllPodcastsQuery(); // Fetch the initial data for the show cards
     const [genres, setGenres] = useState([]); // Iterate over unique genre ID's and generate array of fetched genre objects
     const [loadingGenres, setLoadingGenres] = useState(true); // State to manage when we are fetching the genre objects and crated the above array
@@ -361,7 +359,6 @@ function App() {
     return (
         <>
             <NavBar
-                onSortChange={handleSortChange}
                 onFilterChange={handleFilterChange}
                 onSearchChange={handleSearchChange}
                 onFavoritesClick={handleFavoritesClick}

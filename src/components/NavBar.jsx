@@ -8,27 +8,19 @@ import SortIcon from '@mui/icons-material/Sort';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
 import SettingsIcon from '@mui/icons-material/Settings';
-import Search from './Search'
-import SearchIconWrapper from './SearchIconWrapper'
-import StyledInputBase from './StyledInputBase'
 import { debounce } from 'lodash';
-import { useSelector, useDispatch } from 'react-redux'
-import { setSortOption } from '../state/podcastSlice'
-import { toggleSortMenu } from '../state/navbarSlice'
+import SearchIconWrapper from './SearchIconWrapper'
+import Search from './Search'
+import StyledInputBase from './StyledInputBase'
+import { useDispatch, useSelector } from 'react-redux';
+import { setSortOption } from '../state/podcastSlice';
 
 export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
   const dispatch = useDispatch()
-
   const handleSort = (option) => {
-    dispatch(setSortOption(option))
-  }
-
-  const isSortMenuOpen = useSelector((state) => state.navbar.isSortMenuOpen);
-
-  const handleSortMenu = () => {
-    dispatch(toggleSortMenu());
+    dispatch(setSortOption(option));
+    handleSortClose()
   };
-
   const genres = useSelector((state) => state.podcasts.genres)
   const theme = useTheme();
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
@@ -115,7 +107,7 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
         <IconButton color="inherit" onClick={handleSortClick}>
           <SortIcon />
         </IconButton>
-        <Menu anchorEl={sortAnchorEl} open={isSortMenuOpen} onClose={handleSortMenu}>
+        <Menu anchorEl={sortAnchorEl} open={Boolean(sortAnchorEl)} onClose={handleSortClose}>
           <MenuItem onClick={() => handleSort('A-Z')}>Title A-Z</MenuItem>
           <MenuItem onClick={() => handleSort('Z-A')}>Title Z-A</MenuItem>
           <MenuItem onClick={() => handleSort('newest')}>Newest Added</MenuItem>
@@ -147,7 +139,6 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
 }
 
 NavBar.propTypes = {
-  onSortChange: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
   onFavoritesClick: PropTypes.func.isRequired,
