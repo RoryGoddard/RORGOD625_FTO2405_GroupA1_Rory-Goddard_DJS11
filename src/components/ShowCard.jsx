@@ -35,7 +35,7 @@ export default function ShowCard({ title, description, seasons, image, genres, u
                     mb: "0.25rem"
                     }}>
                     <Typography variant="h5" component="h2">
-                        {title}
+                        {title.replace("&amp;", "&")}
                     </Typography>
                     <Typography variant="susbtitle2" component="p" color="text.secondary" sx={{
                         mt: "0.25rem",
