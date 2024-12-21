@@ -9,6 +9,7 @@ const initialState = {
     loading: false,
     error: null,
     sortOption: 'A-Z',
+    filterOption: null,
 }
 
 const podcastSlice = createSlice({
@@ -21,7 +22,11 @@ const podcastSlice = createSlice({
                 state.enrichedPodcasts,
                 action.payload
             );
-            }  
+            },
+        setFilterOption(state, action) {
+            state.filterOption = action.payload
+            console.log(state.filterOption)
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -54,5 +59,5 @@ const podcastSlice = createSlice({
     }
 })
 
-export const { setSortOption } = podcastSlice.actions;
+export const { setSortOption, setFilterOption } = podcastSlice.actions;
 export default podcastSlice.reducer;

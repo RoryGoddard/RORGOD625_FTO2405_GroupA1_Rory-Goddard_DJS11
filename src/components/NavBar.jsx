@@ -13,7 +13,7 @@ import SearchIconWrapper from './SearchIconWrapper'
 import Search from './Search'
 import StyledInputBase from './StyledInputBase'
 import { useDispatch, useSelector } from 'react-redux';
-import { setSortOption } from '../state/podcastSlice';
+import { setSortOption, setFilterOption } from '../state/podcastSlice';
 
 export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
   const dispatch = useDispatch();
@@ -21,6 +21,10 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
     dispatch(setSortOption(option));
     handleSortMenuClose()
   };
+  const handleFilter = (option) => {
+    dispatch(setFilterOption(option))
+    handleFilterMenuClose()
+  }
   const genres = useSelector((state) => state.podcasts.genres)
   const theme = useTheme();
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
@@ -117,9 +121,9 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
           <FilterListIcon />
         </IconButton>
         <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterMenuClose}>
-        <MenuItem onClick={() => handleFilterSelect(null)}>Show All</MenuItem>
+        <MenuItem onClick={() => handleFilter(null)}>Show All</MenuItem>
           {genres.map((genre) => (
-            <MenuItem key={genre.id} onClick={() => handleFilterSelect(genre)}>
+            <MenuItem key={genre.id} onClick={() => handleFilter(genre)}>
               {genre.title}
             </MenuItem>
           ))}
