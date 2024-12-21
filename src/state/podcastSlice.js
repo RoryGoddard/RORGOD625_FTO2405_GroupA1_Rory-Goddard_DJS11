@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { podcastApi } from "../services/podcastApi";
 import { applySorting } from "../utils/sortUtils";
+import { filterPodcastsByGenre } from "../utils/filterUtils";
 
 const initialState = {
     genres: [],
@@ -18,14 +19,19 @@ const podcastSlice = createSlice({
     reducers: {
         setSortOption(state, action) {
             state.sortOption = action.payload;
-            state.sortedAndFilteredEnrichedPodcasts = applySorting(
+            const sortedPodcasts = applySorting(
                 state.enrichedPodcasts,
                 action.payload
             );
+            state.sortedAndFilteredEnrichedPodcasts = filterPodcastsByGenre(sortedPodcasts, state.filterOption)
             },
         setFilterOption(state, action) {
-            state.filterOption = action.payload
-            console.log(state.filterOption)
+            state.filterOption = action.payload;
+            const filteredPodcasts = filterPodcastsByGenre(
+                state.enrichedPodcasts, 
+                action.payload
+            );
+            state.sortedAndFilteredEnrichedPodcasts = applySorting(filteredPodcasts, state.sortOption);
         }
     },
     extraReducers: (builder) => {
