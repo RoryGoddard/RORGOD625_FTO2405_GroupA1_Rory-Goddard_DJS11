@@ -10,20 +10,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Search from './Search'
+import SearchIconWrapper from './SearchIconWrapper'
 import { debounce } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux'
 import { setSortOption } from '../state/podcastSlice'
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: theme.palette.text.primary,
-}));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: theme.palette.text.primary,
