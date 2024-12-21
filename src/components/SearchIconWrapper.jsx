@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 
-export const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -10,3 +10,5 @@ export const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
     color: theme.palette.text.primary,
   }));
+
+export default SearchIconWrapper
