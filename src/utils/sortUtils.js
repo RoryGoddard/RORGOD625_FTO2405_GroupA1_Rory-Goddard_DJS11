@@ -31,3 +31,18 @@ export const sortByDateDescending = (data, dateKey = 'updated') => {
     return dateB - dateA;
   });
 };
+
+export const applySorting = (podcasts, sortOption) => {
+  switch (sortOption) {
+    case 'A-Z':
+      return sortByTitleAscending(podcasts);
+    case 'Z-A':
+      return sortByTitleDescending(podcasts);
+    case 'newest':
+      return sortByDateDescending(podcasts);
+    case 'oldest':
+      return sortByDateAscending(podcasts);
+    default:
+      return podcasts;
+  }
+}
