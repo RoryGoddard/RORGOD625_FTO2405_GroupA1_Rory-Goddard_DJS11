@@ -16,10 +16,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSortOption } from '../state/podcastSlice';
 
 export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleSort = (option) => {
     dispatch(setSortOption(option));
-    handleSortClose()
+    handleSortMenuClose()
   };
   const genres = useSelector((state) => state.podcasts.genres)
   const theme = useTheme();
@@ -32,38 +32,38 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
     [onSearchChange]
   );
 
-  const handleSortClick = (event) => {
+  const handleSortMenuOpen = (event) => {
     setSortAnchorEl(event.currentTarget);
   };
 
-  const handleSortClose = () => {
+  const handleSortMenuClose = () => {
     setSortAnchorEl(null);
   };
 
-  const handleFilterClick = (event) => {
+  const handleFilterMenuOpen = (event) => {
     setFilterAnchorEl(event.currentTarget);
   };
 
-  const handleFilterClose = () => {
+  const handleFilterMenuClose = () => {
     setFilterAnchorEl(null);
   };
 
   const handleFilterSelect = (genre) => {
     onFilterChange(genre);
-    handleFilterClose();
+    handleFilterMenuClose();
   };
 
-  const handleSettingsClick = (event) => {
+  const handleSettingsMenuOpen = (event) => {
     setSettingsAnchorEl(event.currentTarget);
   };
 
-  const handleSettingsClose = () => {
+  const handleSettingsMenuClose = () => {
     setSettingsAnchorEl(null);
   };
 
   const handleResetClick = () => {
     onResetClick();
-    handleSettingsClose();
+    handleSettingsMenuClose();
   };
 
   return (
@@ -104,19 +104,19 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
             onChange={(e) => debouncedSearch(e.target.value)}
           />
         </Search>
-        <IconButton color="inherit" onClick={handleSortClick}>
+        <IconButton color="inherit" onClick={handleSortMenuOpen}>
           <SortIcon />
         </IconButton>
-        <Menu anchorEl={sortAnchorEl} open={Boolean(sortAnchorEl)} onClose={handleSortClose}>
+        <Menu anchorEl={sortAnchorEl} open={Boolean(sortAnchorEl)} onClose={handleSortMenuClose}>
           <MenuItem onClick={() => handleSort('A-Z')}>Title A-Z</MenuItem>
           <MenuItem onClick={() => handleSort('Z-A')}>Title Z-A</MenuItem>
           <MenuItem onClick={() => handleSort('newest')}>Newest Added</MenuItem>
           <MenuItem onClick={() => handleSort('oldest')}>Oldest Added</MenuItem>
         </Menu>
-        <IconButton color="inherit" onClick={handleFilterClick}>
+        <IconButton color="inherit" onClick={handleFilterMenuOpen}>
           <FilterListIcon />
         </IconButton>
-        <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
+        <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterMenuClose}>
         <MenuItem onClick={() => handleFilterSelect(null)}>Show All</MenuItem>
           {genres.map((genre) => (
             <MenuItem key={genre.id} onClick={() => handleFilterSelect(genre)}>
@@ -127,10 +127,10 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
         <IconButton color="inherit" onClick={onFavoritesClick}>
           <FavoriteIcon />
         </IconButton>
-        <IconButton color="inherit" onClick={handleSettingsClick}>
+        <IconButton color="inherit" onClick={handleSettingsMenuOpen}>
           <SettingsIcon />
         </IconButton>
-        <Menu anchorEl={settingsAnchorEl} open={Boolean(settingsAnchorEl)} onClose={handleSettingsClose}>
+        <Menu anchorEl={settingsAnchorEl} open={Boolean(settingsAnchorEl)} onClose={handleSettingsMenuClose}>
           <MenuItem onClick={handleResetClick}>Reset Listening History</MenuItem>
         </Menu>
       </Toolbar>
