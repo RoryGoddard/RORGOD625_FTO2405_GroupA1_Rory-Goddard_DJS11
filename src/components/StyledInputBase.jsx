@@ -1,7 +1,7 @@
 import { styled, alpha } from '@mui/material/styles';
 import { InputBase } from '@mui/material/';
 
-export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: theme.palette.text.primary,
   backgroundColor: alpha(theme.palette.common.black, 0.15),
   borderRadius: theme.shape.borderRadius,
@@ -17,3 +17,5 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+export default StyledInputBase
