@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { podcastApi } from '../services/podcastApi'
 import podcastReducer from '../state/podcastSlice'
+import navbarReducer from '../state/navbarSlice'
 
 export const store = configureStore({
   reducer: {
     podcasts: podcastReducer,
-    [podcastApi.reducerPath]: podcastApi.reducer
+    [podcastApi.reducerPath]: podcastApi.reducer,
+    navbar: navbarReducer,
   },
 
   middleware: (getDefaultMiddleware) =>

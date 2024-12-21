@@ -14,14 +14,20 @@ import StyledInputBase from './StyledInputBase'
 import { debounce } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux'
 import { setSortOption } from '../state/podcastSlice'
+import { toggleSortMenu } from '../state/navbarSlice'
 
 export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
   const dispatch = useDispatch()
 
   const handleSort = (option) => {
     dispatch(setSortOption(option))
-    handleSortClose()
   }
+
+  const isSortMenuOpen = useSelector((state) => state.navbar.isSortMenuOpen);
+
+  const handleSortMenu = () => {
+    dispatch(toggleSortMenu());
+  };
 
   const genres = useSelector((state) => state.podcasts.genres)
   const theme = useTheme();
@@ -109,7 +115,7 @@ export default function NavBar({ onFilterChange, onSearchChange, onFavoritesClic
         <IconButton color="inherit" onClick={handleSortClick}>
           <SortIcon />
         </IconButton>
-        <Menu anchorEl={sortAnchorEl} open={Boolean(sortAnchorEl)} onClose={handleSortClose}>
+        <Menu anchorEl={sortAnchorEl} open={isSortMenuOpen} onClose={handleSortMenu}>
           <MenuItem onClick={() => handleSort('A-Z')}>Title A-Z</MenuItem>
           <MenuItem onClick={() => handleSort('Z-A')}>Title Z-A</MenuItem>
           <MenuItem onClick={() => handleSort('newest')}>Newest Added</MenuItem>
