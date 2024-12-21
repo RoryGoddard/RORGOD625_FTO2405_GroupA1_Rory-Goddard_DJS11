@@ -9,20 +9,10 @@ import SortIcon from '@mui/icons-material/Sort';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
 import SettingsIcon from '@mui/icons-material/Settings';
+import Search from './Search'
 import { debounce } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux'
 import { setSortOption } from '../state/podcastSlice'
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -54,9 +44,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
   const dispatch = useDispatch()
-  
+
   const handleSort = (option) => {
     dispatch(setSortOption(option))
+    handleSortClose()
   }
 
   const genres = useSelector((state) => state.podcasts.genres)
