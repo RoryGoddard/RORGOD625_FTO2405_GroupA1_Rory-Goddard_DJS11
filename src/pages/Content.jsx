@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 
 function Content({ onShowClick }) {
-    const podcasts = useSelector((state) => state.podcasts.enrichedPodcasts)
+    const sortedPodcasts = useSelector((state) => state.podcasts.sortedAndFilteredEnrichedPodcasts)
 
     return (
         <Grid2 container spacing={{ xs: 2, md: 3 }} 
@@ -13,7 +13,7 @@ function Content({ onShowClick }) {
             margin:"1.5rem",
             marginTop:"5rem"
         }}>
-        {podcasts.map((podcast) => (
+        {sortedPodcasts.map((podcast) => (
             <Grid2 key={podcast.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }} sx={{borderRadius: "2%"}}>
                 <ShowCard                 
                     title={podcast.title}

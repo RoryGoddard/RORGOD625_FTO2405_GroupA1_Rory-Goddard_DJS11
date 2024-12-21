@@ -37,7 +37,10 @@ const podcastSlice = createSlice({
             (state, action) => {
                 state.loading = false;
                 state.enrichedPodcasts = action.payload.enrichedPodcasts;
-                state.enrichedPodcasts = action.payload.sortedAndFilteredEnrichedPodcasts;
+                state.sortedAndFilteredEnrichedPodcasts = applySorting(
+                    state.enrichedPodcasts,
+                    state.sortOption
+                )
                 state.genres = action.payload.genres;
             }
         )
@@ -51,4 +54,5 @@ const podcastSlice = createSlice({
     }
 })
 
+export const { setSortOption } = podcastSlice.actions;
 export default podcastSlice.reducer;

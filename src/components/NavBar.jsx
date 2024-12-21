@@ -10,7 +10,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { debounce } from 'lodash';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setSortOption } from '../state/podcastSlice'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -52,6 +53,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
+  const dispatch = useDispatch()
+  
+  const handleSort = (option) => {
+    dispatch(setSortOption(option))
+  }
+
   const genres = useSelector((state) => state.podcasts.genres)
   const theme = useTheme();
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
@@ -144,10 +151,10 @@ export default function NavBar({ onSortChange, onFilterChange, onSearchChange, o
           <SortIcon />
         </IconButton>
         <Menu anchorEl={sortAnchorEl} open={Boolean(sortAnchorEl)} onClose={handleSortClose}>
-          <MenuItem onClick={() => handleSortSelect('A-Z')}>Title A-Z</MenuItem>
-          <MenuItem onClick={() => handleSortSelect('Z-A')}>Title Z-A</MenuItem>
-          <MenuItem onClick={() => handleSortSelect('newest')}>Newest Added</MenuItem>
-          <MenuItem onClick={() => handleSortSelect('oldest')}>Oldest Added</MenuItem>
+          <MenuItem onClick={() => handleSort('A-Z')}>Title A-Z</MenuItem>
+          <MenuItem onClick={() => handleSort('Z-A')}>Title Z-A</MenuItem>
+          <MenuItem onClick={() => handleSort('newest')}>Newest Added</MenuItem>
+          <MenuItem onClick={() => handleSort('oldest')}>Oldest Added</MenuItem>
         </Menu>
         <IconButton color="inherit" onClick={handleFilterClick}>
           <FilterListIcon />
