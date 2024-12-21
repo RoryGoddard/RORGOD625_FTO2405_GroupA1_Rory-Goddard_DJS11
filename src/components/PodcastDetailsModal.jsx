@@ -19,8 +19,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useSelector } from 'react-redux'
 
 const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
+    const podcasts = useSelector((state) => state.podcasts.enrichedPodcasts)
+    
     const [selectedSeason, setSelectedSeason] = useState(null);
 
     const formatTime = (seconds) => {

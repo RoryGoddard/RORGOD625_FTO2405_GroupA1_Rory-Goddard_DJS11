@@ -364,7 +364,6 @@ function App() {
                 onFilterChange={handleFilterChange}
                 onSearchChange={handleSearchChange}
                 onFavoritesClick={handleFavoritesClick}
-                genres={genres}
                 onResetClick={handleResetClick}
             />
             {!showFavorites && filteredData && (
