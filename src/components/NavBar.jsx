@@ -1,8 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
-import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, Typography, InputBase, IconButton, Menu, MenuItem } from '@mui/material/';
+import { AppBar, Box, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/material/';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
@@ -14,23 +13,6 @@ import SearchIconWrapper from './SearchIconWrapper'
 import { debounce } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux'
 import { setSortOption } from '../state/podcastSlice'
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
-  borderRadius: theme.shape.borderRadius,
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
 
 export default function NavBar({ onSortChange, onFilterChange, onSearchChange, onFavoritesClick, onResetClick }) {
   const dispatch = useDispatch()
