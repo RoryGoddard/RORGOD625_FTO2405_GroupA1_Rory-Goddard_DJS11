@@ -97,7 +97,7 @@ function App() {
     
     const handleResetConfirm = () => {
         setListenedEpisodes([]);
-        localStorage.removeItem('listenedEpisodes');
+        localStorage.removeItem('episodeTimestamps');
         setIsResetDialogOpen(false);
     };
 
