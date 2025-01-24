@@ -25,7 +25,6 @@ function App() {
     const [selectedGenre, setSelectedGenre] = useState(null); // Manages the user defined selected genre for filtering shows, defaults to null for all shows
     const [sortedData, setSortedData] = useState(allPodcastsData); // State array of sorted allPodcastsData
     const [filteredData, setFilteredData] = useState(allPodcastsData); // Filtered version of sortedData array
-    const [searchQuery, setSearchQuery] = useState(''); // Search field text input saved to state
     const [modalOpen, setModalOpen] = useState(false); // State to manage the PodcastDetails Modal being open or closed based on boolean
     const [detailedShow, setDetailedShow] = useState(null); // When a show card is clicked, a get request is done and the shows detailed data is stored here
     const [currentEpisode, setCurrentEpisode] = useState(null); // State used by skip handlers to store current episodes data
@@ -46,13 +45,7 @@ function App() {
         const storedTimestamps = localStorage.getItem('episodeTimestamps');
         return storedTimestamps ? JSON.parse(storedTimestamps) : {};
       });
-    const [fuse, setFuse] = useState(null); 
 
-    useEffect(() => {
-        if (allPodcastsData && allPodcastsData.length > 0) {
-          setFuse(initializeFuzzySearch(allPodcastsData));
-        }
-      }, [allPodcastsData]);
 
     const updateEpisodeTimestamp = useCallback((showId, episodeTitle, timestamp) => {
     setEpisodeTimestamps(prev => {
@@ -220,15 +213,8 @@ function App() {
         );
       }
     
-      if (searchQuery) {
-        const lowerCaseQuery = searchQuery.toLowerCase();
-        filteredData = filteredData.filter((show) =>
-          show.title.toLowerCase().includes(lowerCaseQuery)
-        );
-      }
-    
       setFilteredData(filteredData);
-    }, [selectedGenre, sortedData, searchQuery]);    
+    }, [selectedGenre, sortedData]);    
     
     // Click handler to set new sorting option
     const handleSortChange = (option) => {
@@ -239,16 +225,6 @@ function App() {
     const handleFilterChange = (genre) => {
       setSelectedGenre(genre);
     };
-
-    const handleSearchChange = (query) => {
-        setSearchQuery(query);
-        if (query && fuse) {
-          const results = performFuzzySearch(fuse, query);
-          setFilteredData(results.map(result => result.item));
-        } else {
-          setFilteredData(sortedData);
-        }
-      };
 
     const handleShowClick = async (show) => {
         if (playingShow && playingShow.id === show.id) {
@@ -360,7 +336,6 @@ function App() {
         <>
             <NavBar
                 onFilterChange={handleFilterChange}
-                onSearchChange={handleSearchChange}
                 onFavoritesClick={handleFavoritesClick}
                 onResetClick={handleResetClick}
             />
@@ -376,7 +351,6 @@ function App() {
                     toggleFavorite={toggleFavorite}
                     onShowClick={handleShowClick}
                     onBackToShows={handleBackToShows}
-                    searchQuery={searchQuery}
                     sortOption={sortOption}
                     listenedEpisodes={listenedEpisodes}
                 />

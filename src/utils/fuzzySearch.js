@@ -1,15 +1,15 @@
 import Fuse from 'fuse.js';
 
 export const initializeFuzzySearch = (shows) => {
+  console.log("INITIALISING THE FUZZY SEARCH")
+  console.log(shows)
   if (!shows || shows.length === 0) {
     return null;
   }
 
   const options = {
     keys: ['title', 'description'],
-    threshold: 1,
     includeScore: true,
-    distance: 500, // Increase distance
     minMatchCharLength: 2, // Match shorter parts
   };
 
@@ -17,8 +17,13 @@ export const initializeFuzzySearch = (shows) => {
 };
 
 export const performFuzzySearch = (fuse, searchTerm) => {
+  console.log("WE ARE IN THE PERFORM FUZZY SEARCH FUNCTION")
   if (!fuse) {
+    console.log("NO FUSE!")
     return [];
   }
+  console.log("ABOUT TO RETURN FUSE SEARCH SEARCH TERM")
+  console.log(fuse)
+  console.log(searchTerm)
   return fuse.search(searchTerm);
 };

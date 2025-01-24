@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { podcastApi } from "../services/podcastApi";
 import { applySorting } from "../utils/sortUtils";
 import { filterPodcastsByGenre } from "../utils/filterUtils";
+import { initializeFuzzySearch, performFuzzySearch } from '../utils/fuzzySearch';
 
 const initialState = {
     genres: [],
@@ -11,6 +12,7 @@ const initialState = {
     error: null,
     sortOption: 'A-Z',
     filterOption: null,
+    searchTerm: ''
 }
 
 const podcastSlice = createSlice({
@@ -32,6 +34,22 @@ const podcastSlice = createSlice({
                 action.payload
             );
             state.sortedAndFilteredEnrichedPodcasts = applySorting(filteredPodcasts, state.sortOption);
+        },
+        setSearchTerm(state, action) {
+            state.searchTerm = action.payload;
+            if (state.searchTerm === '') {
+                state.sortedAndFilteredEnrichedPodcasts = state.enrichedPodcasts
+                console.log(state.sortedAndFilteredEnrichedPodcasts)
+            }
+            else {
+                const fuse = initializeFuzzySearch(state.enrichedPodcasts)
+                console.log(" I am console logging the search term in the podcast slice")
+                console.log(state.searchTerm)
+                const results = performFuzzySearch(fuse, state.searchTerm);
+                console.log("Have defined results and will now console log")
+                console.log(results)
+                state.sortedAndFilteredEnrichedPodcasts = results.map(result => result.item)
+            }
         }
     },
     extraReducers: (builder) => {
@@ -65,5 +83,5 @@ const podcastSlice = createSlice({
     }
 })
 
-export const { setSortOption, setFilterOption } = podcastSlice.actions;
+export const { setSortOption, setFilterOption, setSearchTerm } = podcastSlice.actions;
 export default podcastSlice.reducer;

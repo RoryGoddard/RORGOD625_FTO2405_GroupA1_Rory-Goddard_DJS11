@@ -13,10 +13,20 @@ import SearchIconWrapper from './SearchIconWrapper'
 import Search from './Search'
 import StyledInputBase from './StyledInputBase'
 import { useDispatch, useSelector } from 'react-redux';
-import { setSortOption, setFilterOption } from '../state/podcastSlice';
+import { setSortOption, setFilterOption, setSearchTerm } from '../state/podcastSlice';
 
-export default function NavBar({ onSearchChange, onFavoritesClick, onResetClick }) {
+
+
+export default function NavBar({ onFavoritesClick, onResetClick }) {
+  const genres = useSelector((state) => state.podcasts.genres)
+  const podcasts = useSelector((state) => state.podcasts)
+  const theme = useTheme();
+  const [sortAnchorEl, setSortAnchorEl] = useState(null);
+  const [filterAnchorEl, setFilterAnchorEl] = useState(null);
+  const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
+
   const dispatch = useDispatch();
+
   const handleSort = (option) => {
     dispatch(setSortOption(option));
     handleSortMenuClose()
@@ -24,17 +34,11 @@ export default function NavBar({ onSearchChange, onFavoritesClick, onResetClick 
   const handleFilter = (option) => {
     dispatch(setFilterOption(option))
     handleFilterMenuClose()
-  }
-  const genres = useSelector((state) => state.podcasts.genres)
-  const theme = useTheme();
-  const [sortAnchorEl, setSortAnchorEl] = useState(null);
-  const [filterAnchorEl, setFilterAnchorEl] = useState(null);
-  const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
+  };
 
-  const debouncedSearch = useMemo(
-    () => debounce(onSearchChange, 300),
-    [onSearchChange]
-  );
+  const handleSearchChange = (term) => {
+    dispatch(setSearchTerm(term))
+  };
 
   const handleSortMenuOpen = (event) => {
     setSortAnchorEl(event.currentTarget);
@@ -100,7 +104,7 @@ export default function NavBar({ onSearchChange, onFavoritesClick, onResetClick 
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
-            onChange={(e) => debouncedSearch(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
           />
         </Search>
         <IconButton color="inherit" onClick={handleSortMenuOpen}>
@@ -138,7 +142,6 @@ export default function NavBar({ onSearchChange, onFavoritesClick, onResetClick 
 }
 
 NavBar.propTypes = {
-  onSearchChange: PropTypes.func.isRequired,
   onFavoritesClick: PropTypes.func.isRequired,
   onResetClick: PropTypes.func.isRequired,
 };
