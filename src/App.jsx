@@ -3,27 +3,15 @@ import ErrorPage from './pages/ErrorPage';
 import NavBar from './components/NavBar';
 import Content from "./pages/Content";
 import { useState, useEffect, useCallback } from 'react';
-import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "./utils/sortUtils";
 import AudioPlayer from './components/AudioPlayer';
 import PodcastDetailsModal from './components/PodcastDetailsModal';
 import FavoritesPage from './pages/FavoritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
-import { useGetAllPodcastsQuery, useGetPodcastByIdQuery, useGetGenreByGenreIdQuery, useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
-
-
-const GENRE_URL = "https://podcast-api.netlify.app/genre/";
-const SHOW_URL = "https://podcast-api.netlify.app/id/";
+import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
 
 function App() {
-    const { data, isError } = useGetAllPodcastsEnrichedQuery()
-    const { data: allPodcastsData, error, isLoading } = useGetAllPodcastsQuery(); // Fetch the initial data for the show cards
-    const [genres, setGenres] = useState([]); // Iterate over unique genre ID's and generate array of fetched genre objects
-    const [loadingGenres, setLoadingGenres] = useState(true); // State to manage when we are fetching the genre objects and crated the above array
-    const [sortOption, setSortOption] = useState("A-Z"); // Manage the sort option defined by the user, defaults to A-Z
-    const [selectedGenre, setSelectedGenre] = useState(null); // Manages the user defined selected genre for filtering shows, defaults to null for all shows
-    const [sortedData, setSortedData] = useState(allPodcastsData); // State array of sorted allPodcastsData
-    const [filteredData, setFilteredData] = useState(allPodcastsData); // Filtered version of sortedData array
+    const { data: allPodcastsData, error, isLoading } = useGetAllPodcastsEnrichedQuery(); // Fetch the initial data for the show cards
     const [modalOpen, setModalOpen] = useState(false); // State to manage the PodcastDetails Modal being open or closed based on boolean
     const [detailedShow, setDetailedShow] = useState(null); // When a show card is clicked, a get request is done and the shows detailed data is stored here
     const [currentEpisode, setCurrentEpisode] = useState(null); // State used by skip handlers to store current episodes data
@@ -150,70 +138,7 @@ function App() {
           window.removeEventListener('beforeunload', handleBeforeUnload);
         };
       }, [isPlaying]);
-
-    // TODO
-    // CONVERT THIS USE EFFECT TO REDUX
-    // Iterates over the allPodcastsData, grabbing genre id's, making a set of the unique ID's, and then fetches each genres information from the genre endpoint
-    // We then save an array of genre objects to state with setGenres - The dependency array is our allPodcastsData 
-    useEffect(() => {
-        if (!allPodcastsData) return;
-
-        const fetchGenres = async () => {
-            try {
-                const genreIds = new Set(allPodcastsData.flatMap(show => show.genres));
-                const genrePromises = Array.from(genreIds).map(async (id) => {
-                    const response = await fetch(`${GENRE_URL}${id}`);
-                    return await response.json();
-                });
-                const fetchedGenres = await Promise.all(genrePromises);
-                setGenres(fetchedGenres);
-            } catch (err) {
-                console.error("Error fetching genres:", err);
-            } finally {
-                setLoadingGenres(false);
-            }
-        };
-
-        fetchGenres();
-    }, [allPodcastsData]);
-
-    // Process user defined sort option and array show cards as such
-    useEffect(() => {
-        if (allPodcastsData) {
-            let sorted;
-            switch (sortOption) {
-                case 'A-Z':
-                    sorted = sortByTitleAscending(allPodcastsData);
-                    break;
-                case 'Z-A':
-                    sorted = sortByTitleDescending(allPodcastsData);
-                    break;
-                case 'newest':
-                    sorted = sortByDateDescending(allPodcastsData);
-                    break;
-                case 'oldest':
-                    sorted = sortByDateAscending(allPodcastsData);
-                    break;
-                default:
-                    sorted = allPodcastsData;
-            }
-            setSortedData(sorted);
-        }
-    }, [sortOption, allPodcastsData]);
-
-    // Iterates over shows, filtering for shows with genre ID's that match the selected genres ID
-    // Then filters additionally for a text search query if there is one
-    useEffect(() => {
-      let filteredData = sortedData;
-    
-      if (selectedGenre) {
-        filteredData = sortedData.filter((show) =>
-          show.genres.includes(selectedGenre.id)
-        );
-      }
-    
-      setFilteredData(filteredData);
-    }, [selectedGenre, sortedData]);    
+  
     
     const handleShowClick = async (show) => {
         if (playingShow && playingShow.id === show.id) {
@@ -314,7 +239,7 @@ function App() {
     };
 
 
-    if (isLoading || loadingGenres) return (
+    if (isLoading) return (
         <Box sx={{ position: 'absolute', top: '50%', left: '50%' }}>
             <LoadingSpinner />
         </Box>
@@ -327,7 +252,7 @@ function App() {
                 onFavoritesClick={handleFavoritesClick}
                 onResetClick={handleResetClick}
             />
-            {!showFavorites && filteredData && (
+            {!showFavorites && (
                 <Content 
                     onShowClick={handleShowClick}
                     listenedEpisodes={listenedEpisodes}
@@ -339,7 +264,6 @@ function App() {
                     toggleFavorite={toggleFavorite}
                     onShowClick={handleShowClick}
                     onBackToShows={handleBackToShows}
-                    sortOption={sortOption}
                     listenedEpisodes={listenedEpisodes}
                 />
             )}
@@ -360,7 +284,6 @@ function App() {
                     open={modalOpen}
                     onClose={handleCloseModal}
                     onPlayEpisode={handlePlayEpisode}
-                    genres={genres}
                     toggleFavorite={toggleFavorite}
                     favoriteEpisodes={favoriteEpisodes}
                     listenedEpisodes={listenedEpisodes}
