@@ -66,7 +66,6 @@ function App() {
         });
     }, []);
 
-
     const handleResetClick = () => {
         setIsResetDialogOpen(true);
     };
