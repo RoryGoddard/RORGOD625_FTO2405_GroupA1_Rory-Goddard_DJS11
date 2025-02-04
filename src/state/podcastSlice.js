@@ -37,20 +37,17 @@ const podcastSlice = createSlice({
         },
         setSearchTerm(state, action) {
             state.searchTerm = action.payload;
-            if (state.searchTerm === '') {
-                state.sortedAndFilteredEnrichedPodcasts = state.enrichedPodcasts
-                console.log(state.sortedAndFilteredEnrichedPodcasts)
+            let searchResults = state.enrichedPodcasts
+
+            if (state.searchTerm) {
+                const fuse = initializeFuzzySearch(searchResults);
+                searchResults = performFuzzySearch(fuse, state.searchTerm)
+                .map(result => result.item);
             }
-            else {
-                const fuse = initializeFuzzySearch(state.enrichedPodcasts)
-                console.log(" I am console logging the search term in the podcast slice")
-                console.log(state.searchTerm)
-                const results = performFuzzySearch(fuse, state.searchTerm);
-                console.log("Have defined results and will now console log")
-                console.log(results)
-                state.sortedAndFilteredEnrichedPodcasts = results.map(result => result.item)
-            }
-        }
+
+            searchResults = applySorting(searchResults, state.sortOption);
+            state.sortedAndFilteredEnrichedPodcasts = filterPodcastsByGenre(searchResults, state.filterOption);
+        },
     },
     extraReducers: (builder) => {
         builder
