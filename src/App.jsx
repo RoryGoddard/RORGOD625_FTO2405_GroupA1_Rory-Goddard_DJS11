@@ -9,7 +9,6 @@ import PodcastDetailsModal from './components/PodcastDetailsModal';
 import FavoritesPage from './pages/FavoritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
-import { initializeFuzzySearch, performFuzzySearch } from './utils/fuzzySearch';
 import { useGetAllPodcastsQuery, useGetPodcastByIdQuery, useGetGenreByGenreIdQuery, useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
 
 
