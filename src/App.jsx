@@ -216,16 +216,6 @@ function App() {
       setFilteredData(filteredData);
     }, [selectedGenre, sortedData]);    
     
-    // Click handler to set new sorting option
-    const handleSortChange = (option) => {
-        setSortOption(option);
-    };
-
-    // Click handler to set the selected genre 
-    const handleFilterChange = (genre) => {
-      setSelectedGenre(genre);
-    };
-
     const handleShowClick = async (show) => {
         if (playingShow && playingShow.id === show.id) {
             setModalOpen(true);
