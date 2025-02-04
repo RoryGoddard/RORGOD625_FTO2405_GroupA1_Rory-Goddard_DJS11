@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { AppBar, Box, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/material/';
@@ -8,7 +8,6 @@ import SortIcon from '@mui/icons-material/Sort';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PoddyLogo from './PoddyLogo';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { debounce } from 'lodash';
 import SearchIconWrapper from './SearchIconWrapper'
 import Search from './Search'
 import StyledInputBase from './StyledInputBase'
@@ -19,7 +18,6 @@ import { setSortOption, setFilterOption, setSearchTerm } from '../state/podcastS
 
 export default function NavBar({ onFavoritesClick, onResetClick }) {
   const genres = useSelector((state) => state.podcasts.genres)
-  const podcasts = useSelector((state) => state.podcasts)
   const theme = useTheme();
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
