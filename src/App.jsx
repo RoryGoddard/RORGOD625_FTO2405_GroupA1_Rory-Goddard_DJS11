@@ -335,7 +335,6 @@ function App() {
     return (
         <>
             <NavBar
-                onFilterChange={handleFilterChange}
                 onFavoritesClick={handleFavoritesClick}
                 onResetClick={handleResetClick}
             />
