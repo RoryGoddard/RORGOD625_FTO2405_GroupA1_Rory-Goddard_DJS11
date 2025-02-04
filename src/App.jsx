@@ -11,7 +11,7 @@ import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
 
 function App() {
-    const { data: allPodcastsData, error, isLoading } = useGetAllPodcastsEnrichedQuery(); // Fetch the initial data for the show cards
+    const { error, isLoading } = useGetAllPodcastsEnrichedQuery(); // Fetch the initial data for the show cards
     const [modalOpen, setModalOpen] = useState(false); // State to manage the PodcastDetails Modal being open or closed based on boolean
     const [detailedShow, setDetailedShow] = useState(null); // When a show card is clicked, a get request is done and the shows detailed data is stored here
     const [currentEpisode, setCurrentEpisode] = useState(null); // State used by skip handlers to store current episodes data
