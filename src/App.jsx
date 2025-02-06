@@ -159,10 +159,6 @@ function App() {
             setLoadingShow(false);
         }
     };
-    
-    const handleCloseModal = () => {
-        dispatch(setModalOpen(true));
-    };
 
     const getAllEpisodes = (show) => {
         if (!show || !Array.isArray(show.seasons)) {
