@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useGetPodcastByIdQuery } from '../services/podcastApi'
 import { setSelectedPodcastId } from '../state/podcastSlice';
 import PodcastDetailsModal from '../components/PodcastDetailsModal';
+import LoadingSpinner from "./LoadingSpinner";
 
 
 function Content() {
@@ -11,16 +12,22 @@ function Content() {
     const sortedPodcasts = useSelector((state) => state.podcasts.sortedAndFilteredEnrichedPodcasts);
     const selectedPodcastId = useSelector((state) => state.podcasts.selectedPodcastId)
 
-    const { data: selectedPodcastData, isLoading, isError } = useGetPodcastByIdQuery(selectedPodcastId, {
+    const { 
+        data: selectedPodcastData, 
+        isLoading, 
+        isFetching,
+        error 
+    } = useGetPodcastByIdQuery(selectedPodcastId, {
         skip: !selectedPodcastId
     });
-
+    
     return (
         <>
             <PodcastDetailsModal
-                show={isLoading ? null : selectedPodcastData}
+                show={selectedPodcastData}
                 loading={isLoading}
-                error={isError}
+                fetching={isFetching}
+                error={error}
                 open={!!selectedPodcastId}
                 onClose={() => dispatch(setSelectedPodcastId(null))}
                 // onPlayEpisode={handlePlayEpisode}

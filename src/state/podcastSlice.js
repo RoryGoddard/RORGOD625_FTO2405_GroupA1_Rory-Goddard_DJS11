@@ -86,6 +86,30 @@ const podcastSlice = createSlice({
                 state.error = action.error;
             }
         )
+        .addMatcher(
+            podcastApi.endpoints.getPodcastById.matchPending,
+            (state) => {
+                state.loading = true;
+                state.selectedPodcastData = null;
+                state.error = null;
+            }
+        )
+        .addMatcher(
+            podcastApi.endpoints.getPodcastById.matchFulfilled,
+            (state, action) => {
+                state.loading = false;
+                state.selectedPodcastData = action.payload;
+                state.error = null;
+            }
+        )
+        .addMatcher(
+            podcastApi.endpoints.getPodcastById.matchRejected,
+            (state, action) => {
+                state.loading = false;
+                state.selectedPodcastData = null;
+                state.error = action.error;
+            }
+        )
     }
 })
 
