@@ -69,10 +69,6 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
         setSelectedSeason(season);
     };
 
-    const showGenres = genres.filter(genre =>
-        genre.shows.includes(show.id)
-    );
-
     return (
         <Modal
             open={open}
