@@ -16,7 +16,6 @@ function App() {
     const [detailedShow, setDetailedShow] = useState(null); // When a show card is clicked, a get request is done and the shows detailed data is stored here
     const [currentEpisode, setCurrentEpisode] = useState(null); // State used by skip handlers to store current episodes data
     const [isPlaying, setIsPlaying] = useState(false); // Handle play state of episodes
-    const [loadingShow, setLoadingShow] = useState(false); // Handle loading state when a show is clicked on
     const [playingShow, setPlayingShow] = useState(null); // Sets the playing show equal to the detail show from the PodcastDetails Modal
     const [favoriteEpisodes, setFavoriteEpisodes] = useState(() => { // Sets favorite episodes equal to the episodes in state, or an empty array if no episodes exist
         const storedFavorites = localStorage.getItem('favoriteEpisodes');
