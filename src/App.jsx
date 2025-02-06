@@ -33,7 +33,6 @@ function App() {
       });
 
     const selectedPodcastData = useSelector(state => state.podcasts.selectedPodcastData);
-    const modalOpen = useSelector(state => state.podcasts.modalOpen);
     const dispatch = useDispatch()
 
 
