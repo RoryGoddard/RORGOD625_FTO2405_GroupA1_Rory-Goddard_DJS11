@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useGetPodcastByIdQuery } from '../services/podcastApi'
 import { setSelectedPodcastId } from '../state/podcastSlice';
 import PodcastDetailsModal from '../components/PodcastDetailsModal';
-import LoadingSpinner from "./LoadingSpinner";
 
 
 function Content() {
