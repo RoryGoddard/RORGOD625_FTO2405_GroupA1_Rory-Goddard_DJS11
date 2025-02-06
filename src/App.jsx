@@ -256,9 +256,7 @@ function App() {
                 onResetClick={handleResetClick}
             />
             {!showFavorites && (
-                <Content 
-                    isModalOpen={setModalOpen}
-                    onShowClick={handleShowClick}
+                <Content
                     listenedEpisodes={listenedEpisodes}
                 />
             )}
