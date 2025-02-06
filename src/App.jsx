@@ -139,26 +139,6 @@ function App() {
         };
       }, [isPlaying]);
   
-    
-    const handleShowClick = async (show) => {
-        if (playingShow && playingShow.id === show.id) {
-            setModalOpen(true);
-            return;
-        }
-    
-        setModalOpen(true);
-        setLoadingShow(true);
-        try {
-            const response = await fetch(`${SHOW_URL}${show.id}`);
-            const data = await response.json();
-            setDetailedShow(data);
-            setPlayingShow(data);
-        } catch (error) {
-            console.error('Error fetching show details:', error);
-        } finally {
-            setLoadingShow(false);
-        }
-    };
 
     const getAllEpisodes = (show) => {
         if (!show || !Array.isArray(show.seasons)) {
