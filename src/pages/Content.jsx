@@ -18,13 +18,6 @@ function Content() {
         skip: !selectedPodcastId
     });
 
-    const dispatch = useDispatch();
-    const handleShowClick = (id) => {
-        setSelectedPodcastId(id);
-        dispatch(setModalOpen(true));
-
-    };
-
     return (
         <>
             <PodcastDetailsModal
@@ -54,7 +47,7 @@ function Content() {
                         genres={podcast.genres}
                         showsGenre={podcast.genres}
                         updated={podcast.updated}
-                        onClick={() => handleShowClick(podcast.id)}
+                        onClick={() => setSelectedPodcastId(podcast.id)}
                     />
                 </Grid2>
             ))}
