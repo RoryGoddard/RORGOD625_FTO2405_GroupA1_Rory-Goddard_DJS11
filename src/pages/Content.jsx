@@ -43,7 +43,6 @@ function Content() {
                         seasons={podcast.seasons}
                         image={podcast.image}
                         genres={podcast.genres}
-                        showsGenre={podcast.genres}
                         updated={podcast.updated}
                         onClick={() => setSelectedPodcastId(podcast.id)}
                     />

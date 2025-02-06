@@ -22,6 +22,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
+    console.log(show)
     const [selectedSeason, setSelectedSeason] = useState(null);
 
     const formatTime = (seconds) => {
