@@ -212,7 +212,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
 };
 
 PodcastDetailsModal.propTypes = {
-    show: PropTypes.object.isRequired,
+    show: PropTypes.object,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     // onPlayEpisode: PropTypes.func.isRequired,
