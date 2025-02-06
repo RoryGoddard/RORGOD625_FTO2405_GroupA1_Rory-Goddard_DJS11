@@ -30,9 +30,6 @@ function App() {
         return storedTimestamps ? JSON.parse(storedTimestamps) : {};
       });
 
-    const dispatch = useDispatch()
-
-
     const updateEpisodeTimestamp = useCallback((showId, episodeTitle, timestamp) => {
     setEpisodeTimestamps(prev => {
         const newTimestamps = {
