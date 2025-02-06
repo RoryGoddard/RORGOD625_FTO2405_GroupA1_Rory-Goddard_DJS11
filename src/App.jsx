@@ -32,7 +32,6 @@ function App() {
         return storedTimestamps ? JSON.parse(storedTimestamps) : {};
       });
 
-    const selectedPodcastData = useSelector(state => state.podcasts.selectedPodcastData);
     const dispatch = useDispatch()
 
 
