@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
-const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
+const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
     
     const [selectedSeason, setSelectedSeason] = useState(null);
 
@@ -115,8 +115,8 @@ const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loadi
                                     {show.description}
                                 </Typography>
                                 <Box sx={{ mb: 2 }}>
-                                    {podcast.genres.length > 0 ? (
-                                        podcast.genres.map((genre, index) => (
+                                    {show.genres.length > 0 ? (
+                                        show.genres.map((genre, index) => (
                                             <Chip key={index} label={genre} sx={{ mr: 1, mb: 1 }} />
                                         ))
                                     ) : (
