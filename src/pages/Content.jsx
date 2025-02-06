@@ -1,9 +1,8 @@
 import ShowCard from "../components/ShowCard";
 import { Grid2 } from '@mui/material';
-import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux'
 import { useGetPodcastByIdQuery } from '../services/podcastApi'
-import { setSelectedPodcastId, setSelectedPodcastData } from '../state/podcastSlice';
+import { setSelectedPodcastId } from '../state/podcastSlice';
 import PodcastDetailsModal from '../components/PodcastDetailsModal';
 
 
