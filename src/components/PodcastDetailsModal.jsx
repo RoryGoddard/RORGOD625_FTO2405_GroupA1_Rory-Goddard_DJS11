@@ -22,7 +22,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
-    
+    console.log(show)
     const [selectedSeason, setSelectedSeason] = useState(null);
 
     const formatTime = (seconds) => {
@@ -49,20 +49,20 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, togg
         });
     };
 
-    const isFavorite = (episode) => {
-        return favoriteEpisodes.some(fav => 
-            fav.showId === show.id && 
-            fav.episodeTitle === episode.title && 
-            fav.seasonTitle === selectedSeason.title
-        );
-    };
+    // const isFavorite = (episode) => {
+    //     return favoriteEpisodes.some(fav => 
+    //         fav.showId === show.id && 
+    //         fav.episodeTitle === episode.title && 
+    //         fav.seasonTitle === selectedSeason.title
+    //     );
+    // };
 
-    const isListened = (episode) => {
-        return listenedEpisodes.some(listened => 
-            listened.showId === show.id && 
-            listened.episodeTitle === episode.title
-        );
-    };
+    // const isListened = (episode) => {
+    //     return listenedEpisodes.some(listened => 
+    //         listened.showId === show.id && 
+    //         listened.episodeTitle === episode.title
+    //     );
+    // };
 
     const handleSeasonChange = (event) => {
         const season = show.seasons.find(s => s.season === event.target.value);
@@ -166,7 +166,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, togg
                             </Box>
                         </Box>
                         <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
-                        <List>
+                        {/* <List>
                             {selectedSeason && selectedSeason.episodes.map((episode) => (
                                 <ListItem key={episode.episode} divider>
                                 <IconButton onClick={() => handleToggleFavorite(episode)}>
@@ -195,7 +195,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, togg
                                 </ListItemSecondaryAction>
                                 </ListItem>
                             ))}
-                            </List>
+                            </List> */}
                         </Box>
                         <Button onClick={onClose} sx={{ mt: 2 }}>Close</Button>
                     </>
@@ -212,11 +212,6 @@ PodcastDetailsModal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     // onPlayEpisode: PropTypes.func.isRequired,
-    genres: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        description: PropTypes.string
-    })).isRequired,
     loading: PropTypes.bool.isRequired,
     // toggleFavorite: PropTypes.func.isRequired,
     // favoriteEpisodes: PropTypes.array.isRequired,

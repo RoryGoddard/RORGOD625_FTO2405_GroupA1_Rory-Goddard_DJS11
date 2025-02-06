@@ -10,7 +10,7 @@ import PodcastDetailsModal from '../components/PodcastDetailsModal';
 
 function Content() {
     const sortedPodcasts = useSelector((state) => state.podcasts.sortedAndFilteredEnrichedPodcasts);
-    const selectedPodcastId = useSelector(state => state.podcasts.selectedPodcastId);
+    const [selectedPodcastId, setSelectedPodcastId] = useState(null)
     const modalOpen = useSelector((state) => state.modalOpen)
     const [selectedShowId, setSelectedShowId] = useState(null);
 
@@ -20,7 +20,7 @@ function Content() {
 
     const dispatch = useDispatch();
     const handleShowClick = (id) => {
-        dispatch(setSelectedPodcastId(id));
+        setSelectedPodcastId(id);
         dispatch(setModalOpen(true));
 
     };
@@ -39,26 +39,26 @@ function Content() {
                 // listenedEpisodes={listenedEpisodes}
                 // episodeTimestamps={episodeTimestamps}
             />
-        <Grid2 container spacing={{ xs: 2, md: 3 }} 
-        sx={{ 
-            margin:"1.5rem",
-            marginTop:"5rem"
-        }}>
-        {sortedPodcasts.map((podcast) => (
-            <Grid2 key={podcast.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }} sx={{borderRadius: "2%"}}>
-                <ShowCard                 
-                    title={podcast.title}
-                    description={podcast.description}
-                    seasons={podcast.seasons}
-                    image={podcast.image}
-                    genres={podcast.genres}
-                    showsGenre={podcast.genres}
-                    updated={podcast.updated}
-                    onClick={() => handleShowClick(podcast.id)}
-                />
+            <Grid2 container spacing={{ xs: 2, md: 3 }} 
+            sx={{ 
+                margin:"1.5rem",
+                marginTop:"5rem"
+            }}>
+            {sortedPodcasts.map((podcast) => (
+                <Grid2 key={podcast.id} size={{ xs: 12, sm: 6, md: 6, lg:4, xl:3 }} sx={{borderRadius: "2%"}}>
+                    <ShowCard                 
+                        title={podcast.title}
+                        description={podcast.description}
+                        seasons={podcast.seasons}
+                        image={podcast.image}
+                        genres={podcast.genres}
+                        showsGenre={podcast.genres}
+                        updated={podcast.updated}
+                        onClick={() => handleShowClick(podcast.id)}
+                    />
+                </Grid2>
+            ))}
             </Grid2>
-        ))}
-        </Grid2>
         </>
     );
 }
