@@ -111,7 +111,6 @@ ShowCard.propTypes = {
     seasons: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
     genres: PropTypes.array.isRequired,
-    showsGenre: PropTypes.array.isRequired,
     updated: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
 }
