@@ -12,7 +12,10 @@ const initialState = {
     error: null,
     sortOption: 'A-Z',
     filterOption: null,
-    searchTerm: ''
+    searchTerm: '',
+    selectedPodcastId: null,
+    modalOpen: false,
+    selectedPodcastData: null,
 }
 
 const podcastSlice = createSlice({
@@ -48,6 +51,15 @@ const podcastSlice = createSlice({
             searchResults = applySorting(searchResults, state.sortOption);
             state.sortedAndFilteredEnrichedPodcasts = filterPodcastsByGenre(searchResults, state.filterOption);
         },
+        setSelectedPodcastId(state, action) {
+            state.selectedPodcast = action.payload
+        },
+        setModalOpen(state, action) {
+            state.modalOpen = action.payload
+        },
+        setSelectedPodcastData(state, action) {
+            state.selectedPodcastData = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -80,5 +92,5 @@ const podcastSlice = createSlice({
     }
 })
 
-export const { setSortOption, setFilterOption, setSearchTerm } = podcastSlice.actions;
+export const { setSortOption, setFilterOption, setSearchTerm, setSelectedPodcastId, setModalOpen, setSelectedPodcastData } = podcastSlice.actions;
 export default podcastSlice.reducer;

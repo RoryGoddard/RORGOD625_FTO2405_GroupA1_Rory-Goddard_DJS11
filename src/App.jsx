@@ -4,15 +4,15 @@ import NavBar from './components/NavBar';
 import Content from "./pages/Content";
 import { useState, useEffect, useCallback } from 'react';
 import AudioPlayer from './components/AudioPlayer';
-import PodcastDetailsModal from './components/PodcastDetailsModal';
 import FavoritesPage from './pages/FavoritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
+import { useSelector, useDispatch } from 'react-redux'
+import { setModalOpen } from './state/podcastSlice'
 
 function App() {
     const { error, isLoading } = useGetAllPodcastsEnrichedQuery(); // Fetch the initial data for the show cards
-    const [modalOpen, setModalOpen] = useState(false); // State to manage the PodcastDetails Modal being open or closed based on boolean
     const [detailedShow, setDetailedShow] = useState(null); // When a show card is clicked, a get request is done and the shows detailed data is stored here
     const [currentEpisode, setCurrentEpisode] = useState(null); // State used by skip handlers to store current episodes data
     const [isPlaying, setIsPlaying] = useState(false); // Handle play state of episodes
@@ -32,6 +32,10 @@ function App() {
         const storedTimestamps = localStorage.getItem('episodeTimestamps');
         return storedTimestamps ? JSON.parse(storedTimestamps) : {};
       });
+
+    const selectedPodcastData = useSelector(state => state.podcasts.selectedPodcastData);
+    const modalOpen = useSelector(state => state.podcasts.modalOpen);
+    const dispatch = useDispatch()
 
 
     const updateEpisodeTimestamp = useCallback((showId, episodeTitle, timestamp) => {
@@ -160,7 +164,7 @@ function App() {
     };
     
     const handleCloseModal = () => {
-        setModalOpen(false);
+        dispatch(setModalOpen(true));
     };
 
     const getAllEpisodes = (show) => {
@@ -253,6 +257,7 @@ function App() {
             />
             {!showFavorites && (
                 <Content 
+                    isModalOpen={setModalOpen}
                     onShowClick={handleShowClick}
                     listenedEpisodes={listenedEpisodes}
                 />
@@ -276,19 +281,6 @@ function App() {
                 onEpisodeComplete={handleEpisodeComplete}
                 updateEpisodeTimestamp={updateEpisodeTimestamp}
             />
-            {detailedShow && modalOpen && (
-                <PodcastDetailsModal
-                    show={detailedShow}
-                    loading={loadingShow}
-                    open={modalOpen}
-                    onClose={handleCloseModal}
-                    onPlayEpisode={handlePlayEpisode}
-                    toggleFavorite={toggleFavorite}
-                    favoriteEpisodes={favoriteEpisodes}
-                    listenedEpisodes={listenedEpisodes}
-                    episodeTimestamps={episodeTimestamps}
-                />
-            )}
             <ResetConfirmationDialog
                 open={isResetDialogOpen}
                 onClose={handleResetCancel}

@@ -1,13 +1,44 @@
 import ShowCard from "../components/ShowCard";
 import { Grid2 } from '@mui/material';
 import PropTypes from "prop-types";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useState } from "react";
+import { useGetPodcastByIdQuery } from '../services/podcastApi';
+import { setSelectedPodcastId, setModalOpen, setSelectedPodcastData } from '../state/podcastSlice';
+import PodcastDetailsModal from '../components/PodcastDetailsModal';
 
 
-function Content({ onShowClick }) {
-    const sortedPodcasts = useSelector((state) => state.podcasts.sortedAndFilteredEnrichedPodcasts)
+function Content() {
+    const sortedPodcasts = useSelector((state) => state.podcasts.sortedAndFilteredEnrichedPodcasts);
+    const selectedPodcastId = useSelector(state => state.podcasts.selectedPodcastId);
+    const modalOpen = useSelector((state) => state.modalOpen)
+    const [selectedShowId, setSelectedShowId] = useState(null);
+
+    const { data: selectedPodcastData, isLoading, isError } = useGetPodcastByIdQuery(selectedPodcastId, {
+        skip: !selectedPodcastId
+    });
+
+    const dispatch = useDispatch();
+    const handleShowClick = (id) => {
+        dispatch(setSelectedPodcastId(id));
+        dispatch(setModalOpen(true));
+
+    };
 
     return (
+        <>
+            <PodcastDetailsModal
+                show={selectedPodcastData}
+                loading={isLoading}
+                error={isError}
+                open={!!selectedPodcastId}
+                onClose={() => setSelectedShowId(null)}
+                // onPlayEpisode={handlePlayEpisode}
+                // toggleFavorite={toggleFavorite}
+                // favoriteEpisodes={favoriteEpisodes}
+                // listenedEpisodes={listenedEpisodes}
+                // episodeTimestamps={episodeTimestamps}
+            />
         <Grid2 container spacing={{ xs: 2, md: 3 }} 
         sx={{ 
             margin:"1.5rem",
@@ -23,11 +54,12 @@ function Content({ onShowClick }) {
                     genres={podcast.genres}
                     showsGenre={podcast.genres}
                     updated={podcast.updated}
-                    onClick={() => onShowClick(podcast)}
+                    onClick={() => handleShowClick(podcast.id)}
                 />
             </Grid2>
         ))}
         </Grid2>
+        </>
     );
 }
 

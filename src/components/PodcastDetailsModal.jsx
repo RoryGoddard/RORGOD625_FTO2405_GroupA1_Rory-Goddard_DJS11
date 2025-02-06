@@ -19,10 +19,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useSelector } from 'react-redux'
+
 
 const PodcastDetailsModal = ({ show, genres, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
-    const podcasts = useSelector((state) => state.podcasts.enrichedPodcasts)
     
     const [selectedSeason, setSelectedSeason] = useState(null);
 
@@ -216,17 +215,17 @@ PodcastDetailsModal.propTypes = {
     show: PropTypes.object.isRequired,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    onPlayEpisode: PropTypes.func.isRequired,
+    // onPlayEpisode: PropTypes.func.isRequired,
     genres: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         description: PropTypes.string
     })).isRequired,
     loading: PropTypes.bool.isRequired,
-    toggleFavorite: PropTypes.func.isRequired,
-    favoriteEpisodes: PropTypes.array.isRequired,
-    listenedEpisodes: PropTypes.array.isRequired,
-    episodeTimestamps: PropTypes.object.isRequired,
+    // toggleFavorite: PropTypes.func.isRequired,
+    // favoriteEpisodes: PropTypes.array.isRequired,
+    // listenedEpisodes: PropTypes.array.isRequired,
+    // episodeTimestamps: PropTypes.object.isRequired,
 };
 
 export default PodcastDetailsModal;
