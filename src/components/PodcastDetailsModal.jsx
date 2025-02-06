@@ -19,9 +19,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import LoadingSpinner from '../pages/LoadingSpinner';
+import ErrorPage from '../pages/ErrorPage';
 
 
-const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
+const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, error, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
     console.log(show)
     const [selectedSeason, setSelectedSeason] = useState(null);
 

@@ -18,7 +18,7 @@ function Content() {
     return (
         <>
             <PodcastDetailsModal
-                show={selectedPodcastData}
+                show={isLoading ? null : selectedPodcastData}
                 loading={isLoading}
                 error={isError}
                 open={!!selectedPodcastId}
