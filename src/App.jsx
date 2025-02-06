@@ -9,7 +9,6 @@ import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
 import { useDispatch } from 'react-redux'
-import { setModalOpen } from './state/podcastSlice'
 
 function App() {
     const { error, isLoading } = useGetAllPodcastsEnrichedQuery(); // Fetch the initial data for the show cards
