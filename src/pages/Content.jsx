@@ -23,7 +23,7 @@ function Content() {
     return (
         <>
             <PodcastDetailsModal
-                show={selectedPodcastData}
+                show={isLoading || isFetching ? null : selectedPodcastData}
                 loading={isLoading}
                 fetching={isFetching}
                 error={error}

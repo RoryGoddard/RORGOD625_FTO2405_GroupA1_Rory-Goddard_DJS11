@@ -25,6 +25,10 @@ import ErrorPage from '../pages/ErrorPage';
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
     const [selectedSeason, setSelectedSeason] = useState(null);
+    const [imageLoading, setImageLoading] = useState(true)
+    useEffect(() => {
+        setImageLoading(true);
+    }, [selectedSeason, show]);
 
     const formatTime = (seconds) => {
         const hours = Math.floor(seconds / 3600);
@@ -103,11 +107,18 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                     ) : show ? (
                         <>
                             <Box sx={{ display: 'flex', mb: 2 }}>
-                                <Box sx={{ width: '30%', mr: 2 }}>
+                                <Box sx={{ width: '30%', mr: 2, position: 'relative' }}>
+                                    {imageLoading && <LoadingSpinner/>}
                                     <img
                                         src={selectedSeason ? selectedSeason.image : show.image}
                                         alt={show.title}
-                                        style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
+                                        style={{ 
+                                            width: '100%', 
+                                            height: 'auto', 
+                                            objectFit: 'contain',
+                                            display: imageLoading ? 'none' : 'block' 
+                                        }}
+                                        onLoad={() => setImageLoading(false)}
                                     />
                                 </Box>
                                 <Box sx={{ width: '70%' }}>
