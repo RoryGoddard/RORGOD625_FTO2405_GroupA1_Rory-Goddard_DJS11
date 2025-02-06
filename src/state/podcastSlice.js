@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { podcastApi } from "../services/podcastApi";
+import { podcastApi } from "../services/podcastApi"
 import { applySorting } from "../utils/sortUtils";
 import { filterPodcastsByGenre } from "../utils/filterUtils";
 import { initializeFuzzySearch, performFuzzySearch } from '../utils/fuzzySearch';

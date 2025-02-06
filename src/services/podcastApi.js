@@ -1,38 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-interface Podcast {
-  id: string;
-  title: string;
-  description: string;
-  seasons: number;
-  image: string;
-  genres: number[];
-  updated: string;
-}
-
-interface Genre {
-  id: number,
-  title: string;
-  description: string;
-  shows: string[];
-}
-
-interface EnrichedPodcast extends Omit<Podcast, 'genres'> {
-  genres: Genre[];
-}
-
-interface TransformedResponse {
-  enrichedPodcasts: EnrichedPodcast[];
-  genres: Genre[];
-}
-
 // Define a service using a base URL and expected endpoints
 export const podcastApi = createApi({
   reducerPath: 'podcastApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://podcast-api.netlify.app/' }),
   endpoints: (builder) => ({
 
-    getAllPodcastsEnriched: builder.query<TransformedResponse, void>({
+    getAllPodcastsEnriched: builder.query({
       queryFn: async (_, api) => {
         const baseQuery = fetchBaseQuery({ baseUrl: 'https://podcast-api.netlify.app/' });
         try {
@@ -41,7 +15,7 @@ export const podcastApi = createApi({
           if (podcastsResult.error) {
             return { error: podcastsResult.error };
           }
-          const podcasts = podcastsResult.data as Podcast[];
+          const podcasts = podcastsResult.data;
     
           // Get unique genre IDs
           const genreIds = [...new Set(podcasts.flatMap(podcast => podcast.genres))];
@@ -55,10 +29,10 @@ export const podcastApi = createApi({
           // Handle genre fetch errors
           const genres = genreResults.reduce((acc, result, index) => {
             if (result.data) {
-              acc[genreIds[index]] = result.data as Genre;
+              acc[genreIds[index]] = result.data;
             }
             return acc;
-          }, {} as Record<number, Genre>);
+          }, {});
 
           // Transform podcasts to include full genre info
           const enrichedPodcasts = podcasts.map(podcast => ({
@@ -78,15 +52,31 @@ export const podcastApi = createApi({
       }
     }),
 
-    getAllPodcasts: builder.query<Podcast[], void>({
+    getAllPodcasts: builder.query({
       query: () => ``,
     }),
 
-    getPodcastById: builder.query<Podcast, string>({
-      query: (podcastId) => `id/${podcastId}`
+    getPodcastById: builder.query({
+      queryFn: async (podcastId, api, extraOptions) => {
+        const baseQuery = fetchBaseQuery({ baseUrl: 'https://podcast-api.netlify.app/' });
+        const podcastResult = await baseQuery(`id/${podcastId}`, api, extraOptions);
+        if (podcastResult.error) return { error: podcastResult.error };
+        
+        const fetchedPodcast = podcastResult.data;
+
+        const state = api.getState();
+        const enrichedPodcasts = state.podcasts?.enrichedPodcasts || [];
+        const enrichedPodcast = enrichedPodcasts.find(p => p.id === podcastId);
+
+        const finalPodcast = enrichedPodcast 
+          ? {...fetchedPodcast, genres: enrichedPodcast.genres} 
+          : fetchedPodcast;
+        
+        return { data: finalPodcast };
+      },
     }),
 
-    getGenreByGenreId: builder.query<Genre, string>({
+    getGenreByGenreId: builder.query({
       query: (genreId) => `genre/${genreId}`
     })
 

@@ -3,7 +3,7 @@ import { Grid2 } from '@mui/material';
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from "react";
-import { useGetPodcastByIdQuery } from '../services/podcastApi';
+import { useGetPodcastByIdQuery } from '../services/podcastApi'
 import { setSelectedPodcastId, setModalOpen, setSelectedPodcastData } from '../state/podcastSlice';
 import PodcastDetailsModal from '../components/PodcastDetailsModal';
 

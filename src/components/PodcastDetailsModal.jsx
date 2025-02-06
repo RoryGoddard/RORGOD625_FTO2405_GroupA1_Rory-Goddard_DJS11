@@ -117,7 +117,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, togg
                                 <Box sx={{ mb: 2 }}>
                                     {show.genres.length > 0 ? (
                                         show.genres.map((genre, index) => (
-                                            <Chip key={index} label={genre} sx={{ mr: 1, mb: 1 }} />
+                                            <Chip key={index} label={genre.title} sx={{ mr: 1, mb: 1 }} />
                                         ))
                                     ) : (
                                         <Typography>No genres available</Typography>
