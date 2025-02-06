@@ -11,8 +11,6 @@ import PodcastDetailsModal from '../components/PodcastDetailsModal';
 function Content() {
     const sortedPodcasts = useSelector((state) => state.podcasts.sortedAndFilteredEnrichedPodcasts);
     const [selectedPodcastId, setSelectedPodcastId] = useState(null)
-    const modalOpen = useSelector((state) => state.modalOpen)
-    const [selectedShowId, setSelectedShowId] = useState(null);
 
     const { data: selectedPodcastData, isLoading, isError } = useGetPodcastByIdQuery(selectedPodcastId, {
         skip: !selectedPodcastId
@@ -25,7 +23,7 @@ function Content() {
                 loading={isLoading}
                 error={isError}
                 open={!!selectedPodcastId}
-                onClose={() => setSelectedShowId(null)}
+                onClose={() => setSelectedPodcastId(null)}
                 // onPlayEpisode={handlePlayEpisode}
                 // toggleFavorite={toggleFavorite}
                 // favoriteEpisodes={favoriteEpisodes}
