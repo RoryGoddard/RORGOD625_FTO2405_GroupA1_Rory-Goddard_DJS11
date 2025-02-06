@@ -54,9 +54,6 @@ const podcastSlice = createSlice({
         setSelectedPodcastId(state, action) {
             state.selectedPodcast = action.payload
         },
-        setModalOpen(state, action) {
-            state.modalOpen = action.payload
-        },
         setSelectedPodcastData(state, action) {
             state.selectedPodcastData = action.payload
         }

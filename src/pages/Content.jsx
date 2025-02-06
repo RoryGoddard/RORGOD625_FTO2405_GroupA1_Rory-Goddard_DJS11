@@ -2,15 +2,15 @@ import ShowCard from "../components/ShowCard";
 import { Grid2 } from '@mui/material';
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux'
-import { useState } from "react";
 import { useGetPodcastByIdQuery } from '../services/podcastApi'
-import { setSelectedPodcastId, setModalOpen, setSelectedPodcastData } from '../state/podcastSlice';
+import { setSelectedPodcastId, setSelectedPodcastData } from '../state/podcastSlice';
 import PodcastDetailsModal from '../components/PodcastDetailsModal';
 
 
 function Content() {
+    const dispatch = useDispatch()
     const sortedPodcasts = useSelector((state) => state.podcasts.sortedAndFilteredEnrichedPodcasts);
-    const [selectedPodcastId, setSelectedPodcastId] = useState(null)
+    const selectedPodcastId = useSelector((state) => state.podcasts.selectedPodcastId)
 
     const { data: selectedPodcastData, isLoading, isError } = useGetPodcastByIdQuery(selectedPodcastId, {
         skip: !selectedPodcastId
@@ -23,7 +23,7 @@ function Content() {
                 loading={isLoading}
                 error={isError}
                 open={!!selectedPodcastId}
-                onClose={() => setSelectedPodcastId(null)}
+                onClose={() => dispatch(setSelectedPodcastId(null))}
                 // onPlayEpisode={handlePlayEpisode}
                 // toggleFavorite={toggleFavorite}
                 // favoriteEpisodes={favoriteEpisodes}
@@ -44,18 +44,13 @@ function Content() {
                         image={podcast.image}
                         genres={podcast.genres}
                         updated={podcast.updated}
-                        onClick={() => setSelectedPodcastId(podcast.id)}
+                        onClick={() => dispatch(setSelectedPodcastId(podcast.id))}
                     />
                 </Grid2>
             ))}
             </Grid2>
         </>
     );
-}
-
-// Define Prop Types for previewData array of objects and for genres array of objects
-Content.propTypes = {
-    onShowClick: PropTypes.func.isRequired,
 }
 
 
