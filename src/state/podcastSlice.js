@@ -52,7 +52,7 @@ const podcastSlice = createSlice({
             state.sortedAndFilteredEnrichedPodcasts = filterPodcastsByGenre(searchResults, state.filterOption);
         },
         setSelectedPodcastId(state, action) {
-            state.selectedPodcast = action.payload
+            state.selectedPodcastId = action.payload
         },
         setSelectedPodcastData(state, action) {
             state.selectedPodcastData = action.payload
