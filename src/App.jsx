@@ -8,7 +8,7 @@ import FavoritesPage from './pages/FavoritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setModalOpen } from './state/podcastSlice'
 
 function App() {
