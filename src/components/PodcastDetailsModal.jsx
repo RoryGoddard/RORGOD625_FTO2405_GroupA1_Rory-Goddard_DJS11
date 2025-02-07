@@ -26,10 +26,11 @@ import { toggleFavourite } from '../state/favouritesSlice';
 import { saveTimestamp, setEpisodeAsListened } from '../state/audioPlayerSlice';
 
 
-const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
+const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, episodeTimestamps }) => {
     const dispatch = useDispatch()
     const favourites = useSelector((state) => state.favourites)
     const timestamps = useSelector((state) => state.audioPlayer.timestamps)
+    const listenedEpisodes = useSelector((state) => state.audioPlayer.listenedEpisodes)
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [imageLoading, setImageLoading] = useState(true)
     useEffect(() => {
@@ -189,7 +190,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                             <List>
                                 {selectedSeason && selectedSeason.episodes.map((episode) => (
                                     <ListItem key={episode.episode} divider>
-                                    <IconButton onClick={() => dispatch(toggleFavorite(episode))}>
+                                    <IconButton onClick={() => dispatch(toggleFavourite(episode))}>
                                         {favourites.includes(episode) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                                     </IconButton>
                                     <ListItemText
@@ -206,7 +207,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                                         }
                                     />
                                     <ListItemSecondaryAction>
-                                        {isListened(episode) && (
+                                        {listenedEpisodes.includes(episode) && (
                                         <CheckCircleIcon color="primary" sx={{ mr: 1 }} />
                                         )}
                                         <IconButton edge="end" aria-label="play" onClick={() => onPlayEpisode(episode)}>
