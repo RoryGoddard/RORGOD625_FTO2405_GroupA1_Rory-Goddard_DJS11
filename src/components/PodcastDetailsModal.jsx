@@ -180,7 +180,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                                 </Box>
                             </Box>
                             <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
-                            {/* <List>
+                            <List>
                                 {selectedSeason && selectedSeason.episodes.map((episode) => (
                                     <ListItem key={episode.episode} divider>
                                     <IconButton onClick={() => handleToggleFavorite(episode)}>
@@ -209,7 +209,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                                     </ListItemSecondaryAction>
                                     </ListItem>
                                 ))}
-                                </List> */}
+                                </List>
                             </Box>
                             <Button onClick={onClose} sx={{ mt: 2 }}>Close</Button>
                         </>
