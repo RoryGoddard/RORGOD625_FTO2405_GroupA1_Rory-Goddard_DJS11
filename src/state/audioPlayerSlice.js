@@ -4,4 +4,5 @@ const initialState = {
     currentEpisode: null,
     isPlaying: false,
     playingShow: null,
+    episodeTimestamps: null,
 }
