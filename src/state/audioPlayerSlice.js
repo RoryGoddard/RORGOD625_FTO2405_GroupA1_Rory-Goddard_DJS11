@@ -53,5 +53,5 @@ const audioPlayerSlice = createSlice({
 
 })
 
-export const { setCurrentEpisode, setPlaying, setVolume, saveTimestamp } = audioPlayerSlice.actions;
+export const { setCurrentEpisode, setPlaying, setVolume, saveTimestamp, setEpisodeAsListened } = audioPlayerSlice.actions;
 export default audioPlayerSlice.reducer;
