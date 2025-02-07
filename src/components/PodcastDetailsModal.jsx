@@ -64,17 +64,6 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
         }
     }, [show]);
 
-    const handleToggleFavorite = (episode) => {
-        toggleFavorite({
-            showId: show.id,
-            showTitle: show.title,
-            seasonTitle: selectedSeason.title,
-            episodeTitle: episode.title,
-            episodeNumber: episode.episode,
-            updated: show.updated
-        });
-    };
-
     // const isFavorite = (episode) => {
     //     return favoriteEpisodes.some(fav => 
     //         fav.showId === show.id && 
