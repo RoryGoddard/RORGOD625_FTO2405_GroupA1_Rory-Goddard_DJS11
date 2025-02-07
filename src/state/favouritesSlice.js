@@ -14,15 +14,16 @@ const favouritesSlice = createSlice({
     name: "favourites",
     initialState: loadFavourites(),
     reducers: {
-        addFavourite: (state, action) => {
-            if(!state.includes(action.payload))
+        toggleFavourite: (state, action) => {
+            if(!state.includes(action.payload)) {
                 state.push(action.payload)
-        },
-        removeFavourite: (state, action) => {
-            return state.filter(fav => fav !== action.payload)
+                return state
+            } else {
+                return state.filter(fav => fav !== action.payload)
+            }
         },
     }
 })
 
-export const { addFavourite, removeFavourite } = favouritesSlice.actions;
+export const { toggleFavourite } = favouritesSlice.actions;
 export default favouritesSlice.reducer;

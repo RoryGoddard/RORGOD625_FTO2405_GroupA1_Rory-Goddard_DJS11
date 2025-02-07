@@ -21,9 +21,12 @@ import PropTypes from 'prop-types';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
+import { useSelector, useDispatch } from 'react-redux'
+import { addFavourite, removeFavourite } from '../state/favouritesSlice';
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
+    const dispatch = useDispatch()
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [imageLoading, setImageLoading] = useState(true)
     useEffect(() => {
