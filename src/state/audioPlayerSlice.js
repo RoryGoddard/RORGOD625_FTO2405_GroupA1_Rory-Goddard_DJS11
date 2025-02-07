@@ -10,6 +10,16 @@ const loadTimestamps = () => {
     }
 }
 
+const loadListenedEpisodes = () => {
+    try {
+        const listenedEpisodes = localStorage.getItem("listenedEpisodes");
+        return listenedEpisodes ? JSON.parse(listenedEpisodes) : {};
+    } catch (error) {
+        console.error("Error loading the listened episodes from storage", error)
+        return {}
+    }
+}
+
 
 const audioPlayerSlice = createSlice({
     name: "audioPlayer",
@@ -19,6 +29,7 @@ const audioPlayerSlice = createSlice({
         playingShow: null,
         volume: 50,
         timestamps: loadTimestamps(),
+        listenedEpisodes: loadListenedEpisodes()
     },
     reducers: {
         setCurrentEpisode: (state, action) => {

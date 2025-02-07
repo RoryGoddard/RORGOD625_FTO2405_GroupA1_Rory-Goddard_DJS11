@@ -197,9 +197,9 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                                         secondary={
                                         <>
                                             {episode.description}
-                                            {episodeTimestamps[show.id] && episodeTimestamps[show.id][episode.title] && (
+                                            {timestamps[show.id] && timestamps[show.id][episode.title] && (
                                             <Typography variant="caption" display="block">
-                                                Last played: {formatTime(episodeTimestamps[show.id][episode.title])}
+                                                Last played: {formatTime(timestamps[show.id][episode.title])}
                                             </Typography>
                                             )}
                                         </>
