@@ -35,6 +35,18 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
     const listenedEpisodes = useSelector((state) => state.audioPlayer.listenedEpisodes)
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [imageLoading, setImageLoading] = useState(true)
+
+    const handleToggleFavourite = (episode) => {
+        dispatch(toggleFavourite({
+            showId: show.id,
+            showTitle: show.title,
+            seasonTitle: selectedSeason.title,
+            episodeTitle: episode.title,
+            episodeNumber: episode.episode,
+            updated: show.updated
+            }));
+    };
+
     useEffect(() => {
         setImageLoading(true);
     }, [selectedSeason, show]);
@@ -192,14 +204,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                             <List>
                                 {selectedSeason && selectedSeason.episodes.map((episode) => (
                                     <ListItem key={episode.episode} divider>
-                                    <IconButton onClick={() => dispatch(toggleFavourite({
-                                                                                        showId: show.id,
-                                                                                        showTitle: show.title,
-                                                                                        seasonTitle: selectedSeason.title,
-                                                                                        episodeTitle: episode.title,
-                                                                                        episodeNumber: episode.episode,
-                                                                                        updated: show.updated
-                                                                                        }))}>
+                                    <IconButton onClick={() => handleToggleFavourite(episode)}>
                                         { isFavourite ? <FavoriteBorderIcon /> : <FavoriteIcon />}
                                     </IconButton>
                                     <ListItemText
