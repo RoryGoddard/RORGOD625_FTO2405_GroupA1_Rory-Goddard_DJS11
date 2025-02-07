@@ -23,11 +23,13 @@ import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
+import { saveTimestamp } from '../state/audioPlayerSlice';
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
     const dispatch = useDispatch()
-    const Favourites = useSelector((state) => state.favourites)
+    const favourites = useSelector((state) => state.favourites)
+    const timestamps = useSelector((state) => state.audioPlayer.timestamps)
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [imageLoading, setImageLoading] = useState(true)
     useEffect(() => {
@@ -188,7 +190,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                                 {selectedSeason && selectedSeason.episodes.map((episode) => (
                                     <ListItem key={episode.episode} divider>
                                     <IconButton onClick={() => dispatch(toggleFavorite(episode))}>
-                                        {Favourites.includes(episode) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                        {favourites.includes(episode) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                                     </IconButton>
                                     <ListItemText
                                         primary={`Episode ${episode.episode}: ${episode.title}`}

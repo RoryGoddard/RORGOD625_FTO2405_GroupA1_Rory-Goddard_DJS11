@@ -5,6 +5,7 @@ import podcastReducer from '../state/podcastSlice'
 import navbarReducer from '../state/navbarSlice'
 import favouritesReducer from '../state/favouritesSlice'
 import localStorageMiddleware from '../middleware/localStorageMiddleware'
+import audioPlayerReducer from '../state/audioPlayerSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     [podcastApi.reducerPath]: podcastApi.reducer,
     navbar: navbarReducer,
     favourites: favouritesReducer,
+    audioPlayer: audioPlayerReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
