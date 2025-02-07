@@ -44,6 +44,10 @@ const audioPlayerSlice = createSlice({
         saveTimestamp: (state, action) => {
             const { episodeId, timestamp } = action.payload;
             state.timestamps[episodeId] = timestamp;
+        },
+        setEpisodeAsListened: (state, action) => {
+            const { show, episode } = action.payload
+            state.listenedEpisodes[show] = episode
         }
     }
 
