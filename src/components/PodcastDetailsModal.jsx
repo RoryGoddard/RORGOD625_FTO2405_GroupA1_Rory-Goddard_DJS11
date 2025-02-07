@@ -22,11 +22,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
 import { useSelector, useDispatch } from 'react-redux'
-import { addFavourite, removeFavourite } from '../state/favouritesSlice';
+import { toggleFavourite } from '../state/favouritesSlice';
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
     const dispatch = useDispatch()
+    const Favourites = useSelector((state) => state.favourites)
     const [selectedSeason, setSelectedSeason] = useState(null);
     const [imageLoading, setImageLoading] = useState(true)
     useEffect(() => {
@@ -186,8 +187,8 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                             <List>
                                 {selectedSeason && selectedSeason.episodes.map((episode) => (
                                     <ListItem key={episode.episode} divider>
-                                    <IconButton onClick={() => handleToggleFavorite(episode)}>
-                                        {isFavorite(episode) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                    <IconButton onClick={() => dispatch(toggleFavorite(episode))}>
+                                        {Favourites.includes(episode) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                                     </IconButton>
                                     <ListItemText
                                         primary={`Episode ${episode.episode}: ${episode.title}`}
