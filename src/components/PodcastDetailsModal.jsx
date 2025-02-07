@@ -30,6 +30,7 @@ import { selectIsFavourite } from "../state/favouritesSlice";
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, episodeTimestamps }) => {
     const dispatch = useDispatch()
     const favourites = useSelector((state) => state.favourites)
+    const isFavourite = useSelector(state => selectIsFavourite(state, show.id, episode.episode))
     const timestamps = useSelector((state) => state.audioPlayer.timestamps)
     const listenedEpisodes = useSelector((state) => state.audioPlayer.listenedEpisodes)
     const [selectedSeason, setSelectedSeason] = useState(null);
@@ -199,14 +200,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                                                                                         episodeNumber: episode.episode,
                                                                                         updated: show.updated
                                                                                         }))}>
-                                        {favourites.indexOf({
-                                                            showId: show.id,
-                                                            showTitle: show.title,
-                                                            seasonTitle: selectedSeason.title,
-                                                            episodeTitle: episode.title,
-                                                            episodeNumber: episode.episode,
-                                                            updated: show.updated
-                                                            }) === -1 ? <FavoriteBorderIcon /> : <FavoriteIcon />}
+                                        { isFavourite ? <FavoriteBorderIcon /> : <FavoriteIcon />}
                                     </IconButton>
                                     <ListItemText
                                         primary={`Episode ${episode.episode}: ${episode.title}`}
