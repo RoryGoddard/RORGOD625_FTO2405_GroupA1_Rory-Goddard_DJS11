@@ -231,7 +231,6 @@ function App() {
                 <FavouritesPage
                     favoriteEpisodes={favoriteEpisodes}
                     toggleFavorite={toggleFavorite}
-                    onShowClick={handleShowClick}
                     onBackToShows={handleBackToShows}
                     listenedEpisodes={listenedEpisodes}
                 />
