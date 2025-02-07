@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import Content from "./pages/Content";
 import { useState, useEffect, useCallback } from 'react';
 import AudioPlayer from './components/AudioPlayer';
-import FavoritesPage from './pages/FavoritesPage';
+import FavoritesPage from './pages/FavouritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
@@ -228,7 +228,7 @@ function App() {
                 />
             )}
             {showFavorites && (
-                <FavoritesPage
+                <FavouritesPage
                     favoriteEpisodes={favoriteEpisodes}
                     toggleFavorite={toggleFavorite}
                     onShowClick={handleShowClick}
