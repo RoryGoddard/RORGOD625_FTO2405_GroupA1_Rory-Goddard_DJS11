@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const loadFavourites = () => {
     try {
@@ -10,20 +10,26 @@ const loadFavourites = () => {
     }
 };
 
+const selectIsFavourite = createSelector(
+    [(state) => state.favourites, (_, showId, episodeNumber) => ({showId, episodeNumber})],
+    (favourites, { showId, episodeNumber }) => favourites.some(fav => fav.showId === showId && fav.episodeNumber === episodeNumber))
+
 const favouritesSlice = createSlice({
     name: "favourites",
     initialState: loadFavourites(),
     reducers: {
         toggleFavourite: (state, action) => {
-            if(!state.includes(action.payload)) {
-                state.push(action.payload)
-                return state
+            const existingIndex = state.findIndex(fav => fav.showId === action.payload.showId && fav.episodeNumber === action.payload.episodeNumber)
+
+            if (existingIndex === -1) {
+                state.push(action.payload);
             } else {
-                return state.filter(fav => fav !== action.payload)
+                state.splice(existingIndex, 1);
             }
         },
     }
 })
 
 export const { toggleFavourite } = favouritesSlice.actions;
+export { selectIsFavourite }
 export default favouritesSlice.reducer;

@@ -24,6 +24,7 @@ import ErrorPage from '../pages/ErrorPage';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
 import { saveTimestamp, setEpisodeAsListened } from '../state/audioPlayerSlice';
+import { selectIsFavourite } from "../state/favouritesSlice";
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, episodeTimestamps }) => {
@@ -190,8 +191,22 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                             <List>
                                 {selectedSeason && selectedSeason.episodes.map((episode) => (
                                     <ListItem key={episode.episode} divider>
-                                    <IconButton onClick={() => dispatch(toggleFavourite(episode))}>
-                                        {favourites.includes(episode) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                    <IconButton onClick={() => dispatch(toggleFavourite({
+                                                                                        showId: show.id,
+                                                                                        showTitle: show.title,
+                                                                                        seasonTitle: selectedSeason.title,
+                                                                                        episodeTitle: episode.title,
+                                                                                        episodeNumber: episode.episode,
+                                                                                        updated: show.updated
+                                                                                        }))}>
+                                        {favourites.indexOf({
+                                                            showId: show.id,
+                                                            showTitle: show.title,
+                                                            seasonTitle: selectedSeason.title,
+                                                            episodeTitle: episode.title,
+                                                            episodeNumber: episode.episode,
+                                                            updated: show.updated
+                                                            }) === -1 ? <FavoriteBorderIcon /> : <FavoriteIcon />}
                                     </IconButton>
                                     <ListItemText
                                         primary={`Episode ${episode.episode}: ${episode.title}`}
@@ -207,9 +222,16 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                                         }
                                     />
                                     <ListItemSecondaryAction>
-                                        {listenedEpisodes.includes(episode) && (
+                                        {/* {listenedEpisodes.indexOf({
+                                                            showId: show.id,
+                                                            showTitle: show.title,
+                                                            seasonTitle: selectedSeason.title,
+                                                            episodeTitle: episode.title,
+                                                            episodeNumber: episode.episode,
+                                                            updated: show.updated
+                                                            }) !== -1 && (
                                         <CheckCircleIcon color="primary" sx={{ mr: 1 }} />
-                                        )}
+                                        )} */}
                                         <IconButton edge="end" aria-label="play" onClick={() => onPlayEpisode(episode)}>
                                         <PlayArrowIcon />
                                         </IconButton>

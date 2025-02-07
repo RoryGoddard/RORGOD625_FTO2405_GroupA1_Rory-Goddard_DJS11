@@ -3,8 +3,10 @@ import { Box, Typography, Button, IconButton, List, ListItem, ListItemText, List
 import DeleteIcon from '@mui/icons-material/Delete';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "../utils/sortUtils";
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, searchQuery, sortOption }) => {
+    const favourites = useSelector((state) => state.favourites)
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
     useEffect(() => {
