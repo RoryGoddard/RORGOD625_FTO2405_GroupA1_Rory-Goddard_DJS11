@@ -12,7 +12,10 @@ const loadFavourites = () => {
 
 const selectIsFavourite = createSelector(
     [(state) => state.favourites, (_, showId, episodeNumber) => ({showId, episodeNumber})],
-    (favourites, { showId, episodeNumber }) => favourites.some(fav => fav.showId === showId && fav.episodeNumber === episodeNumber))
+    (favourites, { showId, episodeNumber }) => { if(!showId || !episodeNumber) {
+        return false;
+    } return favourites.some(fav => fav.showId === showId && fav.episodeNumber === episodeNumber);
+})
 
 const favouritesSlice = createSlice({
     name: "favourites",
