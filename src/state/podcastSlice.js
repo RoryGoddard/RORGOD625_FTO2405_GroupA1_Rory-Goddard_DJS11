@@ -59,9 +59,6 @@ const podcastSlice = createSlice({
         setSelectedPodcastData(state, action) {
             state.selectedPodcastData = action.payload
         },
-        setEpisodeAsFavourite(state, action) {
-            
-        }
     },
     extraReducers: (builder) => {
         builder

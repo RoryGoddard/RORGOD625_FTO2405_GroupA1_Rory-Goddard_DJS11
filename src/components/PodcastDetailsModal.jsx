@@ -23,7 +23,7 @@ import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
-import { saveTimestamp } from '../state/audioPlayerSlice';
+import { saveTimestamp, setEpisodeAsListened } from '../state/audioPlayerSlice';
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, listenedEpisodes, episodeTimestamps }) => {
