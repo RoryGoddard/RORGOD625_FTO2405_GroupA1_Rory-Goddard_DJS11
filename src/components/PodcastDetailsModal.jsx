@@ -33,7 +33,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
 
     const timestamps = useSelector((state) => state.audioPlayer.timestamps)
     const listenedEpisodes = useSelector((state) => state.audioPlayer.listenedEpisodes)
-    const [selectedSeason, setSelectedSeason] = useState(null);
+    const [ selectedSeason, setSelectedSeason ] = useState(null)
     const [imageLoading, setImageLoading] = useState(true)
 
     const handleToggleFavourite = (episode) => {

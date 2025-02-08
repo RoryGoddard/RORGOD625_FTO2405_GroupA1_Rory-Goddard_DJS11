@@ -18,7 +18,6 @@ const initialState = {
     selectedPodcastData: null,
     favouriteEpisodes: null,
     listenedEpisodes: null,
-    selectedSeason: null,
 }
 
 const podcastSlice = createSlice({
@@ -60,9 +59,6 @@ const podcastSlice = createSlice({
         setSelectedPodcastData(state, action) {
             state.selectedPodcastData = action.payload
         },
-        setSelectedSeason(state, action) {
-            state.selectedSeason = action.payload
-        }
     },
     extraReducers: (builder) => {
         builder
