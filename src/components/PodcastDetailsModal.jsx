@@ -26,26 +26,11 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
         setImageLoading(true);
     }, [selectedSeason, show]);
 
-    const formatTime = (seconds) => {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-      };
-
     useEffect(() => {
         if (show && show.seasons && Array.isArray(show.seasons)) {
             setSelectedSeason(show.seasons[0]);
         }
     }, [show]);
-
-    // const isFavorite = (episode) => {
-    //     return favoriteEpisodes.some(fav => 
-    //         fav.showId === show.id && 
-    //         fav.episodeTitle === episode.title && 
-    //         fav.seasonTitle === selectedSeason.title
-    //     );
-    // };
 
     // const isListened = (episode) => {
     //     return listenedEpisodes.some(listened => 
