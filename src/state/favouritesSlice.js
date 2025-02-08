@@ -11,11 +11,20 @@ const loadFavourites = () => {
 };
 
 const selectIsFavourite = createSelector(
-    [(state) => state.favourites, (_, showId, seasonNumber, episodeNumber) => ({showId, seasonNumber, episodeNumber})],
-    (favourites, { showId, seasonNumber, episodeNumber }) => { if(!showId || !seasonNumber || !episodeNumber) {
-        return false;
-    } return favourites.some(fav => fav.showId === showId && fav.seasonNumber === seasonNumber && fav.episodeNumber === episodeNumber);
-})
+    [
+        (state) => state.favourites, 
+        (_, showId) => showId,
+        (_, __, seasonNumber) => seasonNumber, 
+        (_, __, ___, episodeNumber) => episodeNumber
+    ],
+    (favourites, showId, seasonNumber, episodeNumber) => 
+        favourites.some(
+            (episode) => 
+                episode.showId === showId && 
+                episode.seasonNumber === seasonNumber && 
+                episode.episodeNumber === episodeNumber
+        )
+);
 
 const favouritesSlice = createSlice({
     name: "favourites",

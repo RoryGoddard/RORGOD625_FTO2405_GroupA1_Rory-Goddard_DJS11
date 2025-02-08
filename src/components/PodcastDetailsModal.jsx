@@ -170,13 +170,15 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                             <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
                                 <List>
                                     {selectedSeason && selectedSeason.episodes.map((episode) => {
-                                        <Episode 
-                                        show={show}
-                                        episode={episode}
-                                        selectedSeason={selectedSeason}
-                                        />
+                                        return (
+                                            <Episode 
+                                            key={episode.episode}
+                                            show={show}
+                                            episode={episode}
+                                            selectedSeason={selectedSeason}
+                                            />
+                                        );
                                     })}
-                                   
                                 </List>
                             </Box>
                             <Button onClick={onClose} sx={{ mt: 2 }}>Close</Button>

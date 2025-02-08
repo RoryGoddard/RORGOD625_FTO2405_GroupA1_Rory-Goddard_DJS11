@@ -40,7 +40,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
 
-    return (                                     
+    return (                             
         <ListItem key={episode.episode} divider>
             <IconButton onClick={() => handleToggleFavourite(episode)}>
                 { isFavourite ? <FavoriteBorderIcon /> : <FavoriteIcon />}
