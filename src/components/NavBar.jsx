@@ -13,6 +13,8 @@ import Search from './Search'
 import StyledInputBase from './StyledInputBase'
 import { useDispatch, useSelector } from 'react-redux';
 import { setSortOption, setFilterOption, setSearchTerm } from '../state/podcastSlice';
+import { setFavouriteSortOption, setFavouriteSearchTerm } from '../state/favouritesSlice';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -24,18 +26,31 @@ export default function NavBar({ onFavoritesClick, onResetClick }) {
   const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
 
   const dispatch = useDispatch();
+  const location = useLocation()
+
+  const isFavouritePage = location.pathname === "/favourites"
 
   const handleSort = (option) => {
-    dispatch(setSortOption(option));
-    handleSortMenuClose()
+    if (isFavouritePage) {
+      dispatch(setFavouriteSortOption(option))
+      handleSortMenuClose
+    } else {
+      dispatch(setSortOption(option));
+      handleSortMenuClose()
+    }
   };
+
   const handleFilter = (option) => {
     dispatch(setFilterOption(option))
     handleFilterMenuClose()
   };
 
   const handleSearchChange = (term) => {
-    dispatch(setSearchTerm(term))
+    if (isFavouritePage) {
+      dispatch(setFavouriteSearchTerm(term))
+    } else {
+      dispatch(setSearchTerm(term))
+    }
   };
 
   const handleSortMenuOpen = (event) => {
