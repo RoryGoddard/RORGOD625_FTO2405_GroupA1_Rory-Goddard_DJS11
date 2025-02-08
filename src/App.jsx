@@ -228,9 +228,10 @@ function App() {
                 />
             )}
             {showFavorites && (
-                <FavouritesPage
+                <FavoritesPage
                     favoriteEpisodes={favoriteEpisodes}
                     toggleFavorite={toggleFavorite}
+                    onShowClick={handleShowClick}
                     onBackToShows={handleBackToShows}
                     listenedEpisodes={listenedEpisodes}
                 />
