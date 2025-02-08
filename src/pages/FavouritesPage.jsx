@@ -5,8 +5,9 @@ import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortB
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-const FavoritesPage = ({ favoriteEpisodes, toggleFavorite, onBackToShows, searchQuery, sortOption }) => {
-    const favourites = useSelector((state) => state.favourites)
+const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
+    const favoriteEpisodes = useSelector((state) => state.favourites)
+
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
     useEffect(() => {

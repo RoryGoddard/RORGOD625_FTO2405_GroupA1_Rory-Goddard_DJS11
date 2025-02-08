@@ -28,7 +28,11 @@ const selectIsFavourite = createSelector(
 
 const favouritesSlice = createSlice({
     name: "favourites",
-    initialState: loadFavourites(),
+    initialState: {
+        episodes: loadFavourites(),
+        sortOption: 'A-Z',
+        searchTerm: '',
+    },
     reducers: {
         toggleFavourite: (state, action) => {
             const existingIndex = state.findIndex(fav => fav.showId === action.payload.showId && fav.seasonNumber === action.payload.seasonNumber && fav.episodeNumber === action.payload.episodeNumber)
