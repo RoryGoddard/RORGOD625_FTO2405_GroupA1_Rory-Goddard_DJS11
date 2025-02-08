@@ -25,17 +25,6 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
     const [ selectedSeason, setSelectedSeason ] = useState(null)
     const [imageLoading, setImageLoading] = useState(true)
 
-    const handleToggleFavourite = (episode) => {
-        dispatch(toggleFavourite({
-            showId: show.id,
-            showTitle: show.title,
-            seasonTitle: selectedSeason.title,
-            episodeTitle: episode.title,
-            episodeNumber: episode.episode,
-            updated: show.updated
-            }));
-    };
-
     useEffect(() => {
         setImageLoading(true);
     }, [selectedSeason, show]);
