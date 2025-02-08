@@ -53,6 +53,6 @@ const favouritesSlice = createSlice({
     }
 })
 
-export const { toggleFavourite } = favouritesSlice.actions;
+export const { toggleFavourite, setFavouriteSortOption, setFavouriteSearchTerm } = favouritesSlice.actions;
 export { selectIsFavourite }
 export default favouritesSlice.reducer;
