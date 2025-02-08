@@ -43,6 +43,13 @@ const favouritesSlice = createSlice({
                 state.splice(existingIndex, 1);
             }
         },
+        setFavouriteSortOption: (state, action) => {
+            state.sortOption = action.payload
+        },
+        setFavouriteSearchTerm: (state, action) => {
+            state.searchTerm = action.payload
+        },
+
     }
 })
 
