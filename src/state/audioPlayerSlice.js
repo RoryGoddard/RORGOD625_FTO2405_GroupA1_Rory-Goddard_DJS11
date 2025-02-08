@@ -3,7 +3,7 @@ import { createSelector, createSlice } from "@reduxjs/toolkit";
 const loadTimestamps = () => {
     try {
         const timestamps = localStorage.getItem("timestamps");
-        return timestamps ? JSON.parse(timestamps) : [];
+        return timestamps ? JSON.parse(timestamps) : {};
     } catch (error) {
         console.error("Error loading timestamps from storage", error)
         return {}
@@ -13,7 +13,7 @@ const loadTimestamps = () => {
 const loadListenedEpisodes = () => {
     try {
         const listenedEpisodes = localStorage.getItem("listenedEpisodes");
-        return listenedEpisodes ? JSON.parse(listenedEpisodes) : {};
+        return listenedEpisodes ? JSON.parse(listenedEpisodes) : [];
     } catch (error) {
         console.error("Error loading the listened episodes from storage", error)
         return {}
