@@ -8,23 +8,13 @@ import {
     Select,
     MenuItem,
     List,
-    ListItem,
-    ListItemText,
-    ListItemSecondaryAction,
-    IconButton,
     Chip,
 } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
-import { saveTimestamp, setEpisodeAsListened } from '../state/audioPlayerSlice';
-import { selectIsFavourite } from "../state/favouritesSlice";
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, episodeTimestamps }) => {

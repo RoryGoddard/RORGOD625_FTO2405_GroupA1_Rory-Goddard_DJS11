@@ -9,6 +9,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
 import { saveTimestamp, setEpisodeAsListened } from '../state/audioPlayerSlice';
 import { selectIsFavourite } from "../state/favouritesSlice";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const Episode = () => {
     const dispatch = useDispatch()
