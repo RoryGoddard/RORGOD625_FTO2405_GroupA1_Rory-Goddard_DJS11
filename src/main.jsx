@@ -11,6 +11,7 @@ import { lightTheme, darkTheme } from './theme';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { store } from './store/store.js'
 import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom';
 
 
  // Define Root function component such that inside we check if the user prefers dark mode, and use a ternary to return the resulting theme
@@ -19,12 +20,15 @@ function Root() {
   const theme = prefersDarkMode ? darkTheme : lightTheme;
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ThemeProvider>
+    </Provider>
+
   );
 }
 
