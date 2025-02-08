@@ -21,10 +21,10 @@ const loadListenedEpisodes = () => {
 }
 
 const selectIsListened = createSelector(
-    [(state) => state.audioPlayer.listenedEpisodes, (_, showId, episodeNumber) => ({showId, episodeNumber})],
-    (listenedEpisodes, { showId, episodeNumber }) => { if(!showId || !episodeNumber) {
+    [(state) => state.audioPlayer.listenedEpisodes, (_, showId, seasonNumber, episodeNumber) => ({showId, seasonNumber, episodeNumber})],
+    (listenedEpisodes, { showId, seasonNumber, episodeNumber }) => { if(!showId || !seasonNumber || !episodeNumber) {
         return false;
-    } return listenedEpisodes.some(episode => episode.showId === showId && episode.episodeNumber === episodeNumber);
+    } return listenedEpisodes.some(episode => episode.showId === showId && episode.seasonNumber === seasonNumber && episode.episodeNumber === episodeNumber);
 })
 
 
