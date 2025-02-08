@@ -18,6 +18,7 @@ const initialState = {
     selectedPodcastData: null,
     favouriteEpisodes: null,
     listenedEpisodes: null,
+    selectedSeason: null,
 }
 
 const podcastSlice = createSlice({
@@ -59,6 +60,9 @@ const podcastSlice = createSlice({
         setSelectedPodcastData(state, action) {
             state.selectedPodcastData = action.payload
         },
+        setSelectedSeason(state, action) {
+            state.selectedSeason = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -115,5 +119,5 @@ const podcastSlice = createSlice({
     }
 })
 
-export const { setSortOption, setFilterOption, setSearchTerm, setSelectedPodcastId, setModalOpen, setSelectedPodcastData } = podcastSlice.actions;
+export const { setSortOption, setFilterOption, setSearchTerm, setSelectedPodcastId, setModalOpen, setSelectedPodcastData, setSelectedSeason } = podcastSlice.actions;
 export default podcastSlice.reducer;
