@@ -21,8 +21,6 @@ import { toggleFavourite } from '../state/favouritesSlice';
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, episodeTimestamps }) => {
     const dispatch = useDispatch()
     const favourites = useSelector((state) => state.favourites)
-
-    const timestamps = useSelector((state) => state.audioPlayer.timestamps)
     const listenedEpisodes = useSelector((state) => state.audioPlayer.listenedEpisodes)
     const [ selectedSeason, setSelectedSeason ] = useState(null)
     const [imageLoading, setImageLoading] = useState(true)
