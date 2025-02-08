@@ -17,12 +17,9 @@ import PropTypes from 'prop-types'
 
 const Episode = ({ show, episode, selectedSeason }) => {
     const isFavourite = useSelector(state => selectIsFavourite(state, show?.id, episode?.episode));
-    const isListened = useSelector(state => selectIsListened(state, show?.id, episode.episode))
-    const dispatch = useDispatch()
-    const favourites = useSelector((state) => state.favourites)
-
-    const timestamps = useSelector((state) => state.audioPlayer.timestamps)
-    const listenedEpisodes = useSelector((state) => state.audioPlayer.listenedEpisodes)
+    const isListened = useSelector(state => selectIsListened(state, show?.id, episode.episode));
+    const timestamps = useSelector((state) => state.audioPlayer.timestamps);
+    const dispatch = useDispatch();
 
     const handleToggleFavourite = (episode) => {
         dispatch(toggleFavourite({
