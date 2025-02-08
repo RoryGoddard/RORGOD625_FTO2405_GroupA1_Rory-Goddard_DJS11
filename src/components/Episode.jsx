@@ -48,9 +48,8 @@ const Episode = ({ show, episode, selectedSeason }) => {
         );
     };
 
-    return (
-        <>                                      
-            <ListItem key={episode.episode} divider>
+    return (                                     
+        <ListItem key={episode.episode} divider>
             <IconButton onClick={() => handleToggleFavourite(episode)}>
                 { isFavourite ? <FavoriteBorderIcon /> : <FavoriteIcon />}
             </IconButton>
@@ -82,8 +81,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
                 <PlayArrowIcon />
                 </IconButton>
             </ListItemSecondaryAction>
-            </ListItem>
-        </>
+        </ListItem>
     )
 }
 
