@@ -186,6 +186,7 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                                         <Episode 
                                         show={show}
                                         episode={episode}
+                                        selectedSeason={selectedSeason}
                                         />
                                     })}
                                    
