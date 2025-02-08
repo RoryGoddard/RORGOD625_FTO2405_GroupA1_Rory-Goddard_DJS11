@@ -16,6 +16,7 @@ import PropTypes from 'prop-types'
 
 const Episode = ({ show, episode, selectedSeason }) => {
     const isFavourite = useSelector(state => selectIsFavourite(state, show?.id, episode?.episode));
+    const isListened = useSelector(state => selectIsListened(state, show?.id, episode.episode))
     const dispatch = useDispatch()
     const favourites = useSelector((state) => state.favourites)
 
