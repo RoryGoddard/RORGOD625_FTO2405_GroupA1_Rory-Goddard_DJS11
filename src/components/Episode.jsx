@@ -31,18 +31,8 @@ const Episode = ({ show, episode, selectedSeason }) => {
         updated: show.updated
     }
 
-    console.log(episodeDetails)
-
-    const handleToggleFavourite = (episode) => {
-        dispatch(toggleFavourite({
-            showId: show.id,
-            showTitle: show.title,
-            seasonTitle: selectedSeason.title,
-            seasonNumber: selectedSeason.season,
-            episodeTitle: episode.title,
-            episodeNumber: episode.episode,
-            updated: show.updated
-            }));
+    const handleToggleFavourite = () => {
+        dispatch(toggleFavourite(episodeDetails));
     };
 
     const formatTime = (seconds) => {
