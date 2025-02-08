@@ -3,9 +3,9 @@ import {
     ListItem,
     ListItemText,
     ListItemSecondaryAction,
-    IconButton,
-    CheckCircleIcon
+    IconButton
 } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
 import { saveTimestamp, setEpisodeAsListened, selectIsListened } from '../state/audioPlayerSlice';
