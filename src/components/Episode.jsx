@@ -27,6 +27,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
             showId: show.id,
             showTitle: show.title,
             seasonTitle: selectedSeason.title,
+            seasonNumber: selectedSeason.season,
             episodeTitle: episode.title,
             episodeNumber: episode.episode,
             updated: show.updated
@@ -89,7 +90,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
 Episode.propTypes = {
     show: PropTypes.object,
     episode: PropTypes.object,
-    selectedSeason: PropTypes.number
+    selectedSeason: PropTypes.object
 };
 
 export default Episode
