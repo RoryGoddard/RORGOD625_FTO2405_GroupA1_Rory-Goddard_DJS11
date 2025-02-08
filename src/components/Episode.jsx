@@ -4,6 +4,7 @@ import {
     ListItemText,
     ListItemSecondaryAction,
     IconButton,
+    CheckCircleIcon
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
@@ -42,13 +43,6 @@ const Episode = ({ show, episode, selectedSeason }) => {
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
 
-    const isListened = (episode) => {
-        return listenedEpisodes.some(listened => 
-            listened.showId === show.id && 
-            listened.episodeTitle === episode.title
-        );
-    };
-
     return (                                     
         <ListItem key={episode.episode} divider>
             <IconButton onClick={() => handleToggleFavourite(episode)}>
@@ -68,16 +62,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
                 }
             />
             <ListItemSecondaryAction>
-                {/* {listenedEpisodes.indexOf({
-                                    showId: show.id,
-                                    showTitle: show.title,
-                                    seasonTitle: selectedSeason.title,
-                                    episodeTitle: episode.title,
-                                    episodeNumber: episode.episode,
-                                    updated: show.updated
-                                    }) !== -1 && (
-                <CheckCircleIcon color="primary" sx={{ mr: 1 }} />
-                )} */}
+                {isListened && (<CheckCircleIcon color="primary" sx={{ mr: 1 }} />)}
                 <IconButton edge="end" aria-label="play" onClick={() => onPlayEpisode(episode)}>
                 <PlayArrowIcon />
                 </IconButton>
