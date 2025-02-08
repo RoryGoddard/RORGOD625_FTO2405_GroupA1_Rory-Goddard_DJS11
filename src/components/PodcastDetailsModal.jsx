@@ -15,7 +15,6 @@ import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
 import Episode from './Episode';
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleFavourite } from '../state/favouritesSlice';
 
 
 const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, episodeTimestamps }) => {
