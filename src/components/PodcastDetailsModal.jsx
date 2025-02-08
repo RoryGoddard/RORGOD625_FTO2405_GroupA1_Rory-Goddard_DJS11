@@ -18,7 +18,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
 
 
-const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, toggleFavorite, favoriteEpisodes, episodeTimestamps }) => {
+const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, episodeTimestamps }) => {
     const [ selectedSeason, setSelectedSeason ] = useState(null)
     const [imageLoading, setImageLoading] = useState(true)
 
@@ -180,8 +180,6 @@ PodcastDetailsModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     // onPlayEpisode: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    // toggleFavorite: PropTypes.func.isRequired,
-    // favoriteEpisodes: PropTypes.array.isRequired,
     // listenedEpisodes: PropTypes.array.isRequired,
     // episodeTimestamps: PropTypes.object.isRequired,
 };
