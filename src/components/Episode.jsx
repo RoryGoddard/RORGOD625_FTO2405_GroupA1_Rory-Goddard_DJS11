@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
-import { saveTimestamp, setEpisodeAsListened } from '../state/audioPlayerSlice';
+import { saveTimestamp, setEpisodeAsListened, selectIsListened } from '../state/audioPlayerSlice';
 import { selectIsFavourite } from "../state/favouritesSlice";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -38,7 +38,14 @@ const Episode = ({ show, episode, selectedSeason }) => {
         const minutes = Math.floor((seconds % 3600) / 60);
         const remainingSeconds = seconds % 60;
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-      };
+    };
+
+    const isListened = (episode) => {
+        return listenedEpisodes.some(listened => 
+            listened.showId === show.id && 
+            listened.episodeTitle === episode.title
+        );
+    };
 
     return (
         <>                                      

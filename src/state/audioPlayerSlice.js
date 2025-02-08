@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 const loadTimestamps = () => {
     try {
@@ -19,6 +19,13 @@ const loadListenedEpisodes = () => {
         return {}
     }
 }
+
+const selectIsListened = createSelector(
+    [(state) => state.audioPlayer.listenedEpisodes, (_, showId, episodeNumber) => ({showId, episodeNumber})],
+    (listenedEpisodes, { showId, episodeNumber }) => { if(!showId || !episodeNumber) {
+        return false;
+    } return listenedEpisodes.some(episode => episode.showId === showId && episode.episodeNumber === episodeNumber);
+})
 
 
 const audioPlayerSlice = createSlice({
@@ -54,4 +61,5 @@ const audioPlayerSlice = createSlice({
 })
 
 export const { setCurrentEpisode, setPlaying, setVolume, saveTimestamp, setEpisodeAsListened } = audioPlayerSlice.actions;
+export { selectIsListened }
 export default audioPlayerSlice.reducer;
