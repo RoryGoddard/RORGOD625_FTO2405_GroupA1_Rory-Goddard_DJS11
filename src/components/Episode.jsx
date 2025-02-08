@@ -5,8 +5,35 @@ import {
     ListItemSecondaryAction,
     IconButton,
 } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux'
+import { toggleFavourite } from '../state/favouritesSlice';
+import { saveTimestamp, setEpisodeAsListened } from '../state/audioPlayerSlice';
+import { selectIsFavourite } from "../state/favouritesSlice";
 
 const Episode = () => {
+    const dispatch = useDispatch()
+    const favourites = useSelector((state) => state.favourites)
+
+    const timestamps = useSelector((state) => state.audioPlayer.timestamps)
+    const listenedEpisodes = useSelector((state) => state.audioPlayer.listenedEpisodes)
+
+    const handleToggleFavourite = (episode) => {
+        dispatch(toggleFavourite({
+            showId: show.id,
+            showTitle: show.title,
+            seasonTitle: selectedSeason.title,
+            episodeTitle: episode.title,
+            episodeNumber: episode.episode,
+            updated: show.updated
+            }));
+    };
+
+    const formatTime = (seconds) => {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+      };
 
     return (
         <>                                      
