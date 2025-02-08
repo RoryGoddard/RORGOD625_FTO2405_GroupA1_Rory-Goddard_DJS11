@@ -31,7 +31,7 @@ const favouritesSlice = createSlice({
     initialState: loadFavourites(),
     reducers: {
         toggleFavourite: (state, action) => {
-            const existingIndex = state.findIndex(fav => fav.showId === action.payload.showId && fav.episodeNumber === action.payload.episodeNumber)
+            const existingIndex = state.findIndex(fav => fav.showId === action.payload.showId && fav.seasonNumber === action.payload.seasonNumber && fav.episodeNumber === action.payload.episodeNumber)
 
             if (existingIndex === -1) {
                 state.push(action.payload);

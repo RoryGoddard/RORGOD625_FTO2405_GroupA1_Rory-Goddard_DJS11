@@ -21,6 +21,18 @@ const Episode = ({ show, episode, selectedSeason }) => {
     const timestamps = useSelector((state) => state.audioPlayer.timestamps);
     const dispatch = useDispatch();
 
+    const episodeDetails = {
+        showId: show.id,
+        showTitle: show.title,
+        seasonTitle: selectedSeason.title,
+        seasonNumber: selectedSeason.season,
+        episodeTitle: episode.title,
+        episodeNumber: episode.episode,
+        updated: show.updated
+    }
+
+    console.log(episodeDetails)
+
     const handleToggleFavourite = (episode) => {
         dispatch(toggleFavourite({
             showId: show.id,
