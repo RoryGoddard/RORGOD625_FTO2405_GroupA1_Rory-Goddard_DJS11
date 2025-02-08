@@ -13,6 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
+import Episode from './Episode';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
 
@@ -181,6 +182,12 @@ const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetc
                             </Box>
                             <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
                                 <List>
+                                    {selectedSeason && selectedSeason.episodes.map((episode) => {
+                                        <Episode 
+                                        show={show}
+                                        episode={episode}
+                                        />
+                                    })}
                                    
                                 </List>
                             </Box>

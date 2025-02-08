@@ -12,8 +12,10 @@ import { selectIsFavourite } from "../state/favouritesSlice";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import PropTypes from 'prop-types'
 
-const Episode = () => {
+const Episode = ({ show, episode }) => {
+    const isFavourite = useSelector(state => selectIsEpisodeFavourite(state, show?.id, episode?.episode));
     const dispatch = useDispatch()
     const favourites = useSelector((state) => state.favourites)
 
@@ -76,5 +78,10 @@ const Episode = () => {
         </>
     )
 }
+
+Episode.propTypes = {
+    show: PropTypes.object,
+    episode: PropTypes.object,
+};
 
 export default Episode
