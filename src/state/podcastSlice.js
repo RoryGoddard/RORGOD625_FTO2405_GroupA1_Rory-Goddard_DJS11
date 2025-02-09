@@ -16,7 +16,6 @@ const initialState = {
     selectedPodcastId: null,
     modalOpen: false,
     selectedPodcastData: null,
-    listenedEpisodes: null,
 }
 
 const podcastSlice = createSlice({
