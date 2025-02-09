@@ -12,7 +12,7 @@ import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime } from '../state/audioPlayerSlice'
 
-const AudioPlayer = ({ episode, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
+const AudioPlayer = ({ episode, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
     const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
     const [isMuted, setIsMuted] = useState(false)
     const [volume, setVolume] = useState(0.5)
@@ -186,7 +186,7 @@ const AudioPlayer = ({ episode, onSkipNext, onSkipPrevious, playingShow, onEpiso
             )}
           </Box> {/* Spacer */}
           <Box sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
-            <IconButton onClick={onSkipPrevious} sx={{ 
+            <IconButton onClick={() => dispatch(skipToPreviousEpisode())} sx={{ 
               mt: '12px',
               padding: '8px',
               width: '48px',
@@ -203,7 +203,7 @@ const AudioPlayer = ({ episode, onSkipNext, onSkipPrevious, playingShow, onEpiso
             }}>
               {isPlaying ? <PauseIcon sx={{ fontSize: '3rem' }} /> : <PlayArrowIcon sx={{ fontSize: '3rem' }} />}
             </IconButton>
-            <IconButton onClick={onSkipNext} sx={{ 
+            <IconButton onClick={() => dispatch(skipToNextEpisode())} sx={{ 
               mt: '12px',
               padding: '8px',
               width: '48px',
