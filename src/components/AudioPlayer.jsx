@@ -13,13 +13,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsMuted, setVolume, setCurrentEpisode, setPlaying, setEpisodeAsListened, setDuration, setCurrentTime } from '../state/audioPlayerSlice'
 
 const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
-    const isMuted = useSelector((state) => state.audioPlayer.isMuted);
-    const volume = useSelector((state) => state.audioPlayer.volume);
+    const [isMuted, setIsMuted] = useState(false)
+    const [volume, setVolume] = useState(0.5)
     const dispatch = useDispatch()
 
     const toggleMute = () => {
-      dispatch(setIsMuted(!isMuted));
+      setIsMuted(!isMuted);
     };
+
+    const handleVolumeChange = (event, newValue) => {
+      setVolume(newValue);
+      setIsMuted(newValue === 0);
+  };
 
 
     const [progress, setProgress] = useState(0);
@@ -123,11 +128,6 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
             setCurrentTime(time);
         }
         setProgress(newValue);
-    };
-
-    const handleVolumeChange = (event, newValue) => {
-        setVolume(newValue);
-        setIsMuted(newValue === 0);
     };
 
     const handleEpisodeEnd = () => {
