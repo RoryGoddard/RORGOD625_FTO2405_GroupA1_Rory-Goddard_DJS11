@@ -28,16 +28,6 @@ const Episode = ({ show, episode, selectedSeason }) => {
         dispatch(setPlayingShow(playingShow))
     }
 
-    // const handlePlayEpisode = (episode) => {
-    //     const episodeWithSeason = {
-    //         ...episode,
-    //         season: episode.season || 1
-    //     };
-    //     setCurrentEpisode(episodeWithSeason);
-    //     setPlayingShow(detailedShow);
-    //     setIsPlaying(true);
-    // };
-
     const episodeDetails = {
         showId: show.id,
         showTitle: show.title,
@@ -81,7 +71,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
             />
             <ListItemSecondaryAction>
                 {isListened && (<CheckCircleIcon color="primary" sx={{ mr: 1 }} />)}
-                <IconButton edge="end" aria-label="play" onClick={() => handlePlayEpisode(episode)}>
+                <IconButton edge="end" aria-label="play" onClick={() => handlePlayEpisode(episodeDetails)}>
                 <PlayArrowIcon />
                 </IconButton>
             </ListItemSecondaryAction>

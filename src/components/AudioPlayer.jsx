@@ -16,6 +16,11 @@ const AudioPlayer = ({ episode, playingShow, onEpisodeComplete, updateEpisodeTim
     const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
     const [isMuted, setIsMuted] = useState(false)
     const [volume, setVolume] = useState(0.5)
+    const [progress, setProgress] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const audioRef = useRef(null);
+    const theme = useTheme();
+
     const dispatch = useDispatch()
 
     const toggleMute = () => {
@@ -26,16 +31,7 @@ const AudioPlayer = ({ episode, playingShow, onEpisodeComplete, updateEpisodeTim
       setVolume(newValue);
       setIsMuted(newValue === 0);
   };
-
-
-    const [progress, setProgress] = useState(0);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const audioRef = useRef(null);
-    const theme = useTheme();
-
-
-
-
+  
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
 
