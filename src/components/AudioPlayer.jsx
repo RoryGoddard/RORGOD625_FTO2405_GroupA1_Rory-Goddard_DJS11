@@ -7,7 +7,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime } from '../state/audioPlayerSlice'
+import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 
 const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => {
@@ -77,20 +77,47 @@ const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => 
         }
     }, [isPlaying, isLoaded]);
 
-    // Handle episode change
+    // Effect to handle episode changes
     useEffect(() => {
-        if (episode && audioRef.current) {
+        if (currentEpisode && audioRef.current) {
             setIsLoaded(false);
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
-            audioRef.current.src = episode.file;
+            audioRef.current.src = currentEpisode.file;
             
-            // Wait for audio to be loaded before attempting to play
             audioRef.current.addEventListener('loadeddata', () => {
                 setIsLoaded(true);
+                // If isPlaying is true, start playing the new episode
+                if (isPlaying) {
+                    audioRef.current.play().catch(error => 
+                        console.error("Playback failed", error)
+                    );
+                }
             }, { once: true });
         }
-    }, [episode]);
+    }, [currentEpisode, isPlaying]);
+
+    // Effect to update timestamp in Redux
+    useEffect(() => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      const handleTimeUpdate = () => {
+          if (playingShow && currentEpisode) {
+              const currentTime = Math.floor(audio.currentTime);
+              dispatch(setCurrentTime(currentTime));
+              // Update timestamp in Redux/localStorage
+              dispatch(saveTimestamp({
+                  episodeId: `${playingShow.id}-${currentEpisode.title}`,
+                  timestamp: currentTime
+              }));
+          }
+      };
+
+      audio.addEventListener('timeupdate', handleTimeUpdate);
+      return () => audio.removeEventListener('timeupdate', handleTimeUpdate);
+    }, [playingShow, currentEpisode, dispatch]);
+
 
     const handleTimeUpdate = () => {
         if (audioRef.current) {
@@ -108,17 +135,22 @@ const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => 
         setProgress(newValue);
     };
 
+    // Handle episode completion
     const handleEpisodeEnd = () => {
-        if (episode && playingShow) {
-            onEpisodeComplete({
-                showId: playingShow.id,
-                showTitle: playingShow.title,
-                episodeTitle: episode.title,
-                listenedAt: new Date().toISOString()
-            });
+        if (currentEpisode && playingShow) {
+            dispatch(setEpisodeAsListened({
+                show: playingShow.id,
+                episode: {
+                  showId: playingShow.id,
+                  showTitle: playingShow.title,
+                  episodeTitle: episode.title,
+                  listenedAt: new Date().toISOString()
+                }
+            }));
+            dispatch(skipToNextEpisode());
         }
-        onSkipNext();
     };
+  
 
     return (
       <Box     sx={{
