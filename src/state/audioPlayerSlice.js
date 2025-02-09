@@ -65,6 +65,9 @@ const audioPlayerSlice = createSlice({
         setEpisodeAsListened: (state, action) => {
             const { show, episode } = action.payload
             state.listenedEpisodes[show] = episode
+        },
+        setPlaylist: (state, action) => {
+            state.playlist = action.payload
         }
     }
 
