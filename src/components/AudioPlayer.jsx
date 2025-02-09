@@ -10,9 +10,10 @@ import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentEpisode, setIsPlaying, setEpisodeAsListened, setDuration, setCurrentTime } from '../state/audioPlayerSlice'
+import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime } from '../state/audioPlayerSlice'
 
-const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
+const AudioPlayer = ({ episode, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
+    const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
     const [isMuted, setIsMuted] = useState(false)
     const [volume, setVolume] = useState(0.5)
     const dispatch = useDispatch()
@@ -194,7 +195,7 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
             }}>
               <SkipPreviousIcon sx={{ fontSize: '2rem' }} />
             </IconButton>
-            <IconButton onClick={() => onPlayPause(!isPlaying)} disabled={!isLoaded}  sx={{ 
+            <IconButton onClick={() => dispatch(setIsPlaying(!isPlaying))} disabled={!isLoaded}  sx={{ 
               padding: '12px',
               width: '72px',
               height: '72px',
