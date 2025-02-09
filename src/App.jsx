@@ -69,11 +69,7 @@ function App() {
         setListenedEpisodes([]);
         localStorage.removeItem('episodeTimestamps');
         setIsResetDialogOpen(false);
-    };
-
-    const handleBackToShows = () => {
-        setShowFavorites(false);
-    };    
+    };   
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -183,7 +179,6 @@ function App() {
                 </Route>
                 <Route path="/favourites" element={
                     <FavouritesPage
-                            onBackToShows={handleBackToShows}
                             listenedEpisodes={listenedEpisodes}
                     />
                 }
