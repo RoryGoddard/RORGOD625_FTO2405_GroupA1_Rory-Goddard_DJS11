@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime } from '../state/audioPlayerSlice'
-import Volume from './Volume';
+import Volume from './Volume'
 
 const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => {
     const [progress, setProgress] = useState(0);
@@ -91,12 +91,6 @@ const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => 
             }, { once: true });
         }
     }, [episode]);
-
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.volume = isMuted ? 0 : volume;
-        }
-    }, [volume, isMuted]);
 
     const handleTimeUpdate = () => {
         if (audioRef.current) {
@@ -198,7 +192,7 @@ const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => 
               <SkipNextIcon sx={{ fontSize: '2rem' }}/>
             </IconButton>
           </Box>
-          <Volume />
+          <Volume audioRef={audioRef}/>
         </Box>
       </Box>
     );

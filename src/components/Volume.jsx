@@ -1,22 +1,25 @@
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, IconButton, Slider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import PropTypes from 'prop-types'
 
-const Volume = () => {
+const Volume = ({ audioRef }) => {
     const [isMuted, setIsMuted] = useState(false)
     const [volume, setVolume] = useState(0.5)
     const theme = useTheme();
 
     const toggleMute = () => {
         setIsMuted(!isMuted);
+        audioRef.current.volume = isMuted ? volume : 0;
     };
   
     const handleVolumeChange = (event, newValue) => {
         setVolume(newValue);
         setIsMuted(newValue === 0);
+        audioRef.current.volume = newValue;
     };
 
     return (<Box sx={{ display: 'flex', alignItems: 'center', width: '140px', mr: "0.5rem" }}>
@@ -43,5 +46,11 @@ const Volume = () => {
         </Box>
     )
 }
+
+Volume.propTypes = {
+    audioRef: PropTypes.shape({
+        current: PropTypes.instanceOf(HTMLAudioElement)
+    }).isRequired
+};
 
 export default Volume
