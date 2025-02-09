@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toggleFavourite } from '../state/favouritesSlice';
@@ -25,8 +23,8 @@ const FavoritesPage = () => {
             </Box>
             <List sx={{ mb: "3rem" }}>
                 {favouriteEpisodes.map((fav, index) => (
-                    <React.Fragment key={`${fav.showId}-${fav.episodeTitle}`}>
-                        <ListItem>
+                    <>
+                        <ListItem key={`${fav.showId}-${fav.episodeTitle}`}>
                             <ListItemText
                                 primary={fav.showTitle}
                                 secondary={`${fav.seasonTitle} - Episode ${fav.episodeNumber} - ${fav.episodeTitle}`}
@@ -58,7 +56,7 @@ const FavoritesPage = () => {
                             </Box>
                         </ListItem>
                         {index < favouriteEpisodes.length - 1 && <Divider />}
-                    </React.Fragment>
+                    </>
                 ))}
             </List>
         </Box>
