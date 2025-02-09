@@ -12,8 +12,7 @@ import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime } from '../state/audioPlayerSlice'
 
-const AudioPlayer = ({ episode, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
-    const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
+const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => {
     const [isMuted, setIsMuted] = useState(false)
     const [volume, setVolume] = useState(0.5)
     const [progress, setProgress] = useState(0);
@@ -21,7 +20,13 @@ const AudioPlayer = ({ episode, playingShow, onEpisodeComplete, updateEpisodeTim
     const audioRef = useRef(null);
     const theme = useTheme();
 
+    // Redux
     const dispatch = useDispatch()
+    const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
+    const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
+    const playingShow = useSelector((state) => state.audioPlayer.playingShow);
+    const currentTime = useSelector((state) => state.audioPlayer.currentTime);
+    const duration = useSelector((state) => state.audioPlayer.duration);
 
     const toggleMute = () => {
       setIsMuted(!isMuted);
@@ -31,9 +36,6 @@ const AudioPlayer = ({ episode, playingShow, onEpisodeComplete, updateEpisodeTim
       setVolume(newValue);
       setIsMuted(newValue === 0);
   };
-  
-    const [duration, setDuration] = useState(0);
-    const [currentTime, setCurrentTime] = useState(0);
 
     useEffect(() => {
       const audio = audioRef.current;
