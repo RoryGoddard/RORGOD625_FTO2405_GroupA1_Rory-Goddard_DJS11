@@ -34,8 +34,7 @@ const favouritesSlice = createSlice({
         episodes: loadFavourites(),
         sortOption: 'A-Z',
         searchTerm: '',
-        sortedFavourites: [],
-        searchedAndSortedFavourites: [],
+        searchedAndSortedFavourites: loadFavourites(),
     },
     reducers: {
         toggleFavourite: (state, action) => {
@@ -55,11 +54,11 @@ const favouritesSlice = createSlice({
         },
         setSortOption(state, action) {
             state.sortOption = action.payload;
-            const sortedPodcasts = applySorting(
+            const sortedFavourites = applySorting(
                 state.episodes,
                 action.payload
             );
-            state.searchedAndSortedFavourites = sortedPodcasts
+            state.searchedAndSortedFavourites = sortedFavourites
         },
         setSearchTerm(state, action) {
             state.searchTerm = action.payload;
