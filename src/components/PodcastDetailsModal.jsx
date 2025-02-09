@@ -17,7 +17,7 @@ import Episode from './Episode';
 import { useSelector, useDispatch } from 'react-redux'
 
 
-const PodcastDetailsModal = ({ show, open, onClose, onPlayEpisode, loading, fetching, error, episodeTimestamps }) => {
+const PodcastDetailsModal = ({ show, open, onClose, loading, fetching, error, episodeTimestamps }) => {
     const [ selectedSeason, setSelectedSeason ] = useState(null)
     const [imageLoading, setImageLoading] = useState(true)
 

@@ -86,41 +86,41 @@ function App() {
         };
       }, [isPlaying]);
   
-    const handleSkipNext = () => {
-        if (detailedShow && currentEpisode) {
-            const allEpisodes = getAllEpisodes(detailedShow);
-            let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
+    // const handleSkipNext = () => {
+    //     if (detailedShow && currentEpisode) {
+    //         const allEpisodes = getAllEpisodes(detailedShow);
+    //         let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
     
-            // If currentIndex is still -1, assume we're at the first episode
-            if (currentIndex === -1) {
-                currentIndex = 0;
-            }
+    //         // If currentIndex is still -1, assume we're at the first episode
+    //         if (currentIndex === -1) {
+    //             currentIndex = 0;
+    //         }
     
-            if (currentIndex < allEpisodes.length - 1) {
-                const nextEpisode = allEpisodes[currentIndex + 1];
-                setCurrentEpisode(nextEpisode);
-                setIsPlaying(true);
-            }
-        }
-    };
+    //         if (currentIndex < allEpisodes.length - 1) {
+    //             const nextEpisode = allEpisodes[currentIndex + 1];
+    //             setCurrentEpisode(nextEpisode);
+    //             setIsPlaying(true);
+    //         }
+    //     }
+    // };
 
-    const handleSkipPrevious = () => {
-        if (detailedShow && currentEpisode) {
-            const allEpisodes = getAllEpisodes(detailedShow);
-            let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
+    // const handleSkipPrevious = () => {
+    //     if (detailedShow && currentEpisode) {
+    //         const allEpisodes = getAllEpisodes(detailedShow);
+    //         let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
     
-            // If currentIndex is still -1, assume we're at the first episode
-            if (currentIndex === -1) {
-                currentIndex = 0;
-            }
+    //         // If currentIndex is still -1, assume we're at the first episode
+    //         if (currentIndex === -1) {
+    //             currentIndex = 0;
+    //         }
     
-            if (currentIndex > 0) {
-                const previousEpisode = allEpisodes[currentIndex - 1];
-                setCurrentEpisode(previousEpisode);
-                setIsPlaying(true);
-            }
-        }
-    };
+    //         if (currentIndex > 0) {
+    //             const previousEpisode = allEpisodes[currentIndex - 1];
+    //             setCurrentEpisode(previousEpisode);
+    //             setIsPlaying(true);
+    //         }
+    //     }
+    // };
 
     // const handlePlayEpisode = (episode) => {
     //     const episodeWithSeason = {
