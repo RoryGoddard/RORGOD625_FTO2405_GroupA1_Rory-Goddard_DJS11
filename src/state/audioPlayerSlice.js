@@ -36,7 +36,6 @@ const selectIsListened = createSelector(
         )
 );
 
-
 const audioPlayerSlice = createSlice({
     name: "audioPlayer",
     initialState: {
@@ -85,6 +84,17 @@ const audioPlayerSlice = createSlice({
 
 })
 
-export const { setCurrentEpisode, setPlaying, setVolume, saveTimestamp, setEpisodeAsListened } = audioPlayerSlice.actions;
+export const { 
+    setCurrentEpisode, 
+    setPlaying, 
+    setVolume,
+    saveTimestamp, 
+    setEpisodeAsListened, 
+    setCurrentTime, 
+    setDuration, 
+    setIsMuted, 
+    setIsPlaying, 
+    setPlaylist
+} = audioPlayerSlice.actions;
 export { selectIsListened }
 export default audioPlayerSlice.reducer;

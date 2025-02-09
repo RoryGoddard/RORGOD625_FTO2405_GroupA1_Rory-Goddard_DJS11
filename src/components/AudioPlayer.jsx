@@ -10,11 +10,21 @@ import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { setIsMuted, setVolume, setCurrentEpisode, setPlaying, setEpisodeAsListened, setProgress, setDuration, setCurrentTime, setIsLoaded } from '../state/audioPlayerSlice'
 
 const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
+    const isMuted = useSelector((state) => state.audioPlayer.isMuted);
+    const volume = useSelector((state) => state.audioPlayer.volume);
+    const dispatch = useDispatch()
+
+    const toggleMute = () => {
+      dispatch(setIsMuted(!isMuted));
+    };
+
+
     const [progress, setProgress] = useState(0);
-    const [volume, setVolume] = useState(1);
-    const [isMuted, setIsMuted] = useState(false);
+    // const [volume, setVolume] = useState(1);
+    // const [isMuted, setIsMuted] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);
     const theme = useTheme();
@@ -118,10 +128,6 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
     const handleVolumeChange = (event, newValue) => {
         setVolume(newValue);
         setIsMuted(newValue === 0);
-    };
-
-    const toggleMute = () => {
-        setIsMuted(!isMuted);
     };
 
     const handleEpisodeEnd = () => {
