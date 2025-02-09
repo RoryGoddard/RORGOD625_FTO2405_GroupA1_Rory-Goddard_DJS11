@@ -1,7 +1,7 @@
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, IconButton, Slider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types'
