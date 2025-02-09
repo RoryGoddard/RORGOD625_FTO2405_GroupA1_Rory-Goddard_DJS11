@@ -1,4 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { getAllEpisodes, findEpisodeIndex } from "../utils/episodeUtils";
 
 const loadTimestamps = () => {
     try {
@@ -78,6 +79,43 @@ const audioPlayerSlice = createSlice({
     }
 
 })
+
+export const skipToNextEpisode = () => (dispatch, getState) => {
+    const { playingShow, currentEpisode } = getState().audioPlayer;
+
+    if (playingShow && currentEpisode) {
+        const allEpisodes = getAllEpisodes(playingShow);
+        let currentIndex = findEpisodeIndex(currentEpisode);
+
+        if (currentIndex === -1) {
+            currentIndex = 0;
+        }
+
+        if (currentIndex < allEpisodes.length - 1) {
+            const nextEpisode = allEpisodes[currentIndex + 1];
+            dispatch(setCurrentEpisode(nextEpisode));
+            dispatch(setIsPlaying(true));
+        }
+    }
+};
+
+export const skipToPreviousEpisode = () => (dispatch, getState) => {
+    const { playingShow, currentEpisode } = getState().audioPlayer
+    if (playingShow && currentEpisode) {
+        const allEpisodes = getAllEpisodes(playingShow);
+        let currentIndex = findEpisodeIndex(currentEpisode);
+
+        if (currentIndex === -1) {
+            currentIndex = 0;
+        }
+
+        if (currentIndex > 0) {
+            const previousEpisode = allEpisodes[currentIndex - 1];
+            dispatch(setCurrentEpisode(previousEpisode));
+            dispatch(setIsPlaying(true));
+        }
+    }
+};
 
 export const { 
     setCurrentEpisode,  
