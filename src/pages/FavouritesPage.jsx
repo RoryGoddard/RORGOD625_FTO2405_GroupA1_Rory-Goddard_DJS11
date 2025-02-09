@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toggleFavourite } from '../state/favouritesSlice';
 
-const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
+const FavoritesPage = () => {
     const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites);
     const dispatch = useDispatch();
     const navigate = useNavigate();
