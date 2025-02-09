@@ -176,7 +176,6 @@ function App() {
     return (
         <>
             <NavBar
-                onFavoritesClick={handleFavoritesClick}
                 onResetClick={handleResetClick}
             />
             <Routes>
@@ -184,8 +183,6 @@ function App() {
                 </Route>
                 <Route path="/favourites" element={
                     <FavouritesPage
-                            favoriteEpisodes={favoriteEpisodes}
-                            toggleFavorite={toggleFavorite}
                             onBackToShows={handleBackToShows}
                             listenedEpisodes={listenedEpisodes}
                     />
