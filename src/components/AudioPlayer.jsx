@@ -248,10 +248,6 @@ AudioPlayer.propTypes = {
         episode: PropTypes.number.isRequired,
         file: PropTypes.string.isRequired,
     }),
-    isPlaying: PropTypes.bool.isRequired,
-    onPlayPause: PropTypes.func.isRequired,
-    onSkipNext: PropTypes.func.isRequired,
-    onSkipPrevious: PropTypes.func.isRequired,
     playingShow: PropTypes.shape({
         id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
