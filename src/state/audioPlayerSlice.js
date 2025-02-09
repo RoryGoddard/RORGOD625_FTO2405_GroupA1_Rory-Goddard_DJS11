@@ -41,6 +41,7 @@ const audioPlayerSlice = createSlice({
     name: "audioPlayer",
     initialState: {
         currentEpisode: null,
+        playlist: [],
         isPlaying: false,
         playingShow: null,
         volume: 50,
