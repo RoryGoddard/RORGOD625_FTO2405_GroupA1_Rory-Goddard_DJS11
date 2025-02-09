@@ -43,8 +43,6 @@ const audioPlayerSlice = createSlice({
         playlist: [],
         isPlaying: false,
         playingShow: null,
-        volume: 0.5,
-        isMuted: false,
         duration:0,
         currentTime:0,
         timestamps: loadTimestamps(),
@@ -56,12 +54,6 @@ const audioPlayerSlice = createSlice({
         },
         setIsPlaying: (state, action) => {
             state.isPlaying = action.payload
-        },
-        setVolume: (state, action) => {
-            state.volume = action.payload
-        },
-        setIsMuted: (state, action) => {
-            state.isMuted = action.payload
         },
         saveTimestamp: (state, action) => {
             const { episodeId, timestamp } = action.payload;
