@@ -138,6 +138,5 @@ export default function NavBar({ onResetClick }) {
 }
 
 NavBar.propTypes = {
-  onFavoritesClick: PropTypes.func.isRequired,
   onResetClick: PropTypes.func.isRequired,
 };
