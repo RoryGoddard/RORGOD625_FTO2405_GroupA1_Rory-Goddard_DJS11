@@ -163,9 +163,6 @@ function App() {
             <AudioPlayer
                 episode={currentEpisode}
                 isPlaying={isPlaying}
-                onPlayPause={(playState) => setIsPlaying(playState)}
-                onSkipNext={handleSkipNext}
-                onSkipPrevious={handleSkipPrevious}
                 playingShow={playingShow}
                 onEpisodeComplete={handleEpisodeComplete}
                 updateEpisodeTimestamp={updateEpisodeTimestamp}
