@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "../utils/sortUtils";
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
