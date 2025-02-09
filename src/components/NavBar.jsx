@@ -106,7 +106,7 @@ export default function NavBar({ onResetClick }) {
         <IconButton color="inherit" onClick={(e) => setSortAnchorEl(e.currentTarget)}>
           <SortIcon />
         </IconButton>
-        <Menu anchorEl={sortAnchorEl} open={Boolean(sortAnchorEl)} onClose={setSortAnchorEl(null)}>
+        <Menu anchorEl={sortAnchorEl} open={Boolean(sortAnchorEl)} onClose={() => setSortAnchorEl(null)}>
           <MenuItem onClick={() => handleSort('A-Z')}>Title A-Z</MenuItem>
           <MenuItem onClick={() => handleSort('Z-A')}>Title Z-A</MenuItem>
           <MenuItem onClick={() => handleSort('newest')}>Newest Added</MenuItem>
@@ -115,7 +115,7 @@ export default function NavBar({ onResetClick }) {
         <IconButton color="inherit" onClick={(e) => setFilterAnchorEl(e.currentTarget)}>
           <FilterListIcon />
         </IconButton>
-        <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={setFilterAnchorEl(null)}>
+        <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={() => setFilterAnchorEl(null)}>
         <MenuItem onClick={() => handleFilter(null)}>Show All</MenuItem>
           {genres.map((genre) => (
             <MenuItem key={genre.id} onClick={() => handleFilter(genre)}>
@@ -129,7 +129,7 @@ export default function NavBar({ onResetClick }) {
         <IconButton color="inherit" onClick={(e) => setSettingsAnchorEl(e.currentTarget)}>
           <SettingsIcon />
         </IconButton>
-        <Menu anchorEl={settingsAnchorEl} open={Boolean(settingsAnchorEl)} onClose={setSettingsAnchorEl(null)}>
+        <Menu anchorEl={settingsAnchorEl} open={Boolean(settingsAnchorEl)} onClose={() => setSettingsAnchorEl(null)}>
           <MenuItem onClick={handleResetClick}>Reset Listening History</MenuItem>
         </Menu>
       </Toolbar>
