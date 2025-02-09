@@ -15,11 +15,6 @@ function App() {
     const [currentEpisode, setCurrentEpisode] = useState(null); // State used by skip handlers to store current episodes data
     const [isPlaying, setIsPlaying] = useState(false); // Handle play state of episodes
     const [playingShow, setPlayingShow] = useState(null); // Sets the playing show equal to the detail show from the PodcastDetails Modal
-    const [favoriteEpisodes, setFavoriteEpisodes] = useState(() => { // Sets favorite episodes equal to the episodes in state, or an empty array if no episodes exist
-        const storedFavorites = localStorage.getItem('favoriteEpisodes');
-        return storedFavorites ? JSON.parse(storedFavorites) : [];
-    });
-    const [showFavorites, setShowFavorites] = useState(false); // State which triggers whether or not we open the favorites view
     const [listenedEpisodes, setListenedEpisodes] = useState(() => { // Checks for listened episodes in local storage and sets itself equal to that, or empty array
         const storedListenedEpisodes = localStorage.getItem('listenedEpisodes');
         return storedListenedEpisodes ? JSON.parse(storedListenedEpisodes) : [];
@@ -79,45 +74,6 @@ function App() {
     const handleBackToShows = () => {
         setShowFavorites(false);
     };    
-
-    const handleFavoritesClick = () => {
-        setShowFavorites(true); // Set to true when the favorites button is clicked
-    };
-
-    const toggleFavorite = useCallback((episode) => {
-        setFavoriteEpisodes(prev => {
-            const isAlreadyFavorite = prev.some(fav => 
-                fav.showId === episode.showId && 
-                fav.episodeTitle === episode.episodeTitle && 
-                fav.seasonTitle === episode.seasonTitle
-            );
-    
-            let updatedFavorites;
-            if (isAlreadyFavorite) {
-                updatedFavorites = prev.filter(fav => 
-                    !(fav.showId === episode.showId && 
-                      fav.episodeTitle === episode.episodeTitle && 
-                      fav.seasonTitle === episode.seasonTitle)
-                );
-            } else {
-                const favoriteWithDate = {
-                    ...episode,
-                    savedAt: new Date().toISOString(),
-                };
-                updatedFavorites = [...prev, favoriteWithDate];
-            }
-            localStorage.setItem('favoriteEpisodes', JSON.stringify(updatedFavorites));
-            return updatedFavorites;
-        });
-    }, []);
-    
-
-    useEffect(() => {
-        const storedFavorites = localStorage.getItem('favoriteEpisodes');
-        if (storedFavorites) {
-            setFavoriteEpisodes(JSON.parse(storedFavorites));
-        }
-    }, []);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
