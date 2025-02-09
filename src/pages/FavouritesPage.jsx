@@ -9,9 +9,6 @@ import { useNavigate } from 'react-router-dom';
 const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
     const navigate = useNavigate();
     const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites)
-    const favouriteState = useSelector((state) => state.favourites)
-    console.log(favouriteEpisodes)
-    console.log(favouriteState)
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
     // useEffect(() => {
@@ -66,7 +63,7 @@ const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
                                 secondary={`${fav.seasonTitle} - Episode ${fav.episodeNumber} - ${fav.episodeTitle}`}
                             />
                             <Box sx={{display: "flex", flexDirection:'column', justifyContent:'center', alignItems: "center", textAlign: "end", whiteSpace: "nowrap"}}>
-                                <ListItemText sx={{ mr: "2rem" }} secondary={"Added: " + ((new Date(fav.dateAdded)).toLocaleString(undefined, {
+                                <ListItemText sx={{ mr: "2rem" }} secondary={"Added: " + ((new Date(fav.savedAt)).toLocaleString(undefined, {
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',

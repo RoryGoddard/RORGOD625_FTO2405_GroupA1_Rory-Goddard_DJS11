@@ -29,7 +29,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
         episodeTitle: episode.title,
         episodeNumber: episode.episode,
         updated: show.updated,
-        dateAdded: new Date().toLocaleString()
+        savedAt: new Date().toLocaleString()
     }
 
     const handleToggleFavourite = () => {
