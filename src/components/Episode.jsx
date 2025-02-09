@@ -8,7 +8,7 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
-import { saveTimestamp, setEpisodeAsListened, selectIsListened } from '../state/audioPlayerSlice';
+import { saveTimestamp, setEpisodeAsListened, selectIsListened, setCurrentEpisode, setIsPlaying, setPlayingShow } from '../state/audioPlayerSlice';
 import { selectIsFavourite } from "../state/favouritesSlice";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -18,8 +18,25 @@ import PropTypes from 'prop-types'
 const Episode = ({ show, episode, selectedSeason }) => {
     const isFavourite = useSelector(state => selectIsFavourite(state, show.id, selectedSeason.season, episode.episode));
     const isListened = useSelector(state => selectIsListened(state, show.id, selectedSeason.season, episode.episode));
+    const playingShow = useSelector((state) => state.podcasts.selectedPodcastData);
     const timestamps = useSelector((state) => state.audioPlayer.timestamps);
     const dispatch = useDispatch();
+
+    const handlePlayEpisode = (episodeDetails) => {
+        dispatch(setCurrentEpisode(episodeDetails));
+        dispatch(setIsPlaying(true))
+        dispatch(setPlayingShow(playingShow))
+    }
+
+    // const handlePlayEpisode = (episode) => {
+    //     const episodeWithSeason = {
+    //         ...episode,
+    //         season: episode.season || 1
+    //     };
+    //     setCurrentEpisode(episodeWithSeason);
+    //     setPlayingShow(detailedShow);
+    //     setIsPlaying(true);
+    // };
 
     const episodeDetails = {
         showId: show.id,
@@ -28,6 +45,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
         seasonNumber: selectedSeason.season,
         episodeTitle: episode.title,
         episodeNumber: episode.episode,
+        file: episode.file,
         updated: show.updated,
         savedAt: new Date().toLocaleString()
     }
@@ -63,7 +81,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
             />
             <ListItemSecondaryAction>
                 {isListened && (<CheckCircleIcon color="primary" sx={{ mr: 1 }} />)}
-                <IconButton edge="end" aria-label="play" onClick={() => onPlayEpisode(episode)}>
+                <IconButton edge="end" aria-label="play" onClick={() => handlePlayEpisode(episode)}>
                 <PlayArrowIcon />
                 </IconButton>
             </ListItemSecondaryAction>

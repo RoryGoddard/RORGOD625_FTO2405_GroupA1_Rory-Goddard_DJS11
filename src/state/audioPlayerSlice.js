@@ -71,22 +71,25 @@ const audioPlayerSlice = createSlice({
         },
         setDuration: (state, action) => {
             state.duration = action.payload
+        },
+        setPlayingShow: (state, action) => {
+            state.playingShow = action.payload
         }
     }
 
 })
 
 export const { 
-    setCurrentEpisode, 
-    setPlaying, 
+    setCurrentEpisode,  
     setVolume,
     saveTimestamp, 
     setEpisodeAsListened, 
     setCurrentTime, 
     setDuration, 
     setIsMuted, 
-    setIsPlaying, 
-    setPlaylist
+    setIsPlaying,
+    setPlayingShow,
+    setPlaylist,
 } = audioPlayerSlice.actions;
 export { selectIsListened }
 export default audioPlayerSlice.reducer;
