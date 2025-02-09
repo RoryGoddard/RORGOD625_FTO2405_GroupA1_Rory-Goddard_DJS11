@@ -86,31 +86,6 @@ function App() {
         };
       }, [isPlaying]);
   
-
-    const getAllEpisodes = (show) => {
-        if (!show || !Array.isArray(show.seasons)) {
-            console.error('Invalid show structure:', show);
-            return [];
-        }
-        return show.seasons.flatMap((season, seasonIndex) => {
-            if (Array.isArray(season.episodes)) {
-                return season.episodes.map(episode => ({
-                    ...episode,
-                    season: seasonIndex + 1 // Add season number to each episode
-                }));
-            }
-            console.error('Invalid season structure:', season);
-            return [];
-        });
-    };
-    
-    const findEpisodeIndex = (allEpisodes, currentEpisode) => {
-        return allEpisodes.findIndex(e => 
-            e.episode === currentEpisode.episode && 
-            (e.season === currentEpisode.season || e.season === undefined)
-        );
-    };
-
     const handleSkipNext = () => {
         if (detailedShow && currentEpisode) {
             const allEpisodes = getAllEpisodes(detailedShow);
@@ -147,15 +122,15 @@ function App() {
         }
     };
 
-    const handlePlayEpisode = (episode) => {
-        const episodeWithSeason = {
-            ...episode,
-            season: episode.season || 1
-        };
-        setCurrentEpisode(episodeWithSeason);
-        setPlayingShow(detailedShow);
-        setIsPlaying(true);
-    };
+    // const handlePlayEpisode = (episode) => {
+    //     const episodeWithSeason = {
+    //         ...episode,
+    //         season: episode.season || 1
+    //     };
+    //     setCurrentEpisode(episodeWithSeason);
+    //     setPlayingShow(detailedShow);
+    //     setIsPlaying(true);
+    // };
 
     const handleEpisodeComplete = (episodeData) => {
         markEpisodeAsListened(episodeData);
