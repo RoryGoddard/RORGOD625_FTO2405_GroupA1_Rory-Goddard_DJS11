@@ -9,6 +9,7 @@ import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevious, playingShow, onEpisodeComplete, updateEpisodeTimestamp }) => {
     const [progress, setProgress] = useState(0);
@@ -17,6 +18,10 @@ const AudioPlayer = ({ episode, isPlaying, onPlayPause, onSkipNext, onSkipPrevio
     const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);
     const theme = useTheme();
+
+
+
+
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
 
