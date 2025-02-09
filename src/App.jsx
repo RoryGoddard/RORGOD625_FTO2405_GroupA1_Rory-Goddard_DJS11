@@ -3,6 +3,7 @@ import ErrorPage from './pages/ErrorPage';
 import NavBar from './components/NavBar';
 import Content from "./pages/Content";
 import { useState, useEffect, useCallback } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import AudioPlayer from './components/AudioPlayer';
 import FavouritesPage from './pages/FavouritesPage';
 import { Box } from '@mui/material'
@@ -222,19 +223,20 @@ function App() {
                 onFavoritesClick={handleFavoritesClick}
                 onResetClick={handleResetClick}
             />
-            {!showFavorites && (
-                <Content
-                    listenedEpisodes={listenedEpisodes}
-                />
-            )}
-            {showFavorites && (
-                <FavouritesPage
-                    favoriteEpisodes={favoriteEpisodes}
-                    toggleFavorite={toggleFavorite}
-                    onBackToShows={handleBackToShows}
-                    listenedEpisodes={listenedEpisodes}
-                />
-            )}
+            <Routes>
+                <Route path="/" element={<Content listenedEpisodes={listenedEpisodes}/>}>
+                </Route>
+                <Route path="/favourites" element={
+                    <FavouritesPage
+                            favoriteEpisodes={favoriteEpisodes}
+                            toggleFavorite={toggleFavorite}
+                            onBackToShows={handleBackToShows}
+                            listenedEpisodes={listenedEpisodes}
+                    />
+                }
+                >
+                </Route>
+            </Routes>
             <AudioPlayer
                 episode={currentEpisode}
                 isPlaying={isPlaying}

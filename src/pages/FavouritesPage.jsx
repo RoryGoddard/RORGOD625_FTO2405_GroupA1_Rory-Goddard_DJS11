@@ -4,38 +4,40 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { sortByTitleAscending, sortByTitleDescending, sortByDateAscending, sortByDateDescending } from "../utils/sortUtils";
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
+    const navigate = useNavigate();
     const favoriteEpisodes = useSelector((state) => state.favourites)
 
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
-    useEffect(() => {
-        let filtered = favoriteEpisodes.filter((fav) =>
-            fav.showTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            fav.episodeTitle.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+    // useEffect(() => {
+    //     let filtered = favoriteEpisodes.filter((fav) =>
+    //         fav.showTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //         fav.episodeTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    //     );
 
-        let sorted;
-        switch (sortOption) {
-            case 'A-Z':
-                sorted = sortByTitleAscending(filtered, 'showTitle');
-                break;
-            case 'Z-A':
-                sorted = sortByTitleDescending(filtered, 'showTitle');
-                break;
-            case 'newest':
-                sorted = sortByDateDescending(filtered, 'updated'); // Change to 'updated'
-                break;
-            case 'oldest':
-                sorted = sortByDateAscending(filtered, 'updated'); // Change to 'updated'
-                break;
-            default:
-                sorted = filtered;
-        }
+    //     let sorted;
+    //     switch (sortOption) {
+    //         case 'A-Z':
+    //             sorted = sortByTitleAscending(filtered, 'showTitle');
+    //             break;
+    //         case 'Z-A':
+    //             sorted = sortByTitleDescending(filtered, 'showTitle');
+    //             break;
+    //         case 'newest':
+    //             sorted = sortByDateDescending(filtered, 'updated'); // Change to 'updated'
+    //             break;
+    //         case 'oldest':
+    //             sorted = sortByDateAscending(filtered, 'updated'); // Change to 'updated'
+    //             break;
+    //         default:
+    //             sorted = filtered;
+    //     }
 
-        setSortedFavorites(sorted);
-    }, [favoriteEpisodes, searchQuery, sortOption]);
+    //     setSortedFavorites(sorted);
+    // }, [favoriteEpisodes, searchQuery, sortOption]);
 
     const handleRemoveFavorite = (episode) => {
         toggleFavorite(episode);
@@ -48,7 +50,7 @@ const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
                     Your Favorite Episodes
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                    <Button variant="outlined" onClick={onBackToShows}>
+                    <Button variant="outlined" onClick={() => navigate("/")}>
                         Back to Shows
                     </Button>
                 </Box>

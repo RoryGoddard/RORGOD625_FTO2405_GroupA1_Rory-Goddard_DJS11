@@ -14,30 +14,38 @@ import StyledInputBase from './StyledInputBase'
 import { useDispatch, useSelector } from 'react-redux';
 import { setSortOption, setFilterOption, setSearchTerm } from '../state/podcastSlice';
 import { setFavouriteSortOption, setFavouriteSearchTerm } from '../state/favouritesSlice';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 
-export default function NavBar({ onFavoritesClick, onResetClick }) {
-  const genres = useSelector((state) => state.podcasts.genres)
+export default function NavBar({ onResetClick }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
   const theme = useTheme();
+  const genres = useSelector((state) => state.podcasts.genres);
+
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
 
-  const dispatch = useDispatch();
-  const location = useLocation()
-
   const isFavouritePage = location.pathname === "/favourites"
+
+  const toggleFavoritesPage = () => {
+    if (isFavouritePage) {
+      navigate("/");
+    } else {
+      navigate("/favourites");
+    }
+  };
 
   const handleSort = (option) => {
     if (isFavouritePage) {
       dispatch(setFavouriteSortOption(option))
-      handleSortMenuClose
     } else {
       dispatch(setSortOption(option));
-      handleSortMenuClose()
     }
+    handleSortMenuClose()
   };
 
   const handleFilter = (option) => {
@@ -140,7 +148,7 @@ export default function NavBar({ onFavoritesClick, onResetClick }) {
             </MenuItem>
           ))}
         </Menu>
-        <IconButton color="inherit" onClick={onFavoritesClick}>
+        <IconButton color="inherit" onClick={() => toggleFavoritesPage()}>
           <FavoriteIcon />
         </IconButton>
         <IconButton color="inherit" onClick={handleSettingsMenuOpen}>
