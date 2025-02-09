@@ -10,33 +10,6 @@ const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
     const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites)
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
-    // useEffect(() => {
-    //     let filtered = favoriteEpisodes.filter((fav) =>
-    //         fav.showTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //         fav.episodeTitle.toLowerCase().includes(searchQuery.toLowerCase())
-    //     );
-
-    //     let sorted;
-    //     switch (sortOption) {
-    //         case 'A-Z':
-    //             sorted = sortByTitleAscending(filtered, 'showTitle');
-    //             break;
-    //         case 'Z-A':
-    //             sorted = sortByTitleDescending(filtered, 'showTitle');
-    //             break;
-    //         case 'newest':
-    //             sorted = sortByDateDescending(filtered, 'updated'); // Change to 'updated'
-    //             break;
-    //         case 'oldest':
-    //             sorted = sortByDateAscending(filtered, 'updated'); // Change to 'updated'
-    //             break;
-    //         default:
-    //             sorted = filtered;
-    //     }
-
-    //     setSortedFavorites(sorted);
-    // }, [favoriteEpisodes, searchQuery, sortOption]);
-
     const handleRemoveFavorite = (episode) => {
         toggleFavorite(episode);
     };
