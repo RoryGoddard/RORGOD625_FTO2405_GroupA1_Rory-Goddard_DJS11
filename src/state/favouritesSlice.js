@@ -1,4 +1,6 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
+import { applySorting } from "../utils/sortUtils";
+import { initializeFuzzySearch, performFuzzySearch } from '../utils/fuzzySearch';
 
 const loadFavourites = () => {
     try {
@@ -32,6 +34,8 @@ const favouritesSlice = createSlice({
         episodes: loadFavourites(),
         sortOption: 'A-Z',
         searchTerm: '',
+        sortedFavourites: [],
+        searchedAndSortedFavourites: [],
     },
     reducers: {
         toggleFavourite: (state, action) => {
@@ -48,6 +52,27 @@ const favouritesSlice = createSlice({
         },
         setFavouriteSearchTerm: (state, action) => {
             state.searchTerm = action.payload
+        },
+        setSortOption(state, action) {
+            state.sortOption = action.payload;
+            const sortedPodcasts = applySorting(
+                state.episodes,
+                action.payload
+            );
+            state.searchedAndSortedFavourites = sortedPodcasts
+        },
+        setSearchTerm(state, action) {
+            state.searchTerm = action.payload;
+            let searchResults = state.episodes;
+
+            if (state.searchTerm) {
+                const fuse = initializeFuzzySearch(searchResults);
+                searchResults = performFuzzySearch(fuse, state.searchTerm)
+                .map(result => result.item);
+            }
+
+            searchResults = applySorting(searchResults, state.sortOption);
+            state.searchedAndSortedFavourites = searchResults;
         },
 
     }
