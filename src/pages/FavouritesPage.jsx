@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
     const navigate = useNavigate();
     const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites)
-    const [sortedFavorites, setSortedFavorites] = useState([]);
 
     const handleRemoveFavorite = (episode) => {
         toggleFavorite(episode);
@@ -60,7 +59,7 @@ const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
                                 </ListItemSecondaryAction>
                             </Box>
                         </ListItem>
-                        {index < sortedFavorites.length - 1 && <Divider />}
+                        {index < favouriteEpisodes.length - 1 && <Divider />}
                     </React.Fragment>
                 ))}
             </List>
