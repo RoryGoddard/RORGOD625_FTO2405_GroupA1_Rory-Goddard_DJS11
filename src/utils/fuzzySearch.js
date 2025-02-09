@@ -21,7 +21,6 @@ export const initializeFuzzySearch = (shows) => {
 
 export const performFuzzySearch = (fuse, searchTerm) => {
   if (!fuse) {
-    console.log("NO FUSE!")
     return [];
   }
   return fuse.search(searchTerm);

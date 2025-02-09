@@ -65,7 +65,6 @@ const favouritesSlice = createSlice({
                 searchResults = performFuzzySearch(fuse, state.searchTerm)
                 .map(result => result.item);
             }
-            console.log("Here are the search results", searchResults)
             searchResults = applySorting(searchResults, state.sortOption);
             state.searchedAndSortedFavourites = searchResults;
         },
