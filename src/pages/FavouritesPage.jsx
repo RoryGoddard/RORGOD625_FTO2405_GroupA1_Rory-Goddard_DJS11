@@ -63,22 +63,4 @@ const FavoritesPage = () => {
     );
 };
 
-// FavoritesPage.propTypes = {
-//     favoriteEpisodes: PropTypes.arrayOf(
-//         PropTypes.shape({
-//             showId: PropTypes.string.isRequired,
-//             showTitle: PropTypes.string.isRequired,
-//             seasonTitle: PropTypes.string.isRequired,
-//             episodeTitle: PropTypes.string.isRequired,
-//             episodeNumber: PropTypes.number.isRequired,
-//             savedAt: PropTypes.string.isRequired,
-//             updated: PropTypes.string.isRequired, // Ensure updated is included
-//         })
-//     ).isRequired,
-//     toggleFavorite: PropTypes.func.isRequired,
-//     onBackToShows: PropTypes.func.isRequired,
-//     searchQuery: PropTypes.string.isRequired,
-//     sortOption: PropTypes.oneOf(['A-Z', 'Z-A', 'newest', 'oldest']).isRequired,
-// };
-
 export default FavoritesPage;
