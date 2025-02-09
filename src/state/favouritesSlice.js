@@ -41,9 +41,11 @@ const favouritesSlice = createSlice({
             const existingIndex = state.episodes.findIndex(fav => fav.showId === action.payload.showId && fav.seasonNumber === action.payload.seasonNumber && fav.episodeNumber === action.payload.episodeNumber)
 
             if (existingIndex === -1) {
+                state.searchedAndSortedFavourites.push(action.payload);
                 state.episodes.push(action.payload);
             } else {
                 state.episodes.splice(existingIndex, 1);
+                state.searchedAndSortedFavourites.splice(existingIndex, 1);
             }
         },
         setFavouriteSortOption: (state, action) => {

@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 
 const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
     const navigate = useNavigate();
-    const favouriteEpisodes = useSelector((state) => state.favourites.episodes)
+    const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites)
+    const favouriteState = useSelector((state) => state.favourites)
     console.log(favouriteEpisodes)
-
+    console.log(favouriteState)
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
     // useEffect(() => {
