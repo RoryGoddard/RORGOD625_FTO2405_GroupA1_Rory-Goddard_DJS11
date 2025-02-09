@@ -2,7 +2,7 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const loadFavourites = () => {
     try {
-        const favourites = localStorage.getItem("favourites");
+        const favourites = localStorage.getItem("favourites.episodes");
         return favourites ? JSON.parse(favourites) : [];
     } catch (error) {
         console.error("Error loading favourites from storage", error)
