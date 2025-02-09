@@ -4,17 +4,13 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeDownIcon from '@mui/icons-material/VolumeDown';
-import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime } from '../state/audioPlayerSlice'
+import Volume from './Volume';
 
 const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => {
-    const [isMuted, setIsMuted] = useState(false)
-    const [volume, setVolume] = useState(0.5)
     const [progress, setProgress] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);
@@ -27,15 +23,6 @@ const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => 
     const playingShow = useSelector((state) => state.audioPlayer.playingShow);
     const currentTime = useSelector((state) => state.audioPlayer.currentTime);
     const duration = useSelector((state) => state.audioPlayer.duration);
-
-    const toggleMute = () => {
-      setIsMuted(!isMuted);
-    };
-
-    const handleVolumeChange = (event, newValue) => {
-      setVolume(newValue);
-      setIsMuted(newValue === 0);
-  };
 
     useEffect(() => {
       const audio = audioRef.current;
@@ -211,29 +198,7 @@ const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => 
               <SkipNextIcon sx={{ fontSize: '2rem' }}/>
             </IconButton>
           </Box>
-          {/* Volume Controls */}
-          <Box sx={{ display: 'flex', alignItems: 'center', width: '140px', mr: "0.5rem" }}>
-            <IconButton onClick={toggleMute} sx={{ 
-              padding: '8px',
-              width: '48px',
-              height: '48px',
-              '& .MuiIconButton-root': { padding: 0 }
-            }}>
-              {isMuted ? <VolumeMuteIcon sx={{ fontSize: '2rem' }} /> : volume > 0.5 ? <VolumeUpIcon sx={{ fontSize: '2rem' }} /> : <VolumeDownIcon  sx={{ fontSize: '2rem' }}/>}
-            </IconButton>
-            <Slider
-              value={isMuted ? 0 : volume}
-              onChange={handleVolumeChange}
-              aria-labelledby="volume-slider"
-              min={0}
-              max={1}
-              step={0.01}
-              sx={{
-                width: 100,
-                color: theme.palette.audioPlayer.slider,
-              }}
-            />
-          </Box>
+          <Volume />
         </Box>
       </Box>
     );
