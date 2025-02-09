@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toggleFavourite } from '../state/favouritesSlice';
 
 const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
+    const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites)
-
-    const handleRemoveFavorite = (episode) => {
-        toggleFavorite(episode);
-    };
 
     return (
         <Box sx={{ padding: 2, mt: "4rem", mb: "6rem" }}>
@@ -53,7 +51,7 @@ const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
                                     textAlign: "end"
                                 }))} />
                                 <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => handleRemoveFavorite(fav)}>
+                                    <IconButton edge="end" aria-label="delete" onClick={() => dispatch(toggleFavourite(fav))}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItemSecondaryAction>
