@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
     const navigate = useNavigate();
-    const favoriteEpisodes = useSelector((state) => state.favourites.episodes)
+    const favouriteEpisodes = useSelector((state) => state.favourites.episodes)
+    console.log(favouriteEpisodes)
 
     const [sortedFavorites, setSortedFavorites] = useState([]);
 
@@ -56,7 +57,7 @@ const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
                 </Box>
             </Box>
             <List sx={{ mb: "3rem" }}>
-                {sortedFavorites.map((fav, index) => (
+                {favouriteEpisodes.map((fav, index) => (
                     <React.Fragment key={`${fav.showId}-${fav.episodeTitle}`}>
                         <ListItem>
                             <ListItemText
@@ -64,7 +65,7 @@ const FavoritesPage = ({ toggleFavorite, onBackToShows, searchQuery }) => {
                                 secondary={`${fav.seasonTitle} - Episode ${fav.episodeNumber} - ${fav.episodeTitle}`}
                             />
                             <Box sx={{display: "flex", flexDirection:'column', justifyContent:'center', alignItems: "center", textAlign: "end", whiteSpace: "nowrap"}}>
-                                <ListItemText sx={{ mr: "2rem" }} secondary={"Added: " + ((new Date(fav.savedAt)).toLocaleString(undefined, {
+                                <ListItemText sx={{ mr: "2rem" }} secondary={"Added: " + ((new Date(fav.dateAdded)).toLocaleString(undefined, {
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',

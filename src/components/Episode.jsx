@@ -28,7 +28,8 @@ const Episode = ({ show, episode, selectedSeason }) => {
         seasonNumber: selectedSeason.season,
         episodeTitle: episode.title,
         episodeNumber: episode.episode,
-        updated: show.updated
+        updated: show.updated,
+        dateAdded: new Date()
     }
 
     const handleToggleFavourite = () => {
