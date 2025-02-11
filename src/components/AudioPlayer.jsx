@@ -7,7 +7,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp } from '../state/audioPlayerSlice'
+import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp, generatePlaylist } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 
 const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
@@ -45,6 +45,11 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
       const seconds = Math.floor(time % 60);
       return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
+
+    const handlePlay = () => {
+      dispatch(setIsPlaying(!isPlaying))
+      dispatch(generatePlaylist())
+    }
 
     useEffect(() => {
       const audio = audioRef.current;
@@ -194,7 +199,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
           <Box sx={{ width: '140px', ml: "0.5rem" }}>
           {currentEpisode && (
             <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-                Now Playing: {currentEpisode.episodeTitle}
+                Now Playing: {currentEpisode.title}
               </Typography>
             )}
           </Box> {/* Spacer */}
@@ -208,7 +213,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
             }}>
               <SkipPreviousIcon sx={{ fontSize: '2rem' }} />
             </IconButton>
-            <IconButton onClick={() => dispatch(setIsPlaying(!isPlaying))} disabled={!isLoaded}  sx={{ 
+            <IconButton onClick={() => handlePlay()} disabled={!isLoaded}  sx={{ 
               padding: '12px',
               width: '72px',
               height: '72px',

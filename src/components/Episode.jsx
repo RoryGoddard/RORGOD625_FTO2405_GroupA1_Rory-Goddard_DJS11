@@ -33,7 +33,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
         showTitle: show.title,
         seasonTitle: selectedSeason.title,
         seasonNumber: selectedSeason.season,
-        episodeTitle: episode.title,
+        title: episode.title,
         episodeNumber: episode.episode,
         file: episode.file,
         updated: show.updated,
