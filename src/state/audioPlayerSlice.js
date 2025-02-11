@@ -85,7 +85,7 @@ export const skipToNextEpisode = () => (dispatch, getState) => {
 
     if (playingShow && currentEpisode) {
         const allEpisodes = getAllEpisodes(playingShow);
-        let currentIndex = findEpisodeIndex(currentEpisode);
+        let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
 
         if (currentIndex === -1) {
             currentIndex = 0;

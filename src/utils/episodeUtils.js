@@ -16,6 +16,7 @@ export const getAllEpisodes = (show) => {
 };
 
 export const findEpisodeIndex = (allEpisodes, currentEpisode) => {
+    console.log("All episodes is the following:", allEpisodes)
     return allEpisodes.findIndex(e => 
         e.episode === currentEpisode.episode && 
         (e.season === currentEpisode.season || e.season === undefined)
