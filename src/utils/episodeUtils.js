@@ -3,11 +3,16 @@ export const getAllEpisodes = (show) => {
         console.error('Invalid show structure:', show);
         return [];
     }
-    return show.seasons.flatMap((season, seasonIndex) => {
+    console.log(show)
+    return show.seasons.flatMap((season) => {
         if (Array.isArray(season.episodes)) {
             return season.episodes.map(episode => ({
                 ...episode,
-                season: seasonIndex + 1 // Add season number to each episode
+                seasonTitle: season.title,
+                seasonImage: season.image,
+                season: season.season,
+                showId: show.id,
+                showTitle: show.title
             }));
         }
         console.error('Invalid season structure:', season);

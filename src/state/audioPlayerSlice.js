@@ -85,6 +85,7 @@ export const skipToNextEpisode = () => (dispatch, getState) => {
 
     if (playingShow && currentEpisode) {
         const allEpisodes = getAllEpisodes(playingShow);
+        console.log("all episodes looks like this", allEpisodes)
         let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
         console.log("current index is", currentIndex)
         if (currentIndex === -1) {
