@@ -22,7 +22,7 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
     const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
     const playingShow = useSelector((state) => state.audioPlayer.playingShow);
     const playlistExists = useSelector((state) => state.audioPlayer.playlist)
-    // const currentTime = useSelector((state) => state.audioPlayer.currentTime);
+    const currentTime = useSelector((state) => state.audioPlayer.currentTime);
     const duration = useSelector((state) => state.audioPlayer.duration);
 
     // useEffect(() => {
