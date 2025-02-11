@@ -24,21 +24,21 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
     const currentTime = useSelector((state) => state.audioPlayer.currentTime);
     const duration = useSelector((state) => state.audioPlayer.duration);
 
-    useEffect(() => {
-      const audio = audioRef.current;
-      const updateTime = () => setCurrentTime(audio.currentTime);
-      const updateDuration = () => setDuration(audio.duration);
+    // useEffect(() => {
+    //   const audio = audioRef.current;
+    //   const updateTime = () => setCurrentTime(audio.currentTime);
+    //   const updateDuration = () => setDuration(audio.duration);
   
-      audio.addEventListener('timeupdate', updateTime);
-      audio.addEventListener('loadedmetadata', updateDuration);
-      audio.addEventListener('durationchange', updateDuration);
+    //   audio.addEventListener('timeupdate', updateTime);
+    //   audio.addEventListener('loadedmetadata', updateDuration);
+    //   audio.addEventListener('durationchange', updateDuration);
   
-      return () => {
-        audio.removeEventListener('timeupdate', updateTime);
-        audio.removeEventListener('loadedmetadata', updateDuration);
-        audio.removeEventListener('durationchange', updateDuration);
-      };
-    }, []);
+    //   return () => {
+    //     audio.removeEventListener('timeupdate', updateTime);
+    //     audio.removeEventListener('loadedmetadata', updateDuration);
+    //     audio.removeEventListener('durationchange', updateDuration);
+    //   };
+    // }, []);
 
     const formatTime = (time) => {
       const minutes = Math.floor(time / 60);
@@ -49,7 +49,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
     useEffect(() => {
       const audio = audioRef.current;
       if (!audio) return;
-  
+
       const handleTimeUpdate = () => {
         if (playingShow && currentEpisode) {
           updateEpisodeTimestamp(playingShow.id, currentEpisode.episodeTitle, Math.floor(audio.currentTime));
@@ -67,6 +67,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
     useEffect(() => {
         if (audioRef.current && isLoaded) {
             if (isPlaying) {
+                dispatch(setDuration(audioRef.current.duration))
                 const playPromise = audioRef.current.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(error => console.error("Playback failed", error));
@@ -75,7 +76,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
                 audioRef.current.pause();
             }
         }
-    }, [isPlaying, isLoaded]);
+    }, [isPlaying, isLoaded, dispatch]);
 
     // Effect to handle episode changes
     useEffect(() => {
