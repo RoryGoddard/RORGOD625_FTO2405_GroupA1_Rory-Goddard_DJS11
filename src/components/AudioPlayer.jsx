@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 
-const AudioPlayer = ({ episode, onEpisodeComplete, updateEpisodeTimestamp }) => {
+const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
     const [progress, setProgress] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);

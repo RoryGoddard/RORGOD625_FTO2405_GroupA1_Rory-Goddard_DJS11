@@ -160,7 +160,6 @@ function App() {
                 </Route>
             </Routes>
             <AudioPlayer
-                episode={currentEpisode}
                 isPlaying={isPlaying}
                 playingShow={playingShow}
                 onEpisodeComplete={handleEpisodeComplete}
