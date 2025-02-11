@@ -12,7 +12,6 @@ import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
 
 function App() {
     const { error, isLoading } = useGetAllPodcastsEnrichedQuery(); // Fetch the initial data for the show cards
-    const [currentEpisode, setCurrentEpisode] = useState(null); // State used by skip handlers to store current episodes data
     const [isPlaying, setIsPlaying] = useState(false); // Handle play state of episodes
     const [playingShow, setPlayingShow] = useState(null); // Sets the playing show equal to the detail show from the PodcastDetails Modal
     const [listenedEpisodes, setListenedEpisodes] = useState(() => { // Checks for listened episodes in local storage and sets itself equal to that, or empty array
