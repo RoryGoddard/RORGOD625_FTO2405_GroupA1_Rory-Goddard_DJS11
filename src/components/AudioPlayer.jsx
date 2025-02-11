@@ -21,7 +21,8 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
     const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
     const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
     const playingShow = useSelector((state) => state.audioPlayer.playingShow);
-    const currentTime = useSelector((state) => state.audioPlayer.currentTime);
+    const playlistExists = useSelector((state) => state.audioPlayer.playlist)
+    // const currentTime = useSelector((state) => state.audioPlayer.currentTime);
     const duration = useSelector((state) => state.audioPlayer.duration);
 
     // useEffect(() => {
@@ -48,7 +49,9 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
 
     const handlePlayPause = () => {
       dispatch(setIsPlaying(!isPlaying))
-      dispatch(generatePlaylist())
+      if (!playlistExists) {
+        dispatch(generatePlaylist())
+      }
     }
 
     useEffect(() => {
@@ -129,6 +132,7 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
         if (audioRef.current) {
             const currentProgress = (audioRef.current.currentTime / audioRef.current.duration) * 100 || 0;
             setProgress(currentProgress);
+            console.log("current progress state is", currentProgress)
         }
     };
 
@@ -137,6 +141,7 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
             const time = (newValue / 100) * audioRef.current.duration;
             audioRef.current.currentTime = time;
             setCurrentTime(time);
+            console.log("current time state is", currentTime)
         }
         setProgress(newValue);
     };
