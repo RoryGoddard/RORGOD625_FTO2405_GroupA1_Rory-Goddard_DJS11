@@ -51,8 +51,8 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
       if (!audio) return;
   
       const handleTimeUpdate = () => {
-        if (playingShow && episode) {
-          updateEpisodeTimestamp(playingShow.id, episode.title, Math.floor(audio.currentTime));
+        if (playingShow && currentEpisode) {
+          updateEpisodeTimestamp(playingShow.id, currentEpisode.title, Math.floor(audio.currentTime));
         }
       };
   
@@ -61,7 +61,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
       return () => {
         audio.removeEventListener('timeupdate', handleTimeUpdate);
       };
-    }, [playingShow, episode, updateEpisodeTimestamp]);
+    }, [playingShow, currentEpisode, updateEpisodeTimestamp]);
 
     // Handle play/pause
     useEffect(() => {
