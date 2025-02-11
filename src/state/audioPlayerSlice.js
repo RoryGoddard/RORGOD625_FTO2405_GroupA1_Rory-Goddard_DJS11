@@ -86,14 +86,17 @@ export const skipToNextEpisode = () => (dispatch, getState) => {
     if (playingShow && currentEpisode) {
         const allEpisodes = getAllEpisodes(playingShow);
         let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
-
+        console.log("current index is", currentIndex)
         if (currentIndex === -1) {
             currentIndex = 0;
         }
 
         if (currentIndex < allEpisodes.length - 1) {
+            console.log("Just checkign that this evaluates to true")
             const nextEpisode = allEpisodes[currentIndex + 1];
+            console.log(nextEpisode)
             dispatch(setCurrentEpisode(nextEpisode));
+            console.log(getState().audioPlayer.currentEpisode)
             dispatch(setIsPlaying(true));
         }
     }
@@ -103,7 +106,7 @@ export const skipToPreviousEpisode = () => (dispatch, getState) => {
     const { playingShow, currentEpisode } = getState().audioPlayer
     if (playingShow && currentEpisode) {
         const allEpisodes = getAllEpisodes(playingShow);
-        let currentIndex = findEpisodeIndex(currentEpisode);
+        let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
 
         if (currentIndex === -1) {
             currentIndex = 0;
