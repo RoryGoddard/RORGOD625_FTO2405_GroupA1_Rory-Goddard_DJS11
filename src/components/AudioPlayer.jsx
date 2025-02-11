@@ -143,7 +143,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
                 episode: {
                   showId: playingShow.id,
                   showTitle: playingShow.title,
-                  episodeTitle: episode.title,
+                  episodeTitle: currentEpisode.title,
                   listenedAt: new Date().toISOString()
                 }
             }));
