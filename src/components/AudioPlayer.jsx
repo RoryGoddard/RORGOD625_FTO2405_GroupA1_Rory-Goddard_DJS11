@@ -52,7 +52,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
   
       const handleTimeUpdate = () => {
         if (playingShow && currentEpisode) {
-          updateEpisodeTimestamp(playingShow.id, currentEpisode.title, Math.floor(audio.currentTime));
+          updateEpisodeTimestamp(playingShow.id, currentEpisode.episodeTitle, Math.floor(audio.currentTime));
         }
       };
   
@@ -108,7 +108,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
               dispatch(setCurrentTime(currentTime));
               // Update timestamp in Redux/localStorage
               dispatch(saveTimestamp({
-                  episodeId: `${playingShow.id}-${currentEpisode.title}`,
+                  episodeId: `${playingShow.id}-${currentEpisode.episodeTitle}`,
                   timestamp: currentTime
               }));
           }
@@ -138,12 +138,13 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
     // Handle episode completion
     const handleEpisodeEnd = () => {
         if (currentEpisode && playingShow) {
+          console.log("This is playing show", playingShow)
             dispatch(setEpisodeAsListened({
                 show: playingShow.id,
                 episode: {
                   showId: playingShow.id,
                   showTitle: playingShow.title,
-                  episodeTitle: currentEpisode.title,
+                  episodeTitle: currentEpisode.episodeTitle,
                   listenedAt: new Date().toISOString()
                 }
             }));
@@ -192,7 +193,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
           <Box sx={{ width: '140px', ml: "0.5rem" }}>
           {currentEpisode && (
             <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-                Now Playing: {currentEpisode.title}
+                Now Playing: {currentEpisode.episodeTitle}
               </Typography>
             )}
           </Box> {/* Spacer */}
