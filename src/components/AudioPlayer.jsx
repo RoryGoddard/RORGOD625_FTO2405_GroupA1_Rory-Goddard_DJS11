@@ -190,9 +190,9 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
 
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <Box sx={{ width: '140px', ml: "0.5rem" }}>
-          {episode && (
+          {currentEpisode && (
             <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-                Now Playing: {episode.title}
+                Now Playing: {currentEpisode.title}
               </Typography>
             )}
           </Box> {/* Spacer */}
