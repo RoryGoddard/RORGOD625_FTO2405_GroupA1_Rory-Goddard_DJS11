@@ -46,7 +46,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
       return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
-    const handlePlay = () => {
+    const handlePlayPause = () => {
       dispatch(setIsPlaying(!isPlaying))
       dispatch(generatePlaylist())
     }
@@ -213,7 +213,7 @@ const AudioPlayer = ({ onEpisodeComplete, updateEpisodeTimestamp }) => {
             }}>
               <SkipPreviousIcon sx={{ fontSize: '2rem' }} />
             </IconButton>
-            <IconButton onClick={() => handlePlay()} disabled={!isLoaded}  sx={{ 
+            <IconButton onClick={() => handlePlayPause()} disabled={!isLoaded}  sx={{ 
               padding: '12px',
               width: '72px',
               height: '72px',
