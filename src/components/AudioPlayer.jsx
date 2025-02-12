@@ -11,8 +11,7 @@ import { togglePlayPause, setCurrentEpisode, setIsPlaying, skipToNextEpisode, sk
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
 
-const AudioPlayer = ({ updateEpisodeTimestamp }) => {
-
+const AudioPlayer = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);
     const theme = useTheme();
