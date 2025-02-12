@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles';
 
 const AudioSlider = () => {
     const theme = useTheme();
+    const dispatch = useDispatch()
     const [progress, setProgress] = useState(0);
     const duration = useSelector((state) => state.audioPlayer.duration);
     const currentTime = useSelector((state) => state.audioPlayer.currentTime);
@@ -16,10 +17,10 @@ const AudioSlider = () => {
     };
 
     const handleProgressChange = (event, newValue) => {
-        if (audioRef.current) {
-            const time = (newValue / 100) * audioRef.current.duration;
-            audioRef.current.currentTime = time;
-            setCurrentTime(time);
+        if (audio.current) {
+            const time = (newValue / 100) * audio.current.duration;
+            audio.current.currentTime = time;
+            dispatch(setCurrentTime(time));
             console.log("current time state is", currentTime)
         }
         setProgress(newValue);

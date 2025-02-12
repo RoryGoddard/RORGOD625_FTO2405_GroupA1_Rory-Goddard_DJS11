@@ -167,7 +167,7 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEpisodeEnd}
         />
-        <AudioSlider />
+        <AudioSlider audio={audioRef}/>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <Box sx={{ width: '140px', ml: "0.5rem" }}>
           {currentEpisode && (
