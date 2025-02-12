@@ -7,7 +7,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { togglePlayPause, setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp, generatePlaylist } from '../state/audioPlayerSlice'
+import { togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp, generatePlaylist } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
 
@@ -21,7 +21,6 @@ const AudioPlayer = () => {
     const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
     const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
     const playingShow = useSelector((state) => state.audioPlayer.playingShow);
-    const playlistExists = useSelector((state) => state.audioPlayer.playlist)
 
     // Handle play/pause
     useEffect(() => {
