@@ -7,7 +7,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp, generatePlaylist } from '../state/audioPlayerSlice'
+import { togglePlayPause, setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp, generatePlaylist } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
 
@@ -23,48 +23,6 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
     const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
     const playingShow = useSelector((state) => state.audioPlayer.playingShow);
     const playlistExists = useSelector((state) => state.audioPlayer.playlist)
-
-
-
-    // useEffect(() => {
-    //   const audio = audioRef.current;
-    //   const updateTime = () => setCurrentTime(audio.currentTime);
-    //   const updateDuration = () => setDuration(audio.duration);
-  
-    //   audio.addEventListener('timeupdate', updateTime);
-    //   audio.addEventListener('loadedmetadata', updateDuration);
-    //   audio.addEventListener('durationchange', updateDuration);
-  
-    //   return () => {
-    //     audio.removeEventListener('timeupdate', updateTime);
-    //     audio.removeEventListener('loadedmetadata', updateDuration);
-    //     audio.removeEventListener('durationchange', updateDuration);
-    //   };
-    // }, []);
-
-    const handlePlayPause = () => {
-      dispatch(setIsPlaying(!isPlaying))
-      if (!playlistExists) {
-        dispatch(generatePlaylist())
-      }
-    }
-
-    // useEffect(() => {
-    //   const audio = audioRef.current;
-    //   if (!audio) return;
-
-    //   const handleTimeUpdate = ()    const currentTime = useSelector((state) => state.audioPlayer.currentTime); => {
-    //     if (playingShow && currentEpisode) {
-    //       updateEpisodeTimestamp(playingShow.id, currentEpisode.episodeTitle, Math.floor(audio.currentTime));
-    //     }
-    //   };
-  
-    //   audio.addEventListener('timeupdate', handleTimeUpdate);
-  
-    //   return () => {
-    //     audio.removeEventListener('timeupdate', handleTimeUpdate);
-    //   };
-    // }, [playingShow, currentEpisode, updateEpisodeTimestamp]);
 
     // Handle play/pause
     useEffect(() => {
@@ -186,7 +144,7 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
             }}>
               <SkipPreviousIcon sx={{ fontSize: '2rem' }} />
             </IconButton>
-            <IconButton onClick={() => handlePlayPause()} disabled={!isLoaded}  sx={{ 
+            <IconButton onClick={() => dispatch(togglePlayPause())} disabled={!isLoaded}  sx={{ 
               padding: '12px',
               width: '72px',
               height: '72px',
