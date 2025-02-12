@@ -9,9 +9,10 @@ import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentEpisode, setIsPlaying, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp, generatePlaylist } from '../state/audioPlayerSlice'
 import Volume from './Volume'
+import AudioSlider from './AudioSlider';
 
 const AudioPlayer = ({ updateEpisodeTimestamp }) => {
-    const [progress, setProgress] = useState(0);
+
     const [isLoaded, setIsLoaded] = useState(false);
     const audioRef = useRef(null);
     const theme = useTheme();
@@ -22,8 +23,8 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
     const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
     const playingShow = useSelector((state) => state.audioPlayer.playingShow);
     const playlistExists = useSelector((state) => state.audioPlayer.playlist)
-    const currentTime = useSelector((state) => state.audioPlayer.currentTime);
-    const duration = useSelector((state) => state.audioPlayer.duration);
+
+
 
     // useEffect(() => {
     //   const audio = audioRef.current;
@@ -41,12 +42,6 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
     //   };
     // }, []);
 
-    const formatTime = (time) => {
-      const minutes = Math.floor(time / 60);
-      const seconds = Math.floor(time % 60);
-      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    };
-
     const handlePlayPause = () => {
       dispatch(setIsPlaying(!isPlaying))
       if (!playlistExists) {
@@ -54,22 +49,22 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
       }
     }
 
-    useEffect(() => {
-      const audio = audioRef.current;
-      if (!audio) return;
+    // useEffect(() => {
+    //   const audio = audioRef.current;
+    //   if (!audio) return;
 
-      const handleTimeUpdate = () => {
-        if (playingShow && currentEpisode) {
-          updateEpisodeTimestamp(playingShow.id, currentEpisode.episodeTitle, Math.floor(audio.currentTime));
-        }
-      };
+    //   const handleTimeUpdate = ()    const currentTime = useSelector((state) => state.audioPlayer.currentTime); => {
+    //     if (playingShow && currentEpisode) {
+    //       updateEpisodeTimestamp(playingShow.id, currentEpisode.episodeTitle, Math.floor(audio.currentTime));
+    //     }
+    //   };
   
-      audio.addEventListener('timeupdate', handleTimeUpdate);
+    //   audio.addEventListener('timeupdate', handleTimeUpdate);
   
-      return () => {
-        audio.removeEventListener('timeupdate', handleTimeUpdate);
-      };
-    }, [playingShow, currentEpisode, updateEpisodeTimestamp]);
+    //   return () => {
+    //     audio.removeEventListener('timeupdate', handleTimeUpdate);
+    //   };
+    // }, [playingShow, currentEpisode, updateEpisodeTimestamp]);
 
     // Handle play/pause
     useEffect(() => {
@@ -136,15 +131,6 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
         }
     };
 
-    const handleProgressChange = (event, newValue) => {
-        if (audioRef.current) {
-            const time = (newValue / 100) * audioRef.current.duration;
-            audioRef.current.currentTime = time;
-            setCurrentTime(time);
-            console.log("current time state is", currentTime)
-        }
-        setProgress(newValue);
-    };
 
     // Handle episode completion
     const handleEpisodeEnd = () => {
@@ -181,25 +167,7 @@ const AudioPlayer = ({ updateEpisodeTimestamp }) => {
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEpisodeEnd}
         />
-        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', mb: 1 }}>
-          <Typography variant="body1" sx={{ mr: 1, fontSize: '1.2rem'}}>
-            {formatTime(currentTime)}
-          </Typography>
-          <Slider
-            value={progress}
-            onChange={handleProgressChange}
-            aria-labelledby="progress-slider"
-            sx={{
-              flexGrow: 1,
-              mx: 2,
-              color: theme.palette.audioPlayer.slider,
-            }}
-          />
-          <Typography variant="body1" sx={{ ml: 1, fontSize: '1.2rem'}}>
-            {formatTime(duration)}
-          </Typography>
-        </Box>
-
+        <AudioSlider />
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <Box sx={{ width: '140px', ml: "0.5rem" }}>
           {currentEpisode && (
