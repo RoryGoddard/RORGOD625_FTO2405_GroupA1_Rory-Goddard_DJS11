@@ -1,5 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { getAllEpisodes, findEpisodeIndex } from "../utils/episodeUtils";
+import { audioService } from "../services/AudioService";
 
 const loadTimestamps = () => {
     try {
