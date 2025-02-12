@@ -85,6 +85,33 @@ const audioPlayerSlice = createSlice({
 
 })
 
+export const togglePlayPause = () => (dispatch, getState) => {
+    const { isPlaying } = getState().audioPlayer;
+    
+    if (isPlaying) {
+        audioService.pause();
+    } else {
+        audioService.play();
+    }
+    dispatch(setIsPlaying(!isPlaying));
+};
+
+export const playEpisode = (episode) => async (dispatch) => {
+    try {
+        audioService.setSource(episode.file);
+        await audioService.play();
+        dispatch(setCurrentEpisode(episode));
+        dispatch(setIsPlaying(true));
+    } catch (error) {
+        console.error('Failed to play episode:', error);
+    }
+};
+
+export const seekTo = (time) => (dispatch) => {
+    audioService.setCurrentTime(time);
+    dispatch(setCurrentTime(time));
+};
+
 export const generatePlaylist = () => (dispatch, getState) => {
     const { playingShow, currentEpisode } = getState().audioPlayer;
 
