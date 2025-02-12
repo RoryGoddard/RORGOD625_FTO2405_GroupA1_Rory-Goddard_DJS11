@@ -1,29 +1,25 @@
 import { Box, Slider, Typography } from '@mui/material';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
+import { seekTo } from '../state/audioPlayerSlice';
 
 const AudioSlider = () => {
     const theme = useTheme();
-    const dispatch = useDispatch()
-    const [progress, setProgress] = useState(0);
+    const dispatch = useDispatch();
     const duration = useSelector((state) => state.audioPlayer.duration);
     const currentTime = useSelector((state) => state.audioPlayer.currentTime);
+
+    const handleProgressChange = (_, newValue) => {
+        const time = (newValue / 100) * duration;
+        dispatch(seekTo(time));
+    };
+
+    const progress = duration ? (currentTime / duration) * 100 : 0;
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    };
-
-    const handleProgressChange = (event, newValue) => {
-        if (audio.current) {
-            const time = (newValue / 100) * audio.current.duration;
-            audio.current.currentTime = time;
-            dispatch(setCurrentTime(time));
-            console.log("current time state is", currentTime)
-        }
-        setProgress(newValue);
     };
 
     return (
