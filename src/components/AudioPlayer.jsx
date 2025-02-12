@@ -7,104 +7,29 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setEpisodeAsListened, setDuration, setCurrentTime, saveTimestamp } from '../state/audioPlayerSlice'
+import { togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
+import { audioService } from '../services/AudioService';
 
 const AudioPlayer = () => {
-    const [isLoaded, setIsLoaded] = useState(false);
-    const audioRef = useRef(null);
     const theme = useTheme();
 
     // Redux
     const dispatch = useDispatch()
     const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
     const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
-    const playingShow = useSelector((state) => state.audioPlayer.playingShow);
 
-    // Handle play/pause
     useEffect(() => {
-        if (audioRef.current && isLoaded) {
-            if (isPlaying) {
-                dispatch(setDuration(audioRef.current.duration))
-                const playPromise = audioRef.current.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => console.error("Playback failed", error));
-                }
-            } else {
-                audioRef.current.pause();
-            }
-        }
-    }, [isPlaying, isLoaded, dispatch]);
-
-    // Effect to handle episode changes
-    useEffect(() => {
-        if (currentEpisode && audioRef.current) {
-            setIsLoaded(false);
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-            audioRef.current.src = currentEpisode.file;
-            
-            audioRef.current.addEventListener('loadeddata', () => {
-                setIsLoaded(true);
-                // If isPlaying is true, start playing the new episode
-                if (isPlaying) {
-                    audioRef.current.play().catch(error => 
-                        console.error("Playback failed", error)
-                    );
-                }
-            }, { once: true });
-        }
-    }, [currentEpisode, isPlaying]);
-
-    // Effect to update timestamp in Redux
-    useEffect(() => {
-      const audio = audioRef.current;
-      if (!audio) return;
-
-      const handleTimeUpdate = () => {
-          if (playingShow && currentEpisode) {
-              const currentTime = Math.floor(audio.currentTime);
-              dispatch(setCurrentTime(currentTime));
-              // Update timestamp in Redux/localStorage
-              dispatch(saveTimestamp({
-                  episodeId: `${playingShow.id}-${currentEpisode.episodeTitle}`,
-                  timestamp: currentTime
-              }));
-          }
-      };
-
-      audio.addEventListener('timeupdate', handleTimeUpdate);
-      return () => audio.removeEventListener('timeupdate', handleTimeUpdate);
-    }, [playingShow, currentEpisode, dispatch]);
-
-
-    const handleTimeUpdate = () => {
-        if (audioRef.current) {
-            const currentProgress = (audioRef.current.currentTime / audioRef.current.duration) * 100 || 0;
-            setProgress(currentProgress);
-            console.log("current progress state is", currentProgress)
-        }
-    };
-
-
-    // Handle episode completion
-    const handleEpisodeEnd = () => {
-        if (currentEpisode && playingShow) {
-          console.log("This is playing show", playingShow)
-            dispatch(setEpisodeAsListened({
-                show: playingShow.id,
-                episode: {
-                  showId: playingShow.id,
-                  showTitle: playingShow.title,
-                  episodeTitle: currentEpisode.episodeTitle,
-                  listenedAt: new Date().toISOString()
-                }
-            }));
-            dispatch(skipToNextEpisode());
-        }
-    };
-  
+      // Set up one-time event listeners
+      audioService.onTimeUpdate(() => {
+          dispatch(setCurrentTime(audioService.getCurrentTime()));
+      });
+      
+      audioService.onEnded(() => {
+          dispatch(skipToNextEpisode());
+      });
+  }, [dispatch]);  
 
     return (
       <Box     sx={{
@@ -118,12 +43,7 @@ const AudioPlayer = () => {
         alignItems: 'center',
         padding: '0.5rem',
       }}>
-        <audio
-          ref={audioRef}
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={handleEpisodeEnd}
-        />
-        <AudioSlider audio={audioRef}/>
+        <AudioSlider />
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <Box sx={{ width: '140px', ml: "0.5rem" }}>
           {currentEpisode && (
@@ -142,7 +62,7 @@ const AudioPlayer = () => {
             }}>
               <SkipPreviousIcon sx={{ fontSize: '2rem' }} />
             </IconButton>
-            <IconButton onClick={() => dispatch(togglePlayPause())} disabled={!isLoaded}  sx={{ 
+            <IconButton onClick={() => dispatch(togglePlayPause())} disabled={!currentEpisode}  sx={{ 
               padding: '12px',
               width: '72px',
               height: '72px',
@@ -160,7 +80,7 @@ const AudioPlayer = () => {
               <SkipNextIcon sx={{ fontSize: '2rem' }}/>
             </IconButton>
           </Box>
-          <Volume audioRef={audioRef}/>
+          <Volume />
         </Box>
       </Box>
     );
