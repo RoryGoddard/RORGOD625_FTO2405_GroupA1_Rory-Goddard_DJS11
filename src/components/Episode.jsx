@@ -8,7 +8,7 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
-import { saveTimestamp, setEpisodeAsListened, selectIsListened, setCurrentEpisode, setIsPlaying, setPlayingShow } from '../state/audioPlayerSlice';
+import { saveTimestamp, setEpisodeAsListened, selectIsListened, setCurrentEpisode, setIsPlaying, setPlayingShow, generatePlaylist, playEpisode } from '../state/audioPlayerSlice';
 import { selectIsFavourite } from "../state/favouritesSlice";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -23,9 +23,9 @@ const Episode = ({ show, episode, selectedSeason }) => {
     const dispatch = useDispatch();
 
     const handlePlayEpisode = (episodeDetails) => {
-        dispatch(setCurrentEpisode(episodeDetails));
-        dispatch(setIsPlaying(true))
+        dispatch(playEpisode(episodeDetails))
         dispatch(setPlayingShow(playingShow))
+        dispatch(generatePlaylist())
     }
 
     const episodeDetails = {
