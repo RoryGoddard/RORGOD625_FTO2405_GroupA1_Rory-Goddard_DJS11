@@ -50,7 +50,7 @@ const Volume = ({ audioRef }) => {
 Volume.propTypes = {
     audioRef: PropTypes.shape({
         current: PropTypes.instanceOf(HTMLAudioElement)
-    }).isRequired
+    })
 };
 
 export default Volume

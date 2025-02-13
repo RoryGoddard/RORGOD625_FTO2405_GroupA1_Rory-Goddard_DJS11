@@ -5,16 +5,25 @@ class AudioService {
         
         this.play = () => audioElement.play();
         this.pause = () => audioElement.pause();
-        this.setSource = (src) => audioElement.src = src;
         this.setVolume = (volume) => audioElement.volume = volume;
         this.getDuration = () => audioElement.duration;
         this.getCurrentTime = () => audioElement.currentTime;
         this.setCurrentTime = (time) => audioElement.currentTime = time;
 
-        // Event listeners
-        this.onTimeUpdate = (callback) => audioElement.addEventListener('timeupdate', callback);
-        this.onEnded = (callback) => audioElement.addEventListener('ended', callback);
-        this.onLoadedData = (callback) => audioElement.addEventListener('loadeddata', callback);
+        this.setSource = (src) => {
+            audioElement.src = src;
+            return new Promise((resolve) => {
+                audioElement.addEventListener('loadedmetadata', () => {
+                    resolve(audioElement.duration);
+                }, { once: true });
+            });
+        };
+        
+        this.onTimeUpdate = (callback) => {
+            audioElement.addEventListener('timeupdate', () => {
+                callback(audioElement.currentTime);
+            });
+        };
     }
 }
 

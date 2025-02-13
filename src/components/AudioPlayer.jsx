@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -10,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { playEpisode, generatePlaylist, togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
-import { audioService } from '../services/AudioService';
 
 const AudioPlayer = () => {
     const theme = useTheme();
@@ -19,17 +17,6 @@ const AudioPlayer = () => {
     const dispatch = useDispatch()
     const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
     const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
-
-    useEffect(() => {
-      // Set up one-time event listeners
-      audioService.onTimeUpdate(() => {
-          dispatch(setCurrentTime(audioService.getCurrentTime()));
-      });
-      
-      audioService.onEnded(() => {
-          dispatch(skipToNextEpisode());
-      });
-    }, [dispatch]);  
 
     const handlePlayPause = () => {
       console.log("currentEpisode is:", currentEpisode)

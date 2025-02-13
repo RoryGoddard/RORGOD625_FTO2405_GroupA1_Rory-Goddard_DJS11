@@ -98,11 +98,13 @@ export const togglePlayPause = () => (dispatch, getState) => {
 
 export const playEpisode = (episode) => async (dispatch) => {
     try {
-        audioService.setSource(episode.file);
-        audioService.play();
+        const duration = await audioService.setSource(episode.file);
+        await audioService.play();
         dispatch(setCurrentEpisode(episode));
         dispatch(setIsPlaying(true));
-        dispatch(generatePlaylist())
+        dispatch(generatePlaylist());
+        dispatch(setDuration(duration));
+        console.log("Duration set to:", duration);
     } catch (error) {
         console.error('Failed to play episode:', error);
     }
