@@ -7,7 +7,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime } from '../state/audioPlayerSlice'
+import { playEpisode, generatePlaylist, togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
 import { audioService } from '../services/AudioService';
@@ -29,7 +29,24 @@ const AudioPlayer = () => {
       audioService.onEnded(() => {
           dispatch(skipToNextEpisode());
       });
-  }, [dispatch]);  
+    }, [dispatch]);  
+
+    const handlePlayPause = () => {
+      console.log("currentEpisode is:", currentEpisode)
+      // If no episode is playing yet but we have a currentEpisode selected
+      if (!isPlaying && currentEpisode) {
+          dispatch(playEpisode(currentEpisode));
+      } 
+      // If we're already playing or paused
+      else {
+          dispatch(togglePlayPause());
+      }
+  
+      // Generate playlist if needed
+      // if (!playlistExists) {
+      //     dispatch(generatePlaylist());
+      // }
+    }
 
     return (
       <Box     sx={{
@@ -62,7 +79,7 @@ const AudioPlayer = () => {
             }}>
               <SkipPreviousIcon sx={{ fontSize: '2rem' }} />
             </IconButton>
-            <IconButton onClick={() => dispatch(togglePlayPause())} disabled={!currentEpisode}  sx={{ 
+            <IconButton onClick={() => handlePlayPause()} disabled={!currentEpisode}  sx={{ 
               padding: '12px',
               width: '72px',
               height: '72px',

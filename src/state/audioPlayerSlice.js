@@ -43,7 +43,7 @@ const audioPlayerSlice = createSlice({
     initialState: {
         currentEpisode: null,
         currentIndex: 0,
-        playlist: [],
+        playlist: null,
         isPlaying: false,
         playingShow: null,
         duration:0,
@@ -99,9 +99,10 @@ export const togglePlayPause = () => (dispatch, getState) => {
 export const playEpisode = (episode) => async (dispatch) => {
     try {
         audioService.setSource(episode.file);
-        await audioService.play();
+        audioService.play();
         dispatch(setCurrentEpisode(episode));
         dispatch(setIsPlaying(true));
+        dispatch(generatePlaylist())
     } catch (error) {
         console.error('Failed to play episode:', error);
     }
@@ -117,19 +118,14 @@ export const generatePlaylist = () => (dispatch, getState) => {
 
     if (playingShow && currentEpisode) {
         const allEpisodes = getAllEpisodes(playingShow);
-        console.log("all episodes looks like this", allEpisodes)
         let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
-        console.log("current index is", currentIndex)
         if (currentIndex === -1) {
             currentIndex = 0;
         }
 
         dispatch(setPlaylist(allEpisodes))
         dispatch(setCurrentIndex(currentIndex))
-        console.log(currentIndex)
-
     }
-
 }
 
 export const skipToNextEpisode = () => (dispatch, getState) => {
@@ -140,7 +136,7 @@ export const skipToNextEpisode = () => (dispatch, getState) => {
             console.log("Just checkign that this evaluates to true")
             const nextEpisode = playlist[currentIndex + 1];
             console.log(nextEpisode)
-            dispatch(setCurrentEpisode(nextEpisode));
+            dispatch(playEpisode(nextEpisode));
             dispatch(setIsPlaying(true));
             dispatch(setCurrentIndex(currentIndex + 1))
         }
@@ -155,7 +151,7 @@ export const skipToPreviousEpisode = () => (dispatch, getState) => {
             console.log("Just checkign that this evaluates to true")
             const nextEpisode = playlist[currentIndex - 1];
             console.log(nextEpisode)
-            dispatch(setCurrentEpisode(nextEpisode));
+            dispatch(playEpisode(nextEpisode));
             dispatch(setIsPlaying(true));
             dispatch(setCurrentIndex(currentIndex - 1))
         }
