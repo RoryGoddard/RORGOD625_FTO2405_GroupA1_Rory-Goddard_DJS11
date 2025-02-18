@@ -1,8 +1,9 @@
-import { Box, Typography, Button, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from '@mui/material';
+import { Box, Typography, Button, IconButton, List, ListItem, ListItemText, Divider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toggleFavourite } from '../state/favouritesSlice';
+import React from 'react';
 
 const FavoritesPage = () => {
     const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites);
@@ -23,8 +24,12 @@ const FavoritesPage = () => {
             </Box>
             <List sx={{ mb: "3rem" }}>
                 {favouriteEpisodes.map((fav, index) => (
-                    <>
-                        <ListItem key={`${fav.showId}-${fav.episodeTitle}`}>
+                    <React.Fragment key={{index}}>
+                        <ListItem secondaryAction={
+                            <IconButton edge="end" aria-label="delete" onClick={() => dispatch(toggleFavourite(fav))}>
+                                <DeleteIcon />
+                            </IconButton>
+                        }>
                             <ListItemText
                                 primary={fav.showTitle}
                                 secondary={`${fav.seasonTitle} - Episode ${fav.episode} - ${fav.episodeTitle}`}
@@ -48,15 +53,10 @@ const FavoritesPage = () => {
                                     hour12: false,
                                     textAlign: "end"
                                 }))} />
-                                <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => dispatch(toggleFavourite(fav))}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
                             </Box>
                         </ListItem>
                         {index < favouriteEpisodes.length - 1 && <Divider />}
-                    </>
+                    </React.Fragment>
                 ))}
             </List>
         </Box>
