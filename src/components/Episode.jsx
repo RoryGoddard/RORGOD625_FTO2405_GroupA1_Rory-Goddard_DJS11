@@ -25,7 +25,6 @@ const Episode = ({ show, episode, selectedSeason }) => {
     const handlePlayEpisode = (episodeDetails) => {
         dispatch(playEpisode(episodeDetails))
         dispatch(setPlayingShow(playingShow))
-        dispatch(generatePlaylist())
     }
 
     const episodeDetails = {
