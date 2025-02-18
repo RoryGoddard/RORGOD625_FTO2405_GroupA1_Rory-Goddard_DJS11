@@ -6,34 +6,27 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { playEpisode, togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime } from '../state/audioPlayerSlice'
+import { playEpisode, togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime, setIsPlaying } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
+import { audioService } from '../services/AudioService';
 
 const AudioPlayer = () => {
     const theme = useTheme();
-
-    // Redux
-    const dispatch = useDispatch()
-    const isPlaying = useSelector((state) => state.audioPlayer.isPlaying)
-    const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode)
+    const dispatch = useDispatch();
+    const isPlaying = useSelector((state) => state.audioPlayer.isPlaying);
+    const currentEpisode = useSelector((state) => state.audioPlayer.currentEpisode);
 
     const handlePlayPause = () => {
-      console.log("currentEpisode is:", currentEpisode)
-      // If no episode is playing yet but we have a currentEpisode selected
-      if (!isPlaying && currentEpisode) {
-          dispatch(playEpisode(currentEpisode));
-      } 
-      // If we're already playing or paused
-      else {
-          dispatch(togglePlayPause());
+      if (isPlaying) {
+        audioService.pause();
+        dispatch(setIsPlaying(false));
       }
-  
-      // Generate playlist if needed
-      // if (!playlistExists) {
-      //     dispatch(generatePlaylist());
-      // }
-    }
+      else {
+        audioService.play();
+        dispatch(setIsPlaying(true));
+      }
+    };
 
     return (
       <Box     sx={{

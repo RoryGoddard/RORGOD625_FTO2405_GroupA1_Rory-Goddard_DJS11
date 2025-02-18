@@ -127,6 +127,7 @@ export const generatePlaylist = () => (dispatch, getState) => {
 
         dispatch(setPlaylist(allEpisodes))
         dispatch(setCurrentIndex(currentIndex))
+        console.log("Current index is:", currentIndex)
     }
 }
 
