@@ -31,7 +31,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
         showId: show.id,
         showTitle: show.title,
         seasonTitle: selectedSeason.title,
-        seasonNumber: selectedSeason.season,
+        season: selectedSeason.season,
         title: episode.title,
         episode: episode.episode,
         file: episode.file,

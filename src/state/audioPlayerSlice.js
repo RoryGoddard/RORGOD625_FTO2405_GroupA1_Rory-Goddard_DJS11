@@ -26,14 +26,14 @@ const selectIsListened = createSelector(
     [
         (state) => state.audioPlayer.listenedEpisodes, 
         (_, showId) => showId,
-        (_, __, seasonNumber) => seasonNumber, 
+        (_, __, season) => season, 
         (_, __, ___, episode) => episode
     ],
-    (listenedEpisodes, showId, seasonNumber, episode) => 
+    (listenedEpisodes, showId, season, episode) => 
         listenedEpisodes.some(
             (episode) => 
                 episode.showId === showId && 
-                episode.seasonNumber === seasonNumber && 
+                episode.season === season && 
                 episode.episode === episode
         )
 );

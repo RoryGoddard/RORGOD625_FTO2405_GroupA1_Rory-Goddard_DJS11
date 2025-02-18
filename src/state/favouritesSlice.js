@@ -16,14 +16,14 @@ const selectIsFavourite = createSelector(
     [
         (state) => state.favourites.episodes, 
         (_, showId) => showId,
-        (_, __, seasonNumber) => seasonNumber, 
+        (_, __, season) => season, 
         (_, __, ___, episode) => episode
     ],
-    (favourites, showId, seasonNumber, episode) => 
+    (favourites, showId, season, episode) => 
         favourites.some(
             (episode) => 
                 episode.showId === showId && 
-                episode.seasonNumber === seasonNumber && 
+                episode.season === season && 
                 episode.episode === episode
         )
 );
@@ -38,7 +38,7 @@ const favouritesSlice = createSlice({
     },
     reducers: {
         toggleFavourite: (state, action) => {
-            const existingIndex = state.episodes.findIndex(fav => fav.showId === action.payload.showId && fav.seasonNumber === action.payload.seasonNumber && fav.episode === action.payload.episode)
+            const existingIndex = state.episodes.findIndex(fav => fav.showId === action.payload.showId && fav.season === action.payload.season && fav.episode === action.payload.episode)
 
             if (existingIndex === -1) {
                 state.searchedAndSortedFavourites.push(action.payload);
