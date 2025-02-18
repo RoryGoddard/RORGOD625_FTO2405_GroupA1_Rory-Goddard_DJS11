@@ -9,10 +9,24 @@ import { useEffect, useState } from 'react';
 const AudioSlider = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const duration = useSelector((state) => state.audioPlayer.duration);
-    // const currentTime = useSelector((state) => state.audioPlayer.currentTime);
-    const [currentTime, setCurrentTime] = useState(0)
+    const [duration, setDuration] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
+    const episodeIndex = useSelector((state) => state.audioPlayer.currentIndex)
 
+    useEffect(() => {
+      const handleMetadataLoaded = () => {
+        setDuration(audioService.getDuration())
+      }
+
+      audioService.audio.addEventListener("loadedmetadata", handleMetadataLoaded)
+      
+      audioService.onTimeUpdate(setCurrentTime)
+
+      return () => {
+        audioService.audio.removeEventListener("loadedmetadata", handleMetadataLoaded)
+        audioService.onTimeUpdate(() => {})
+      }
+    }, [episodeIndex])
 
     const handleProgressChange = (_, newValue) => {
         const time = (newValue / 100) * duration;
