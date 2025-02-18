@@ -27,12 +27,6 @@ const AudioSlider = () => {
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
-    useEffect(() => {
-      audioService.onTimeUpdate((time) => {
-          dispatch(setCurrentTime(time));
-      });
-    }, [dispatch]);
-
     const seekTo = (time) => {
       audioService.setCurrentTime(time);
       setCurrentTime(time);
