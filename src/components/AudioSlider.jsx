@@ -20,11 +20,11 @@ const AudioSlider = () => {
 
       audioService.audio.addEventListener("loadedmetadata", handleMetadataLoaded)
       
-      audioService.onTimeUpdate(setCurrentTime)
+      const unsubscribe = audioService.onTimeUpdate(setCurrentTime)
 
       return () => {
         audioService.audio.removeEventListener("loadedmetadata", handleMetadataLoaded)
-        audioService.onTimeUpdate(() => {})
+        unsubscribe()
       }
     }, [episodeIndex])
 

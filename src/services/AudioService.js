@@ -22,9 +22,14 @@ class AudioService {
         };
 
         this.onTimeUpdate = (callback) => {
-            audioElement.addEventListener('timeupdate', () => {
-                callback(audioElement.currentTime);
-            });
+            const listener = () => {
+                callback(this.audio.currentTime)
+            }
+            audioElement.addEventListener('timeupdate', listener)
+
+            return () => {
+                this.audio.removeEventListener("timeupdate", listener)
+            }
         };
     }
 }
