@@ -27,7 +27,7 @@ const FavoritesPage = () => {
                         <ListItem key={`${fav.showId}-${fav.episodeTitle}`}>
                             <ListItemText
                                 primary={fav.showTitle}
-                                secondary={`${fav.seasonTitle} - Episode ${fav.episodeNumber} - ${fav.episodeTitle}`}
+                                secondary={`${fav.seasonTitle} - Episode ${fav.episode} - ${fav.episodeTitle}`}
                             />
                             <Box sx={{display: "flex", flexDirection:'column', justifyContent:'center', alignItems: "center", textAlign: "end", whiteSpace: "nowrap"}}>
                                 <ListItemText sx={{ mr: "2rem" }} secondary={"Added: " + ((new Date(fav.savedAt)).toLocaleString(undefined, {

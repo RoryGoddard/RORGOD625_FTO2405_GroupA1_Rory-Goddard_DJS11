@@ -27,14 +27,14 @@ const selectIsListened = createSelector(
         (state) => state.audioPlayer.listenedEpisodes, 
         (_, showId) => showId,
         (_, __, seasonNumber) => seasonNumber, 
-        (_, __, ___, episodeNumber) => episodeNumber
+        (_, __, ___, episode) => episode
     ],
-    (listenedEpisodes, showId, seasonNumber, episodeNumber) => 
+    (listenedEpisodes, showId, seasonNumber, episode) => 
         listenedEpisodes.some(
             (episode) => 
                 episode.showId === showId && 
                 episode.seasonNumber === seasonNumber && 
-                episode.episodeNumber === episodeNumber
+                episode.episode === episode
         )
 );
 
@@ -122,6 +122,7 @@ export const generatePlaylist = () => (dispatch, getState) => {
         const allEpisodes = getAllEpisodes(playingShow);
         let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
         if (currentIndex === -1) {
+            console.log("current index was equal to -1 and triggered the if statement", currentIndex)
             currentIndex = 0;
         }
 
