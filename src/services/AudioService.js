@@ -6,6 +6,8 @@ class AudioService {
         this.play = () => audioElement.play();
         this.pause = () => audioElement.pause();
         this.setVolume = (volume) => audioElement.volume = volume;
+        this.getVolume = () => audioElement.volume;
+        this.muted = () => audioElement.muted;
         this.getDuration = () => audioElement.duration;
         this.getCurrentTime = () => audioElement.currentTime;
         this.setCurrentTime = (time) => audioElement.currentTime = time;
@@ -18,7 +20,7 @@ class AudioService {
                 }, { once: true });
             });
         };
-        
+
         this.onTimeUpdate = (callback) => {
             audioElement.addEventListener('timeupdate', () => {
                 callback(audioElement.currentTime);

@@ -5,21 +5,30 @@ import { useState } from 'react';
 import { Box, IconButton, Slider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types'
+import { audioService } from '../services/AudioService';
 
-const Volume = ({ audioRef }) => {
-    const [isMuted, setIsMuted] = useState(false)
-    const [volume, setVolume] = useState(0.5)
+const Volume = () => {
+    const [isMuted, setIsMuted] = useState(false);
+    const [volume, setVolume] = useState(0.5);
     const theme = useTheme();
 
+    const changeVolume = (volume) => {
+        audioService.setVolume(volume);
+        setVolume(volume);
+    }
+
     const toggleMute = () => {
-        setIsMuted(!isMuted);
-        audioRef.current.volume = isMuted ? volume : 0;
+        setIsMuted((prevIsMuted) => {
+            const newIsMuted = !prevIsMuted;
+            const newVolume = newIsMuted? 0 : 0.5;
+            changeVolume(newVolume);
+            return newIsMuted;
+        });
     };
   
-    const handleVolumeChange = (event, newValue) => {
-        setVolume(newValue);
+    const handleVolumeChange = (_, newValue) => {
+        changeVolume(newValue);
         setIsMuted(newValue === 0);
-        audioRef.current.volume = newValue;
     };
 
     return (<Box sx={{ display: 'flex', alignItems: 'center', width: '140px', mr: "0.5rem" }}>
@@ -32,7 +41,7 @@ const Volume = ({ audioRef }) => {
         {isMuted ? <VolumeMuteIcon sx={{ fontSize: '2rem' }} /> : volume > 0.5 ? <VolumeUpIcon sx={{ fontSize: '2rem' }} /> : <VolumeDownIcon  sx={{ fontSize: '2rem' }}/>}
         </IconButton>
         <Slider
-        value={isMuted ? 0 : volume}
+        value={volume}
         onChange={handleVolumeChange}
         aria-labelledby="volume-slider"
         min={0}
