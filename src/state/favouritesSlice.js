@@ -21,10 +21,10 @@ const selectIsFavourite = createSelector(
     ],
     (favourites, showId, season, episode) => 
         favourites.some(
-            (episode) => 
-                episode.showId === showId && 
-                episode.season === season && 
-                episode.episode === episode
+            (fav) => 
+                fav.showId === showId && 
+                fav.season === season && 
+                fav.episode === episode
         )
 );
 
@@ -60,38 +60,22 @@ const favouritesSlice = createSlice({
             console.log("Checking existing index:", existingIndex)
             if (existingIndex === -1) {
                 console.log("Spoiler alert: its -1")
-                state.searchedAndSortedFavourites.push(action.payload);
                 state.episodes.push(action.payload);
             } else {
                 console.log("its not -1, jk this console log will never print")
                 state.episodes.splice(existingIndex, 1);
-                state.searchedAndSortedFavourites.splice(existingIndex, 1);
             }
         },
         setFavouriteSortOption(state, action) {
             state.sortOption = action.payload;
-            const sortedFavourites = applySorting(
-                state.episodes,
-                action.payload
-            );
-            state.searchedAndSortedFavourites = sortedFavourites
         },
         setFavouriteSearchTerm(state, action) {
             state.searchTerm = action.payload;
-            let searchResults = state.episodes;
-
-            if (state.searchTerm) {
-                const fuse = initializeFuzzySearch(searchResults);
-                searchResults = performFuzzySearch(fuse, state.searchTerm)
-                .map(result => result.item);
-            }
-            searchResults = applySorting(searchResults, state.sortOption);
-            state.searchedAndSortedFavourites = searchResults;
         },
 
     }
-})
+});
 
 export const { toggleFavourite, setFavouriteSortOption, setFavouriteSearchTerm } = favouritesSlice.actions;
-export { selectIsFavourite, selectSearchedAndSortedFavourites }
+export { selectIsFavourite, selectSearchedAndSortedFavourites };
 export default favouritesSlice.reducer;
