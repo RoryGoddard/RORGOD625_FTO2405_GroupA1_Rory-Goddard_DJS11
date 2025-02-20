@@ -1,6 +1,6 @@
 import Fuse from 'fuse.js';
 
-const favouriteKeys = ['showTitle', 'seasonTitle', 'episodeTitle', 'episode']
+const favouriteKeys = ['showTitle', 'seasonTitle', 'title', 'episode']
 const podcastKeys = ['title', 'description']
 
 export const initializeFuzzySearch = (shows) => {

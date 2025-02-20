@@ -7,8 +7,10 @@ import React from 'react';
 
 const FavoritesPage = () => {
     const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites);
+    console.log("favourite episodes are:", favouriteEpisodes)
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    console.log("favourite episodes from useSelector are:", favouriteEpisodes)
 
     return (
         <Box sx={{ padding: 2, mt: "4rem", mb: "6rem" }}>
@@ -32,7 +34,7 @@ const FavoritesPage = () => {
                         }>
                             <ListItemText
                                 primary={fav.showTitle}
-                                secondary={`${fav.seasonTitle} - Episode ${fav.episode} - ${fav.episodeTitle}`}
+                                secondary={`${fav.seasonTitle} - Episode ${fav.episode} - ${fav.title}`}
                             />
                             <Box sx={{display: "flex", flexDirection:'column', justifyContent:'center', alignItems: "center", textAlign: "end", whiteSpace: "nowrap"}}>
                                 <ListItemText sx={{ mr: "2rem" }} secondary={"Added: " + ((new Date(fav.savedAt)).toLocaleString(undefined, {

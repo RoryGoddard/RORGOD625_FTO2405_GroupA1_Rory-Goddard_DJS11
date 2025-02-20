@@ -14,6 +14,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types'
+import { dateAndTime } from '../utils/dateAndTime';
 
 const Episode = ({ show, episode, selectedSeason }) => {
     const isFavourite = useSelector(state => selectIsFavourite(state, show.id, selectedSeason.season, episode.episode));
@@ -36,10 +37,11 @@ const Episode = ({ show, episode, selectedSeason }) => {
         episode: episode.episode,
         file: episode.file,
         updated: show.updated,
-        savedAt: new Date().toLocaleString()
+        savedAt: dateAndTime()
     }
 
     const handleToggleFavourite = () => {
+        console.log("Episode details are", episodeDetails.savedAt)
         dispatch(toggleFavourite(episodeDetails));
     };
 
