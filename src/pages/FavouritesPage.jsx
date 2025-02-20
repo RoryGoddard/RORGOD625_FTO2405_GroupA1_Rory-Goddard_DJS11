@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toggleFavourite } from '../state/favouritesSlice';
 import React from 'react';
+import { generateEpisodeId } from '../utils/episodeIdGenerator';
 
 const FavoritesPage = () => {
     const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites);
@@ -26,7 +27,7 @@ const FavoritesPage = () => {
             </Box>
             <List sx={{ mb: "3rem" }}>
                 {favouriteEpisodes.map((fav, index) => (
-                    <React.Fragment key={{index}}>
+                    <React.Fragment key={generateEpisodeId(fav)}>
                         <ListItem secondaryAction={
                             <IconButton edge="end" aria-label="delete" onClick={() => dispatch(toggleFavourite(fav))}>
                                 <DeleteIcon />
