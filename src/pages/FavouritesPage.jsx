@@ -8,10 +8,9 @@ import { generateEpisodeId } from '../utils/episodeIdGenerator';
 
 const FavoritesPage = () => {
     const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites);
-    console.log("favourite episodes are:", favouriteEpisodes)
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    console.log("favourite episodes from useSelector are:", favouriteEpisodes)
+    console.log("Favourite episodes is this after rerender:", favouriteEpisodes)
 
     return (
         <Box sx={{ padding: 2, mt: "4rem", mb: "6rem" }}>
@@ -27,7 +26,7 @@ const FavoritesPage = () => {
             </Box>
             <List sx={{ mb: "3rem" }}>
                 {favouriteEpisodes.map((fav, index) => (
-                    <React.Fragment key={generateEpisodeId(fav)}>
+                    <React.Fragment key={fav.episodeId}>
                         <ListItem secondaryAction={
                             <IconButton edge="end" aria-label="delete" onClick={() => dispatch(toggleFavourite(fav))}>
                                 <DeleteIcon />

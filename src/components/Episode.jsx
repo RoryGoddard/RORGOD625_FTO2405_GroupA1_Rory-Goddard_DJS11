@@ -15,6 +15,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types'
 import { dateAndTime } from '../utils/dateAndTime';
+import { generateEpisodeId } from '../utils/episodeIdGenerator';
 
 const Episode = ({ show, episode, selectedSeason }) => {
     const isFavourite = useSelector(state => selectIsFavourite(state, show.id, selectedSeason.season, episode.episode));
@@ -29,6 +30,7 @@ const Episode = ({ show, episode, selectedSeason }) => {
     }
 
     const episodeDetails = {
+        episodeId: generateEpisodeId(show, selectedSeason, episode),
         showId: show.id,
         showTitle: show.title,
         seasonTitle: selectedSeason.title,
