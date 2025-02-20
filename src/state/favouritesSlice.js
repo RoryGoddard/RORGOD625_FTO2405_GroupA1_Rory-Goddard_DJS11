@@ -28,6 +28,23 @@ const selectIsFavourite = createSelector(
         )
 );
 
+const selectSearchedAndSortedFavourites = createSelector(
+    [
+        (state) => state.favourites.episodes,
+        (state) => state.favourites.sortOption,
+        (state) => state.favourites.searchTerm
+    ],
+    (episodes, sortOption, searchTerm) => {
+        let results = [...episodes]
+        if (searchTerm) {
+            const fuse = initializeFuzzySearch(results);
+            results = performFuzzySearch(fuse, searchTerm)
+            .map(result => result.item);
+        }
+        return applySorting(results, sortOption)
+    }
+);
+
 const favouritesSlice = createSlice({
     name: "favourites",
     initialState: {
@@ -76,5 +93,5 @@ const favouritesSlice = createSlice({
 })
 
 export const { toggleFavourite, setFavouriteSortOption, setFavouriteSearchTerm } = favouritesSlice.actions;
-export { selectIsFavourite }
+export { selectIsFavourite, selectSearchedAndSortedFavourites }
 export default favouritesSlice.reducer;

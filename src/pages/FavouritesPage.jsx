@@ -2,13 +2,12 @@ import { Box, Typography, Button, IconButton, List, ListItem, ListItemText, Divi
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toggleFavourite } from '../state/favouritesSlice';
+import { toggleFavourite, selectSearchedAndSortedFavourites } from '../state/favouritesSlice';
 import React from 'react';
-import { generateEpisodeId } from '../utils/episodeIdGenerator';
 
 const FavoritesPage = () => {
-    const favouriteEpisodes = useSelector((state) => state.favourites.searchedAndSortedFavourites);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+    const favouriteEpisodes = useSelector(selectSearchedAndSortedFavourites)
     const navigate = useNavigate();
     console.log("Favourite episodes is this after rerender:", favouriteEpisodes)
 
