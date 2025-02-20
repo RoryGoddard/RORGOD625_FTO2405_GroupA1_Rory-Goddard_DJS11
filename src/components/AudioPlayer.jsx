@@ -10,6 +10,7 @@ import { playEpisode, togglePlayPause, skipToNextEpisode, skipToPreviousEpisode,
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
 import { audioService } from '../services/AudioService';
+import { useEffect } from 'react';
 
 const AudioPlayer = () => {
     const theme = useTheme();
@@ -27,6 +28,21 @@ const AudioPlayer = () => {
         dispatch(setIsPlaying(true));
       }
     };
+
+    useEffect(() => {
+      const handleBeforeUnload = (event) => {
+        if (isPlaying) {
+          event.preventDefault();
+          event.returnValue = ''; // This is required for some browsers
+        }
+      };
+  
+      window.addEventListener('beforeunload', handleBeforeUnload);
+  
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    }, [isPlaying]);
 
     return (
       <Box     sx={{
