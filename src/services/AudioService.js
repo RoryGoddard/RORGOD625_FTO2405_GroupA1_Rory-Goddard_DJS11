@@ -28,9 +28,17 @@ class AudioService {
             audioElement.addEventListener('timeupdate', listener)
 
             return () => {
-                this.audio.removeEventListener("timeupdate", listener)
+                this.audio.removeEventListener('timeupdate', listener)
             }
         };
+
+        this.onEnded = (callback) => {
+            const listener = () => callback();
+            audioElement.addEventListener('ended', listener);
+            return () => {
+                audioElement.removeEventListener('ended', listener)
+            }
+        }
     }
 }
 

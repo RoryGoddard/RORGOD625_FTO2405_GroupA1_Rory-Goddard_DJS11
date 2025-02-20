@@ -105,6 +105,14 @@ export const playEpisode = (episode) => async (dispatch) => {
         dispatch(generatePlaylist());
         dispatch(setDuration(duration));
         console.log("Duration set to:", duration);
+
+        if (audioService.endedListener) {
+            audioService.endedListener();
+        }
+
+        audioService.endedListener = audioService.onEnded(() => {
+            dispatch(skipToNextEpisode());
+        });
     } catch (error) {
         console.error('Failed to play episode:', error);
     }
