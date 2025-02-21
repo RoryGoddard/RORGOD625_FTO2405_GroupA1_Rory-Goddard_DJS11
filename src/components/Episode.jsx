@@ -19,7 +19,12 @@ import { generateEpisodeId } from '../utils/episodeIdGenerator';
 
 const Episode = ({ show, episode, selectedSeason }) => {
     const isFavourite = useSelector(state => selectIsFavourite(state, show.id, selectedSeason.season, episode.episode));
-    const isListened = useSelector(state => selectIsListened(state, show.id, selectedSeason.season, episode.episode));
+    const isListened = useSelector(state => selectIsListened(state, {
+        showId: show.id,
+        season: selectedSeason.season,
+        episode: episode.episode
+    }));
+    console.log("is listened selector is:", isListened)
     const playingShow = useSelector((state) => state.podcasts.selectedPodcastData);
     const timestamps = useSelector((state) => state.audioPlayer.timestamps);
     const dispatch = useDispatch();

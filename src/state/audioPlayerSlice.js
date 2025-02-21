@@ -22,19 +22,15 @@ const loadListenedEpisodes = () => {
     }
 }
 
-const selectIsListened = createSelector(
-    [
-        (state) => state.audioPlayer.listenedEpisodes, 
-        (_, showId) => showId,
-        (_, __, season) => season, 
-        (_, __, ___, episode) => episode
-    ],
-    (listenedEpisodes, showId, season, episode) => 
+export const selectIsListened = createSelector(
+    [(state) => state.audioPlayer.listenedEpisodes,
+    (_, props) => props],
+    (listenedEpisodes, props) => 
         listenedEpisodes.some(
-            (episode) => 
-                episode.showId === showId && 
-                episode.season === season && 
-                episode.episode === episode
+            (oldEpisode) => 
+                oldEpisode.showId === props.showId && 
+                oldEpisode.season === props.season && 
+                oldEpisode.episode === props.episode
         )
 );
 
@@ -103,7 +99,6 @@ export const playEpisode = (episode) => async (dispatch) => {
         dispatch(setIsPlaying(true));
         dispatch(generatePlaylist());
         dispatch(setDuration(duration));
-        console.log("Duration set to:", duration);
 
         if (audioService.endedListener) {
             audioService.endedListener();
@@ -131,13 +126,11 @@ export const generatePlaylist = () => (dispatch, getState) => {
         const allEpisodes = getAllEpisodes(playingShow);
         let currentIndex = findEpisodeIndex(allEpisodes, currentEpisode);
         if (currentIndex === -1) {
-            console.log("current index was equal to -1 and triggered the if statement", currentIndex)
             currentIndex = 0;
         }
 
         dispatch(setPlaylist(allEpisodes))
         dispatch(setCurrentIndex(currentIndex))
-        console.log("Current index is:", currentIndex)
     }
 }
 
@@ -146,9 +139,7 @@ export const skipToNextEpisode = () => (dispatch, getState) => {
 
     if (playingShow && currentEpisode && playlist) {
         if (currentIndex < playlist.length - 1) {
-            console.log("Just checkign that this evaluates to true")
             const nextEpisode = playlist[currentIndex + 1];
-            console.log(nextEpisode)
             dispatch(playEpisode(nextEpisode));
             dispatch(setIsPlaying(true));
             dispatch(setCurrentIndex(currentIndex + 1))
@@ -161,9 +152,7 @@ export const skipToPreviousEpisode = () => (dispatch, getState) => {
 
     if (playingShow && currentEpisode && playlist) {
         if (currentIndex > 0) {
-            console.log("Just checkign that this evaluates to true")
             const nextEpisode = playlist[currentIndex - 1];
-            console.log(nextEpisode)
             dispatch(playEpisode(nextEpisode));
             dispatch(setIsPlaying(true));
             dispatch(setCurrentIndex(currentIndex - 1))
@@ -198,5 +187,4 @@ export const {
     setCurrentIndex,
     setEpisodeListened
 } = audioPlayerSlice.actions;
-export { selectIsListened }
 export default audioPlayerSlice.reducer;
