@@ -12,49 +12,49 @@ import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
 
 function App() {
     const { error, isLoading } = useGetAllPodcastsEnrichedQuery(); // Fetch the initial data for the show cards
-    const [isPlaying, setIsPlaying] = useState(false); // Handle play state of episodes
-    const [playingShow, setPlayingShow] = useState(null); // Sets the playing show equal to the detail show from the PodcastDetails Modal
-    const [listenedEpisodes, setListenedEpisodes] = useState(() => { // Checks for listened episodes in local storage and sets itself equal to that, or empty array
-        const storedListenedEpisodes = localStorage.getItem('listenedEpisodes');
-        return storedListenedEpisodes ? JSON.parse(storedListenedEpisodes) : [];
-    });
+    // const [isPlaying, setIsPlaying] = useState(false); // Handle play state of episodes
+    // const [playingShow, setPlayingShow] = useState(null); // Sets the playing show equal to the detail show from the PodcastDetails Modal
+    // const [listenedEpisodes, setListenedEpisodes] = useState(() => { // Checks for listened episodes in local storage and sets itself equal to that, or empty array
+    //     const storedListenedEpisodes = localStorage.getItem('listenedEpisodes');
+    //     return storedListenedEpisodes ? JSON.parse(storedListenedEpisodes) : [];
+    // });
     const [isResetDialogOpen, setIsResetDialogOpen] = useState(false); // State to control whether listening reset dialog is open or closed
-    const [episodeTimestamps, setEpisodeTimestamps] = useState(() => { // State which manages tracking of timestamps of episodes played
-        const storedTimestamps = localStorage.getItem('episodeTimestamps');
-        return storedTimestamps ? JSON.parse(storedTimestamps) : {};
-      });
+    // const [episodeTimestamps, setEpisodeTimestamps] = useState(() => { // State which manages tracking of timestamps of episodes played
+    //     const storedTimestamps = localStorage.getItem('episodeTimestamps');
+    //     return storedTimestamps ? JSON.parse(storedTimestamps) : {};
+    //   });
 
-    const updateEpisodeTimestamp = useCallback((showId, episodeTitle, timestamp) => {
-    setEpisodeTimestamps(prev => {
-        const newTimestamps = {
-        ...prev,
-        [showId]: {
-            ...prev[showId],
-            [episodeTitle]: timestamp
-        }
-        };
-        localStorage.setItem('episodeTimestamps', JSON.stringify(newTimestamps));
-        return newTimestamps;
-    });
-    }, []);
+    // const updateEpisodeTimestamp = useCallback((showId, episodeTitle, timestamp) => {
+    // setEpisodeTimestamps(prev => {
+    //     const newTimestamps = {
+    //     ...prev,
+    //     [showId]: {
+    //         ...prev[showId],
+    //         [episodeTitle]: timestamp
+    //     }
+    //     };
+    //     localStorage.setItem('episodeTimestamps', JSON.stringify(newTimestamps));
+    //     return newTimestamps;
+    // });
+    // }, []);
 
-    const markEpisodeAsListened = useCallback((episode) => {
-        setListenedEpisodes(prev => {
-            // Check if this episode is already marked as listened
-            const isAlreadyListened = prev.some(
-                listened => listened.showId === episode.showId && 
-                           listened.episodeTitle === episode.episodeTitle
-            );
+    // const markEpisodeAsListened = useCallback((episode) => {
+    //     setListenedEpisodes(prev => {
+    //         // Check if this episode is already marked as listened
+    //         const isAlreadyListened = prev.some(
+    //             listened => listened.showId === episode.showId && 
+    //                        listened.episodeTitle === episode.episodeTitle
+    //         );
 
-            if (isAlreadyListened) {
-                return prev;
-            }
+    //         if (isAlreadyListened) {
+    //             return prev;
+    //         }
 
-            const newListenedEpisodes = [...prev, episode];
-            localStorage.setItem('listenedEpisodes', JSON.stringify(newListenedEpisodes));
-            return newListenedEpisodes;
-        });
-    }, []);
+    //         const newListenedEpisodes = [...prev, episode];
+    //         localStorage.setItem('listenedEpisodes', JSON.stringify(newListenedEpisodes));
+    //         return newListenedEpisodes;
+    //     });
+    // }, []);
 
     const handleResetClick = () => {
         setIsResetDialogOpen(true);
@@ -135,21 +135,21 @@ function App() {
                 onResetClick={handleResetClick}
             />
             <Routes>
-                <Route path="/" element={<Content listenedEpisodes={listenedEpisodes}/>}>
+                <Route path="/" element={<Content />}>
                 </Route>
                 <Route path="/favourites" element={
                     <FavouritesPage
-                            listenedEpisodes={listenedEpisodes}
+                            // listenedEpisodes={listenedEpisodes}
                     />
                 }
                 >
                 </Route>
             </Routes>
             <AudioPlayer
-                isPlaying={isPlaying}
-                playingShow={playingShow}
+                // isPlaying={isPlaying}
+                // playingShow={playingShow}
                 onEpisodeComplete={handleEpisodeComplete}
-                updateEpisodeTimestamp={updateEpisodeTimestamp}
+                // updateEpisodeTimestamp={updateEpisodeTimestamp}
             />
             <ResetConfirmationDialog
                 open={isResetDialogOpen}

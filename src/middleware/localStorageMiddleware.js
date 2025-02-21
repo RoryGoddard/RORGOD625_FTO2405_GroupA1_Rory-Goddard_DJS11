@@ -11,7 +11,7 @@ const localStorageMiddleware = store => next => action => {
         localStorage.setItem("timestamps", JSON.stringify(state.audioPlayer.timestamps))
     }
 
-    if (action.type.startsWith("audioPlayer/listenedEpisodes")) {
+    if (action.type === "audioPlayer/setEpisodeListened") {
         const state = store.getState();
         localStorage.setItem("listenedEpisodes", JSON.stringify(state.audioPlayer.listenedEpisodes))
     }
