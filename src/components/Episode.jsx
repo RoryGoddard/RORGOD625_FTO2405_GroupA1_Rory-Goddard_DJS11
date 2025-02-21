@@ -3,7 +3,8 @@ import {
     ListItem,
     ListItemText,
     ListItemSecondaryAction,
-    IconButton
+    IconButton,
+    Box
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useSelector, useDispatch } from 'react-redux'
@@ -60,7 +61,18 @@ const Episode = ({ show, episode, selectedSeason }) => {
     };
 
     return (                             
-        <ListItem key={show.id + episode.episode} divider>
+        <ListItem 
+            key={show.id + episode.episode} 
+            divider
+            secondaryAction={
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {isListened && <CheckCircleIcon color="inherit" />}
+                    <IconButton edge="end" aria-label="play" onClick={() => handlePlayEpisode(episodeDetails)}>
+                        <PlayArrowIcon />
+                    </IconButton>
+                </Box>
+            }
+        >
             <IconButton onClick={() => handleToggleFavourite(episode)}>
                 { isFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
@@ -77,12 +89,6 @@ const Episode = ({ show, episode, selectedSeason }) => {
                 </>
                 }
             />
-            <ListItemSecondaryAction>
-                {isListened && (<CheckCircleIcon color="primary" sx={{ mr: 1 }} />)}
-                <IconButton edge="end" aria-label="play" onClick={() => handlePlayEpisode(episodeDetails)}>
-                <PlayArrowIcon />
-                </IconButton>
-            </ListItemSecondaryAction>
         </ListItem>
     )
 }
