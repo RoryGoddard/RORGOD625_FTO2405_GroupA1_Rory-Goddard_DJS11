@@ -5,7 +5,7 @@ import { audioService } from "../services/AudioService";
 const loadTimestamps = () => {
     try {
         const timestamps = localStorage.getItem("timestamps");
-        return timestamps ? JSON.parse(timestamps) : {};
+        return timestamps ? JSON.parse(timestamps) : [];
     } catch (error) {
         console.error("Error loading timestamps from storage", error)
         return {}
@@ -173,6 +173,15 @@ export const setEpisodeAsListened = (newEpisode) => (dispatch, getState) => {
     }
     console.log("listenedEpisodes are:", listenedEpisodes)
 };
+
+export const saveEpisodesTimestamp = (episode) => (dispatch, getState) => {
+   const elapsedTime =  audioService.getCurrentTime()
+   if (elapsedTime > 5) {
+    const episodeDetails = {...episode, timestamp: elapsedTime}
+    const timestamps = getState().audioPlayer.timestamps
+    timestamps.push(episodeDetails)
+   }
+}
 
 export const { 
     setCurrentEpisode,  
