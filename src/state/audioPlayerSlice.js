@@ -62,10 +62,6 @@ const audioPlayerSlice = createSlice({
             const { episodeId, timestamp } = action.payload;
             state.timestamps[episodeId] = timestamp;
         },
-        setEpisodeAsListened: (state, action) => {
-            const { show, episode } = action.payload
-            state.listenedEpisodes[show] = episode
-        },
         setPlaylist: (state, action) => {
             state.playlist = action.payload
         },
@@ -80,6 +76,9 @@ const audioPlayerSlice = createSlice({
         },
         setCurrentIndex: (state, action) => {
             state.currentIndex = action.payload
+        },
+        setEpisodeListened: (state, action) => {
+            state.listenedEpisodes = action.payload
         }
     }
 
@@ -111,7 +110,8 @@ export const playEpisode = (episode) => async (dispatch) => {
         };
 
         audioService.endedListener = audioService.onEnded(() => {
-            dispatch(skipToNextEpisode());
+            dispatch(setEpisodeAsListened(episode))
+            dispatch(skipToNextEpisode())
         });
 
     } catch (error) {
@@ -171,18 +171,32 @@ export const skipToPreviousEpisode = () => (dispatch, getState) => {
     }
 };
 
+export const setEpisodeAsListened = (newEpisode) => (dispatch, getState) => {
+    console.log("This is what the actions payload is:", newEpisode)
+    const { listenedEpisodes } = getState().audioPlayer;
+    const isInArray = listenedEpisodes.some(episode =>
+        episode.title === newEpisode.title &&
+        episode.showId === newEpisode.showId &&
+        episode.season === newEpisode.season)
+    if (!isInArray) {
+        const listenedEpisodesArray = [...listenedEpisodes, newEpisode]
+        dispatch(setEpisodeListened(listenedEpisodesArray))
+    }
+    console.log("listenedEpisodes are:", listenedEpisodes)
+};
+
 export const { 
     setCurrentEpisode,  
     setVolume,
     saveTimestamp, 
-    setEpisodeAsListened, 
     setCurrentTime, 
     setDuration, 
     setIsMuted, 
     setIsPlaying,
     setPlayingShow,
     setPlaylist,
-    setCurrentIndex
+    setCurrentIndex,
+    setEpisodeListened
 } = audioPlayerSlice.actions;
 export { selectIsListened }
 export default audioPlayerSlice.reducer;
