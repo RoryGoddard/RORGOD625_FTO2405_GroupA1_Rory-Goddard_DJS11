@@ -80,17 +80,6 @@ const audioPlayerSlice = createSlice({
 
 })
 
-export const togglePlayPause = () => (dispatch, getState) => {
-    const { isPlaying } = getState().audioPlayer;
-    
-    if (isPlaying) {
-        audioService.pause();
-    } else {
-        audioService.play();
-    }
-    dispatch(setIsPlaying(!isPlaying));
-};
-
 export const playEpisode = (episode) => async (dispatch) => {
     try {
         const duration = await audioService.setSource(episode.file);

@@ -6,7 +6,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { playEpisode, togglePlayPause, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime, setIsPlaying } from '../state/audioPlayerSlice'
+import { playEpisode, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime, setIsPlaying } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
 import { audioService } from '../services/AudioService';
