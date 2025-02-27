@@ -4,7 +4,6 @@ import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import { useState } from 'react';
 import { Box, IconButton, Slider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import PropTypes from 'prop-types'
 import { audioService } from '../services/AudioService';
 
 const Volume = () => {
@@ -55,11 +54,5 @@ const Volume = () => {
         </Box>
     )
 }
-
-Volume.propTypes = {
-    audioRef: PropTypes.shape({
-        current: PropTypes.instanceOf(HTMLAudioElement)
-    })
-};
 
 export default Volume
