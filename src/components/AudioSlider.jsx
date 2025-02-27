@@ -1,14 +1,11 @@
 import { Box, Slider, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-// import { seekTo } from '../state/audioPlayerSlice';
 import { audioService } from '../services/AudioService';
 import { useEffect, useState } from 'react';
-// import { setCurrentTime } from '../state/audioPlayerSlice';
 
 const AudioSlider = () => {
     const theme = useTheme();
-    const dispatch = useDispatch();
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const episodeIndex = useSelector((state) => state.audioPlayer.currentIndex) 
