@@ -29,11 +29,6 @@ function Content() {
                 error={error}
                 open={!!selectedPodcastId}
                 onClose={() => dispatch(setSelectedPodcastId(null))}
-                // onPlayEpisode={handlePlayEpisode}
-                // toggleFavorite={toggleFavorite}
-                // favoriteEpisodes={favoriteEpisodes}
-                // listenedEpisodes={listenedEpisodes}
-                // episodeTimestamps={episodeTimestamps}
             />
             <Grid2 container spacing={{ xs: 2, md: 3 }} 
             sx={{ 
