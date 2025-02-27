@@ -157,14 +157,26 @@ export const setEpisodeAsListened = (newEpisode) => (dispatch, getState) => {
 };
 
 export const saveEpisodesTimestamp = (episode) => (dispatch, getState) => {
-   const elapsedTime =  audioService.getCurrentTime()
-   if (elapsedTime > 5) {
-    const episodeDetails = {...episode, timestamp: elapsedTime}
-    const timestamps = getState().audioPlayer.timestamps
-    timestamps.push(episodeDetails)
-    dispatch(saveTimestamp(timestamps))
-   }
-}
+    const elapsedTime = audioService.getCurrentTime();
+    if (elapsedTime > 5) {
+      const episodeDetails = { ...episode, timestamp: elapsedTime };
+      const timestamps = getState().audioPlayer.timestamps;
+      const existingIndex = timestamps.findIndex(item => item.episodeId === episode.episodeId);
+      
+      let updatedTimestamps;
+      if (existingIndex !== -1) {
+        updatedTimestamps = [
+          ...timestamps.slice(0, existingIndex),
+          episodeDetails,
+          ...timestamps.slice(existingIndex + 1)
+        ];
+      } else {
+        updatedTimestamps = [...timestamps, episodeDetails];
+      }
+      
+      dispatch(saveTimestamp(updatedTimestamps));
+    }
+};
 
 export const { 
     setCurrentEpisode,  
