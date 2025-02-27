@@ -1,16 +1,19 @@
 import Fuse from 'fuse.js';
 
+const favouriteKeys = ['showTitle', 'seasonTitle', 'title', 'episode']
+const podcastKeys = ['title', 'description']
+
 export const initializeFuzzySearch = (shows) => {
   if (!shows || shows.length === 0) {
     return null;
   }
 
+  const isPodcastsOrFavourites = shows[0]?.title ? true : false
+
   const options = {
-    keys: ['title', 'description'],
-    threshold: 1,
+    keys: isPodcastsOrFavourites ? podcastKeys : favouriteKeys,
     includeScore: true,
-    distance: 500, // Increase distance
-    minMatchCharLength: 2, // Match shorter parts
+    threshold: 0.3
   };
 
   return new Fuse(shows, options);

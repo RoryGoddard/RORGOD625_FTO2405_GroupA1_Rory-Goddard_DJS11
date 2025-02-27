@@ -1,14 +1,7 @@
 import { Paper, CardMedia, Typography, Box, Chip} from '@mui/material';
 import PropTypes from "prop-types";
 
-export default function ShowCard({ title, description, seasons, image, genresArray, showsGenre, updated, onClick }) {
-
-    const getGenreTitles = () => {
-        return showsGenre.map(genreId => {
-            const genre = genresArray.find(g => g.id === genreId);
-            return genre ? genre.title : 'Unknown Genre';
-        });
-    };
+export default function ShowCard({ title, description, seasons, image, genres, updated, onClick }) {
     
     const seasonText = () => {
         if (seasons > 1) {
@@ -42,7 +35,7 @@ export default function ShowCard({ title, description, seasons, image, genresArr
                     mb: "0.25rem"
                     }}>
                     <Typography variant="h5" component="h2">
-                        {title}
+                        {title.replace("&amp;", "&")}
                     </Typography>
                     <Typography variant="susbtitle2" component="p" color="text.secondary" sx={{
                         mt: "0.25rem",
@@ -67,8 +60,8 @@ export default function ShowCard({ title, description, seasons, image, genresArr
                         flexWrap: "wrap", // Allows chips to wrap if needed
                         }}
                     >
-                        {getGenreTitles().map((genre, index) => (
-                        <Chip key={index} label={genre} sx={{ mt: "0.25rem", mb: "0.25rem", mr: "0.5rem" }} />
+                        {genres.map((genre) => (
+                        <Chip key={genre.id} label={genre.title} sx={{ mt: "0.25rem", mb: "0.25rem", mr: "0.5rem" }} />
                         ))}
                     </Box>
                     <Typography
@@ -109,16 +102,12 @@ export default function ShowCard({ title, description, seasons, image, genresArr
     )
 }
 
-
-
-// Define Prop Types for ShowCard component
 ShowCard.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     seasons: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    genresArray: PropTypes.array.isRequired,
-    showsGenre: PropTypes.array.isRequired,
+    genres: PropTypes.array.isRequired,
     updated: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
 }
