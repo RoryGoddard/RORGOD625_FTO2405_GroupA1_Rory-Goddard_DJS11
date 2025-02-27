@@ -102,9 +102,6 @@ export default function ShowCard({ title, description, seasons, image, genres, u
     )
 }
 
-
-
-// Define Prop Types for ShowCard component
 ShowCard.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
