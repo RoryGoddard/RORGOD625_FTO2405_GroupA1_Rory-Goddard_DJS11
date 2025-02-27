@@ -8,7 +8,7 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
-import { saveTimestamp, setEpisodeAsListened, selectIsListened, setPlayingShow, playEpisode } from '../state/audioPlayerSlice';
+import { selectIsListened, setPlayingShow, playEpisode } from '../state/audioPlayerSlice';
 import { selectIsFavourite } from "../state/favouritesSlice";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -80,9 +80,7 @@ const Episode = ({ episode }) => {
 }
 
 Episode.propTypes = {
-    show: PropTypes.object,
     episode: PropTypes.object,
-    selectedSeason: PropTypes.object
 };
 
 export default Episode
