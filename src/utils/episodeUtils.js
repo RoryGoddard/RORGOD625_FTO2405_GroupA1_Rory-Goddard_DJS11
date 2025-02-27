@@ -1,3 +1,5 @@
+import { generateEpisodeId } from "./episodeIdGenerator";
+
 export const getAllEpisodes = (show) => {
     if (!show || !Array.isArray(show.seasons)) {
         console.error('Invalid show structure:', show);
@@ -8,6 +10,7 @@ export const getAllEpisodes = (show) => {
         if (Array.isArray(season.episodes)) {
             return season.episodes.map(episode => ({
                 ...episode,
+                episodeId: generateEpisodeId(show, season, episode),
                 seasonTitle: season.title,
                 seasonImage: season.image,
                 season: season.season,

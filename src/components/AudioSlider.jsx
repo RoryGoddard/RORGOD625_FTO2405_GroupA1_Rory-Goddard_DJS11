@@ -11,7 +11,7 @@ const AudioSlider = () => {
     const dispatch = useDispatch();
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
-    const episodeIndex = useSelector((state) => state.audioPlayer.currentIndex)
+    const episodeIndex = useSelector((state) => state.audioPlayer.currentIndex) 
 
     useEffect(() => {
       const handleMetadataLoaded = () => {

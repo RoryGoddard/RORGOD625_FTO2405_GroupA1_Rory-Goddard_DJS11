@@ -120,6 +120,7 @@ export const generatePlaylist = () => (dispatch, getState) => {
 
         dispatch(setPlaylist(allEpisodes))
         dispatch(setCurrentIndex(currentIndex))
+        console.log(allEpisodes)
     }
 }
 
@@ -169,6 +170,7 @@ export const saveEpisodesTimestamp = (episode) => (dispatch, getState) => {
     const episodeDetails = {...episode, timestamp: elapsedTime}
     const timestamps = getState().audioPlayer.timestamps
     timestamps.push(episodeDetails)
+    dispatch(saveTimestamp(timestamps))
    }
 }
 
