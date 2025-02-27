@@ -69,12 +69,13 @@ function App() {
     };
     
     const handleResetConfirm = () => {
+        const clearArray = []
         localStorage.removeItem('timestamps');
         localStorage.removeItem('favourites');
         localStorage.removeItem('listenedEpisodes');
-        dispatch(clearFavourites([]))
-        dispatch(clearListenedEpisodes([]))
-        dispatch(clearTimestamps([]))
+        dispatch(clearFavourites(clearArray))
+        dispatch(clearListenedEpisodes(clearArray))
+        dispatch(clearTimestamps(clearArray))
         setIsResetDialogOpen(false);
     };   
 

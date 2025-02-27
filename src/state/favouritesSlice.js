@@ -64,7 +64,7 @@ const favouritesSlice = createSlice({
             state.searchTerm = action.payload;
         },
         clearFavourites(state, action) {
-            state.favourites = action.payload
+            state.episodes = action.payload
             state.searchedAndSortedFavourites = action.payload
         }
 
