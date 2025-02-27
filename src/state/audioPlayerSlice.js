@@ -26,12 +26,7 @@ export const selectIsListened = createSelector(
     [(state) => state.audioPlayer.listenedEpisodes,
     (_, props) => props],
     (listenedEpisodes, props) => 
-        listenedEpisodes.some(
-            (oldEpisode) => 
-                oldEpisode.showId === props.showId && 
-                oldEpisode.season === props.season && 
-                oldEpisode.episode === props.episode
-        )
+        listenedEpisodes.some(oldEpisode => oldEpisode.episodeId === props.episodeId)
 );
 
 const audioPlayerSlice = createSlice({

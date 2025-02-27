@@ -1,4 +1,5 @@
 import { generateEpisodeId } from "./episodeIdGenerator";
+import { dateAndTime } from "./dateAndTime";
 
 export const getAllEpisodes = (show) => {
     if (!show || !Array.isArray(show.seasons)) {
@@ -31,3 +32,19 @@ export const findEpisodeIndex = (allEpisodes, currentEpisode) => {
         (e.season === currentEpisode.season || e.season === undefined)
     );
 };
+
+export const episodeDetails = (show, season, episode) => {
+    const episodeDetails = {
+        episodeId: generateEpisodeId(show, season, episode),
+        showId: show.id,
+        showTitle: show.title,
+        seasonTitle: season.title,
+        season: season.season,
+        title: episode.title,
+        episode: episode.episode,
+        file: episode.file,
+        updated: show.updated,
+        savedAt: null
+    }
+    return episodeDetails
+}

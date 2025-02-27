@@ -15,6 +15,7 @@ import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
 import Episode from './Episode';
 import { useSelector, useDispatch } from 'react-redux'
+import { episodeDetails } from '../utils/episodeUtils';
 
 
 const PodcastDetailsModal = ({ show, open, onClose, loading, fetching, error, episodeTimestamps }) => {
@@ -154,9 +155,7 @@ const PodcastDetailsModal = ({ show, open, onClose, loading, fetching, error, ep
                                         return (
                                             <Episode 
                                             key={episode.episode}
-                                            show={show}
-                                            episode={episode}
-                                            selectedSeason={selectedSeason}
+                                            episode={episodeDetails(show, selectedSeason, episode)}
                                             />
                                         );
                                     })}

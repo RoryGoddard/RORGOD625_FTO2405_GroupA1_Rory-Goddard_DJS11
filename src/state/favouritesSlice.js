@@ -13,22 +13,13 @@ const loadFavourites = () => {
 };
 
 const selectIsFavourite = createSelector(
-    [
-        (state) => state.favourites.episodes, 
-        (_, showId) => showId,
-        (_, __, season) => season, 
-        (_, __, ___, episode) => episode
-    ],
-    (favourites, showId, season, episode) => 
-        favourites.some(
-            (fav) => 
-                fav.showId === showId && 
-                fav.season === season && 
-                fav.episode === episode
-        )
+    [(state) => state.favourites.episodes, 
+    (_, props) => props],
+    (favourites, props) => 
+        favourites.some(fav => fav.episodeId === props.episodeId)
 );
 
-const selectSearchedAndSortedFavourites = createSelector(
+const selectSearchedAndSortedFavourites = createSelector( 
     [
         (state) => state.favourites.episodes,
         (state) => state.favourites.sortOption,
@@ -56,7 +47,7 @@ const favouritesSlice = createSlice({
     reducers: {
         toggleFavourite: (state, action) => {
             console.log("Here is the episode passed to toggle:", action.payload)
-            const existingIndex = state.episodes.findIndex(fav => fav.showId === action.payload.showId && fav.season === action.payload.season && fav.episode === action.payload.episode)
+            const existingIndex = state.episodes.findIndex(fav => fav.episodeId === action.payload.episodeId)
             console.log("Checking existing index:", existingIndex)
             if (existingIndex === -1) {
                 console.log("Spoiler alert: its -1")

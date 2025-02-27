@@ -2,30 +2,25 @@ import {
     Typography,
     ListItem,
     ListItemText,
-    ListItemSecondaryAction,
     IconButton,
     Box
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleFavourite } from '../state/favouritesSlice';
-import { saveTimestamp, setEpisodeAsListened, selectIsListened, setCurrentEpisode, setIsPlaying, setPlayingShow, generatePlaylist, playEpisode } from '../state/audioPlayerSlice';
+import { saveTimestamp, setEpisodeAsListened, selectIsListened, setPlayingShow, playEpisode } from '../state/audioPlayerSlice';
 import { selectIsFavourite } from "../state/favouritesSlice";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types'
 import { dateAndTime } from '../utils/dateAndTime';
-import { generateEpisodeId } from '../utils/episodeIdGenerator';
 
-const Episode = ({ show, episode, selectedSeason }) => {
-    const isFavourite = useSelector(state => selectIsFavourite(state, show.id, selectedSeason.season, episode.episode));
-    const isListened = useSelector(state => selectIsListened(state, {
-        showId: show.id,
-        season: selectedSeason.season,
-        episode: episode.episode
-    }));
+const Episode = ({ episode }) => {
+    const isFavourite = useSelector(state => selectIsFavourite(state, episode));
+    const isListened = useSelector(state => selectIsListened(state, episode));
     console.log("is listened selector is:", isListened)
+    console.log("is favourite selector is:", isFavourite)
     const playingShow = useSelector((state) => state.podcasts.selectedPodcastData);
     const timestamps = useSelector((state) => state.audioPlayer.timestamps);
     const dispatch = useDispatch();
@@ -35,22 +30,10 @@ const Episode = ({ show, episode, selectedSeason }) => {
         dispatch(setPlayingShow(playingShow))
     }
 
-    const episodeDetails = {
-        episodeId: generateEpisodeId(show, selectedSeason, episode),
-        showId: show.id,
-        showTitle: show.title,
-        seasonTitle: selectedSeason.title,
-        season: selectedSeason.season,
-        title: episode.title,
-        episode: episode.episode,
-        file: episode.file,
-        updated: show.updated,
-        savedAt: dateAndTime()
-    }
-
-    const handleToggleFavourite = () => {
-        console.log("Episode details are", episodeDetails.savedAt)
-        dispatch(toggleFavourite(episodeDetails));
+    const handleToggleFavourite = (episode) => {
+        const savedEpisode = {...episode, savedAt: dateAndTime()}
+        console.log("Episode details are", episode.savedAt)
+        dispatch(toggleFavourite(savedEpisode));
     };
 
     const formatTime = (seconds) => {
@@ -62,12 +45,12 @@ const Episode = ({ show, episode, selectedSeason }) => {
 
     return (                             
         <ListItem 
-            key={show.id + episode.episode} 
+            key={episode.showId + episode.episode} 
             divider
             secondaryAction={
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     {isListened && <CheckCircleIcon color="inherit" />}
-                    <IconButton edge="end" aria-label="play" onClick={() => handlePlayEpisode(episodeDetails)}>
+                    <IconButton edge="end" aria-label="play" onClick={() => handlePlayEpisode(episode)}>
                         <PlayArrowIcon />
                     </IconButton>
                 </Box>
@@ -81,9 +64,9 @@ const Episode = ({ show, episode, selectedSeason }) => {
                 secondary={
                 <>
                     {episode.description}
-                    {timestamps[show.id] && timestamps[show.id][episode.title] && (
+                    {timestamps[episode.showId] && timestamps[episode.showId][episode.title] && (
                     <Typography variant="caption" display="block">
-                        Last played: {formatTime(timestamps[show.id][episode.title])}
+                        Last played: {formatTime(timestamps[episode.showId][episode.title])}
                     </Typography>
                     )}
                 </>
