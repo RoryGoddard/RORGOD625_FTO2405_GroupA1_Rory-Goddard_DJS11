@@ -69,6 +69,12 @@ const audioPlayerSlice = createSlice({
         },
         setEpisodeListened: (state, action) => {
             state.listenedEpisodes = action.payload
+        },
+        clearTimestamps: (state, action) => {
+            state.timestamps = action.payload
+        },
+        clearListenedEpisodes: (state, action) => {
+            state.listenedEpisodes = action.payload
         }
     }
 
@@ -191,6 +197,8 @@ export const {
     setPlayingShow,
     setPlaylist,
     setCurrentIndex,
-    setEpisodeListened
+    setEpisodeListened,
+    clearTimestamps,
+    clearListenedEpisodes
 } = audioPlayerSlice.actions;
 export default audioPlayerSlice.reducer;

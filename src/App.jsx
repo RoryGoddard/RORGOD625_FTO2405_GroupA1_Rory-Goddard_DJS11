@@ -9,9 +9,13 @@ import FavouritesPage from './pages/FavouritesPage';
 import { Box } from '@mui/material'
 import ResetConfirmationDialog from './components/ResetConfirmationDialog';
 import { useGetAllPodcastsEnrichedQuery } from './services/podcastApi'
+import { useDispatch } from "react-redux";
+import { clearFavourites } from "./state/favouritesSlice";
+import { clearListenedEpisodes, clearTimestamps } from "./state/audioPlayerSlice";
 
 function App() {
     const { error, isLoading } = useGetAllPodcastsEnrichedQuery(); // Fetch the initial data for the show cards
+    const dispatch = useDispatch()
     // const [isPlaying, setIsPlaying] = useState(false); // Handle play state of episodes
     // const [playingShow, setPlayingShow] = useState(null); // Sets the playing show equal to the detail show from the PodcastDetails Modal
     // const [listenedEpisodes, setListenedEpisodes] = useState(() => { // Checks for listened episodes in local storage and sets itself equal to that, or empty array
@@ -65,8 +69,12 @@ function App() {
     };
     
     const handleResetConfirm = () => {
-        setListenedEpisodes([]);
-        localStorage.removeItem('episodeTimestamps');
+        localStorage.removeItem('timestamps');
+        localStorage.removeItem('favourites');
+        localStorage.removeItem('listenedEpisodes');
+        dispatch(clearFavourites([]))
+        dispatch(clearListenedEpisodes([]))
+        dispatch(clearTimestamps([]))
         setIsResetDialogOpen(false);
     };   
 
@@ -117,9 +125,9 @@ function App() {
     //     setIsPlaying(true);
     // };
 
-    const handleEpisodeComplete = (episodeData) => {
-        markEpisodeAsListened(episodeData);
-    };
+    // const handleEpisodeComplete = (episodeData) => {
+    //     markEpisodeAsListened(episodeData);
+    // };
 
 
     if (isLoading) return (
@@ -148,7 +156,7 @@ function App() {
             <AudioPlayer
                 // isPlaying={isPlaying}
                 // playingShow={playingShow}
-                onEpisodeComplete={handleEpisodeComplete}
+                // onEpisodeComplete={handleEpisodeComplete}
                 // updateEpisodeTimestamp={updateEpisodeTimestamp}
             />
             <ResetConfirmationDialog

@@ -24,6 +24,7 @@ const Episode = ({ episode }) => {
     const playingShow = useSelector((state) => state.podcasts.selectedPodcastData);
     const timestamps = useSelector((state) => state.audioPlayer.timestamps);
     const dispatch = useDispatch();
+    console.log("episode description:", episode)
 
     const handlePlayEpisode = (episodeDetails) => {
         dispatch(playEpisode(episodeDetails))

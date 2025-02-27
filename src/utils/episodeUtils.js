@@ -42,6 +42,7 @@ export const episodeDetails = (show, season, episode) => {
         season: season.season,
         title: episode.title,
         episode: episode.episode,
+        description: episode.description,
         file: episode.file,
         updated: show.updated,
         savedAt: null

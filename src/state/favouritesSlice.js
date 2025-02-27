@@ -63,10 +63,14 @@ const favouritesSlice = createSlice({
         setFavouriteSearchTerm(state, action) {
             state.searchTerm = action.payload;
         },
+        clearFavourites(state, action) {
+            state.favourites = action.payload
+            state.searchedAndSortedFavourites = action.payload
+        }
 
     }
 });
 
-export const { toggleFavourite, setFavouriteSortOption, setFavouriteSearchTerm } = favouritesSlice.actions;
+export const { toggleFavourite, setFavouriteSortOption, setFavouriteSearchTerm, clearFavourites } = favouritesSlice.actions;
 export { selectIsFavourite, selectSearchedAndSortedFavourites };
 export default favouritesSlice.reducer;

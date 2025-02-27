@@ -151,11 +151,11 @@ const PodcastDetailsModal = ({ show, open, onClose, loading, fetching, error, ep
                             </Box>
                             <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
                                 <List>
-                                    {selectedSeason && selectedSeason.episodes.map((episode) => {
+                                    {selectedSeason && selectedSeason.episodes.map((episodeObject) => {
                                         return (
                                             <Episode 
-                                            key={episode.episode}
-                                            episode={episodeDetails(show, selectedSeason, episode)}
+                                            key={episodeObject.episode}
+                                            episode={episodeDetails(show, selectedSeason, episodeObject)}
                                             />
                                         );
                                     })}
