@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, Button } from '@mui/material';
+import PropTypes from 'prop-types';
 
 const ResetConfirmationDialog = ({ open, onClose, onConfirm }) => {
   return (
@@ -27,3 +28,9 @@ const ResetConfirmationDialog = ({ open, onClose, onConfirm }) => {
 };
 
 export default ResetConfirmationDialog;
+
+ResetConfirmationDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired
+};
