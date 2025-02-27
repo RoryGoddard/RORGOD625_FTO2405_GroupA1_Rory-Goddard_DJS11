@@ -153,10 +153,7 @@ export const skipToPreviousEpisode = () => (dispatch, getState) => {
 export const setEpisodeAsListened = (newEpisode) => (dispatch, getState) => {
     console.log("This is what the actions payload is:", newEpisode)
     const { listenedEpisodes } = getState().audioPlayer;
-    const isInArray = listenedEpisodes.some(episode =>
-        episode.title === newEpisode.title &&
-        episode.showId === newEpisode.showId &&
-        episode.season === newEpisode.season)
+    const isInArray = listenedEpisodes.some(episode => episode.episodeId === newEpisode.episodeId)
     if (!isInArray) {
         const listenedEpisodesArray = [...listenedEpisodes, newEpisode]
         dispatch(setEpisodeListened(listenedEpisodesArray))
