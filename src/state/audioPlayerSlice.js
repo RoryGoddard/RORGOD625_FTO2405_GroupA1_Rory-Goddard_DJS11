@@ -8,7 +8,7 @@ const loadTimestamps = () => {
         return timestamps ? JSON.parse(timestamps) : [];
     } catch (error) {
         console.error("Error loading timestamps from storage", error)
-        return {}
+        return []
     }
 }
 
@@ -50,8 +50,7 @@ const audioPlayerSlice = createSlice({
             state.isPlaying = action.payload
         },
         saveTimestamp: (state, action) => {
-            const { episodeId, timestamp } = action.payload;
-            state.timestamps[episodeId] = timestamp;
+            state.timestamps = action.payload;
         },
         setPlaylist: (state, action) => {
             state.playlist = action.payload
@@ -125,6 +124,8 @@ export const skipToNextEpisode = () => (dispatch, getState) => {
     if (playingShow && currentEpisode && playlist) {
         if (currentIndex < playlist.length - 1) {
             const nextEpisode = playlist[currentIndex + 1];
+            console.log("current episode is this in skip to next", currentEpisode)
+            dispatch(saveEpisodesTimestamp(currentEpisode))
             dispatch(playEpisode(nextEpisode));
             dispatch(setIsPlaying(true));
             dispatch(setCurrentIndex(currentIndex + 1))
@@ -158,9 +159,10 @@ export const setEpisodeAsListened = (newEpisode) => (dispatch, getState) => {
 
 export const saveEpisodesTimestamp = (episode) => (dispatch, getState) => {
     const elapsedTime = audioService.getCurrentTime();
-    if (elapsedTime > 5) {
+    if (elapsedTime > 5 && elapsedTime !== audioService.getDuration()) {
       const episodeDetails = { ...episode, timestamp: elapsedTime };
       const timestamps = getState().audioPlayer.timestamps;
+      console.log(timestamps)
       const existingIndex = timestamps.findIndex(item => item.episodeId === episode.episodeId);
       
       let updatedTimestamps;

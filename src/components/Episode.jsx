@@ -64,11 +64,13 @@ const Episode = ({ episode }) => {
                 secondary={
                 <>
                     {episode.description}
-                    {timestamps[episode.showId] && timestamps[episode.showId][episode.title] && (
-                    <Typography variant="caption" display="block">
-                        Last played: {formatTime(timestamps[episode.showId][episode.title])}
-                    </Typography>
-                    )}
+                    {timestamps.some(ep => ep.episodeId === episode.episodeId) && (
+                        <Typography variant="caption" display="block">
+                            Last played: {formatTime(
+                            timestamps.find(prevEpisode => prevEpisode.episodeId === episode.episodeId)?.timestamp || 0
+                            )}
+                        </Typography>
+                        )}
                 </>
                 }
             />
