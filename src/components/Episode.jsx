@@ -19,12 +19,9 @@ import { dateAndTime } from '../utils/dateAndTime';
 const Episode = ({ episode }) => {
     const isFavourite = useSelector(state => selectIsFavourite(state, episode));
     const isListened = useSelector(state => selectIsListened(state, episode));
-    console.log("is listened selector is:", isListened)
-    console.log("is favourite selector is:", isFavourite)
     const playingShow = useSelector((state) => state.podcasts.selectedPodcastData);
     const timestamps = useSelector((state) => state.audioPlayer.timestamps);
     const dispatch = useDispatch();
-    console.log("episode description:", episode)
 
     const handlePlayEpisode = (episodeDetails) => {
         dispatch(playEpisode(episodeDetails))
@@ -33,7 +30,6 @@ const Episode = ({ episode }) => {
 
     const handleToggleFavourite = (episode) => {
         const savedEpisode = {...episode, savedAt: dateAndTime()}
-        console.log("Episode details are", episode.savedAt)
         dispatch(toggleFavourite(savedEpisode));
     };
 

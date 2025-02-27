@@ -9,7 +9,6 @@ const FavoritesPage = () => {
     const dispatch = useDispatch()
     const favouriteEpisodes = useSelector(selectSearchedAndSortedFavourites)
     const navigate = useNavigate();
-    console.log("Favourite episodes is this after rerender:", favouriteEpisodes)
 
     return (
         <Box sx={{ padding: 2, mt: "4rem", mb: "6rem" }}>

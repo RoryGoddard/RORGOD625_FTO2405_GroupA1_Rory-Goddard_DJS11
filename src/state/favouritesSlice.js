@@ -46,14 +46,10 @@ const favouritesSlice = createSlice({
     },
     reducers: {
         toggleFavourite: (state, action) => {
-            console.log("Here is the episode passed to toggle:", action.payload)
             const existingIndex = state.episodes.findIndex(fav => fav.episodeId === action.payload.episodeId)
-            console.log("Checking existing index:", existingIndex)
             if (existingIndex === -1) {
-                console.log("Spoiler alert: its -1")
                 state.episodes.push(action.payload);
             } else {
-                console.log("its not -1, jk this console log will never print")
                 state.episodes.splice(existingIndex, 1);
             }
         },

@@ -21,7 +21,6 @@ const AudioPlayer = () => {
       if (isPlaying) {
         audioService.pause();
         dispatch(setIsPlaying(false));
-        console.log("current episode is this in handleplaypause:", currentEpisode)
         dispatch(saveEpisodesTimestamp(currentEpisode))
       }
       else {

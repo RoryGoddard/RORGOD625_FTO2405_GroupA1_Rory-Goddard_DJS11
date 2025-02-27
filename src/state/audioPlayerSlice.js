@@ -120,7 +120,6 @@ export const generatePlaylist = () => (dispatch, getState) => {
 
         dispatch(setPlaylist(allEpisodes))
         dispatch(setCurrentIndex(currentIndex))
-        console.log(allEpisodes)
     }
 }
 
@@ -130,7 +129,6 @@ export const skipToNextEpisode = () => (dispatch, getState) => {
     if (playingShow && currentEpisode && playlist) {
         if (currentIndex < playlist.length - 1) {
             const nextEpisode = playlist[currentIndex + 1];
-            console.log("current episode is this in skip to next", currentEpisode)
             dispatch(saveEpisodesTimestamp(currentEpisode))
             dispatch(playEpisode(nextEpisode));
             dispatch(setIsPlaying(true));
@@ -153,14 +151,12 @@ export const skipToPreviousEpisode = () => (dispatch, getState) => {
 };
 
 export const setEpisodeAsListened = (newEpisode) => (dispatch, getState) => {
-    console.log("This is what the actions payload is:", newEpisode)
     const { listenedEpisodes } = getState().audioPlayer;
     const isInArray = listenedEpisodes.some(episode => episode.episodeId === newEpisode.episodeId)
     if (!isInArray) {
         const listenedEpisodesArray = [...listenedEpisodes, newEpisode]
         dispatch(setEpisodeListened(listenedEpisodesArray))
     }
-    console.log("listenedEpisodes are:", listenedEpisodes)
 };
 
 export const saveEpisodesTimestamp = (episode) => (dispatch, getState) => {
@@ -168,7 +164,6 @@ export const saveEpisodesTimestamp = (episode) => (dispatch, getState) => {
     if (elapsedTime > 5 && elapsedTime !== audioService.getDuration()) {
       const episodeDetails = { ...episode, timestamp: elapsedTime };
       const timestamps = getState().audioPlayer.timestamps;
-      console.log(timestamps)
       const existingIndex = timestamps.findIndex(item => item.episodeId === episode.episodeId);
       
       let updatedTimestamps;
