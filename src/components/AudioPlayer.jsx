@@ -3,10 +3,9 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { playEpisode, skipToNextEpisode, skipToPreviousEpisode, setCurrentTime, setIsPlaying, saveEpisodesTimestamp } from '../state/audioPlayerSlice'
+import { skipToNextEpisode, skipToPreviousEpisode, setIsPlaying, saveEpisodesTimestamp } from '../state/audioPlayerSlice'
 import Volume from './Volume'
 import AudioSlider from './AudioSlider';
 import { audioService } from '../services/AudioService';
@@ -35,7 +34,7 @@ const AudioPlayer = () => {
       const handleBeforeUnload = (event) => {
         if (isPlaying) {
           event.preventDefault();
-          event.returnValue = ''; // This is required for some browsers
+          event.returnValue = '';
         }
       };
   
@@ -100,33 +99,5 @@ const AudioPlayer = () => {
       </Box>
     );
 }
-
-AudioPlayer.propTypes = {
-    episode: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        description: PropTypes.string,
-        episode: PropTypes.number.isRequired,
-        file: PropTypes.string.isRequired,
-    }),
-    playingShow: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        description: PropTypes.string,
-        genres: PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.number),
-            PropTypes.arrayOf(PropTypes.string)
-        ]),
-        seasons: PropTypes.arrayOf(PropTypes.shape({
-            episodes: PropTypes.arrayOf(PropTypes.shape({
-                title: PropTypes.string.isRequired,
-                description: PropTypes.string,
-                episode: PropTypes.number.isRequired,
-                file: PropTypes.string.isRequired,
-            }))
-        }))
-    }),
-    onEpisodeComplete: PropTypes.func.isRequired,
-    updateEpisodeTimestamp: PropTypes.func.isRequired
-};
 
 export default AudioPlayer;
