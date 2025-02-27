@@ -14,11 +14,10 @@ import PropTypes from 'prop-types';
 import LoadingSpinner from '../pages/LoadingSpinner';
 import ErrorPage from '../pages/ErrorPage';
 import Episode from './Episode';
-import { useSelector, useDispatch } from 'react-redux'
 import { episodeDetails } from '../utils/episodeUtils';
 
 
-const PodcastDetailsModal = ({ show, open, onClose, loading, fetching, error, episodeTimestamps }) => {
+const PodcastDetailsModal = ({ show, open, onClose, loading, fetching, error }) => {
     const [ selectedSeason, setSelectedSeason ] = useState(null)
     const [imageLoading, setImageLoading] = useState(true)
 
@@ -31,13 +30,6 @@ const PodcastDetailsModal = ({ show, open, onClose, loading, fetching, error, ep
             setSelectedSeason(show.seasons[0]);
         }
     }, [show]);
-
-    // const isListened = (episode) => {
-    //     return listenedEpisodes.some(listened => 
-    //         listened.showId === show.id && 
-    //         listened.episodeTitle === episode.title
-    //     );
-    // };
 
     const handleSeasonChange = (event) => {
         const season = show.seasons.find(s => s.season === event.target.value);
@@ -176,12 +168,9 @@ PodcastDetailsModal.propTypes = {
     show: PropTypes.object,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    // onPlayEpisode: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     fetching: PropTypes.bool.isRequired,
     error: PropTypes.object
-    // listenedEpisodes: PropTypes.array.isRequired,
-    // episodeTimestamps: PropTypes.object.isRequired,
 };
 
 export default PodcastDetailsModal;
