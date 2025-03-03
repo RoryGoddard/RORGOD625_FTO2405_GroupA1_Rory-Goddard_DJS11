@@ -12,7 +12,7 @@
 - [Acknowledgments](#acknowledgments)  
 
 ## **About The Project**  
-
+![Screenshot of Poddy](https://github.com/RoryGoddard/RORGOD625_FTO2405_GroupA1_Rory-Goddard_DJS11/blob/main/src/assets/Screenshot.png)
 Poddy is a **modern and intuitive podcast web app** designed to provide a seamless listening experience.  
 With **advanced search, sorting, and playlist management**, Poddy makes it easy to **discover, organize, and enjoy** your favorite podcasts.  
 
