@@ -1,3 +1,7 @@
+<a href="https://poddy.netlify.app/">
+    <img src="/src/assets/poddy_logo_darkmode.png" alt="Logo" width="80" height="80">
+</a>
+
 # **Poddy**  
 🎙️ **Podcasts Done Differently.**  
 
