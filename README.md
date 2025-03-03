@@ -1,4 +1,4 @@
-[![Poddy link](https://github.com/RoryGoddard/RORGOD625_FTO2405_GroupA1_Rory-Goddard_DJS11/blob/main/src/assets/Screenshot.png)](https://poddy.netlify.app)
+[![Poddy link](https://github.com/RoryGoddard/RORGOD625_FTO2405_GroupA1_Rory-Goddard_DJS11/blob/main/public/poddy_logo_darkmode.png)](https://poddy.netlify.app)
 # **Poddy**  
 🎙️ **Podcasts Done Differently.**  
 
