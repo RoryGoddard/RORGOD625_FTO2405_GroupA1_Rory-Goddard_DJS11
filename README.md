@@ -1,222 +1,136 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a id="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
+# **Poddy**  
+🎙️ **Podcasts Done Differently.**  
 
+## **Table of Contents**  
+- [About The Project](#about-the-project)  
+- [Built With](#built-with)  
+- [Getting Started](#getting-started)  
+- [Usage](#usage)  
+- [Roadmap](#roadmap)  
+- [Contributing](#contributing)  
+- [Contact](#contact)  
+- [Acknowledgments](#acknowledgments)  
 
+## **About The Project**  
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
+Poddy is a **modern and intuitive podcast web app** designed to provide a seamless listening experience.  
+With **advanced search, sorting, and playlist management**, Poddy makes it easy to **discover, organize, and enjoy** your favorite podcasts.  
 
+🎧 **Key Features**:  
+✅ **Search & Filter** – Find podcasts by title, description, or genre  
+✅ **Sorting** – Sort by title, last updated, or newest episodes  
+✅ **Continuous Playback** – Auto-play the next episode in your queue  
+✅ **Favorites & History** – Save episodes and track listening progress  
 
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://poddy.netlify.app/">
-    <img src="/src/assets/poddy_logo_darkmode.png" alt="Logo" width="80" height="80">
-  </a>
+🚀 **Try it out here:** [Poddy](#)  
 
-  <h3 align="center">Poddy</h3>
+[🔝 Back to top](#table-of-contents)  
 
-  <p align="center">
-    Podcasts Done Differently.
-    <br />
-    </p>
-</div>
+## **Built With**  
+Poddy was built using modern web technologies for performance and scalability:  
+- ⚛️ **React** – Component-based UI  
+- ⚡ **Vite** – Fast build tool  
+- 🎨 **MUI** – Elegant UI components  
+- 🔥 **Redux Toolkit & RTK Query** – State management and API handling  
 
+[🔝 Back to top](#table-of-contents)  
 
+## **Getting Started**  
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+Welcome to **Poddy** – a **fast, responsive, and user-friendly** podcast web app.  
 
+### **Prerequisites**  
+Ensure you have the latest version of **Node.js** and **npm** installed:  
+```sh
+npm install npm@latest -g
+```  
 
+### **Installation**  
+To run Poddy locally, follow these steps:  
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+1️⃣ **Clone the repository:**  
+```sh
+git clone https://github.com/RoryGoddard/Poddy.git
+```  
+2️⃣ **Navigate to the project directory:**  
+```sh
+cd Poddy
+```  
+3️⃣ **Install dependencies:**  
+```sh
+npm install
+```  
+4️⃣ **Run the development server:**  
+```sh
+npm run dev
+```  
 
-![Poddy](/src/assets/Screenshot.png)
+Now, open **http://localhost:5173** in your browser to start using Poddy!  
 
-Poddy is a react web app designed to be your best friend when it comes to podcasts.
+[🔝 Back to top](#table-of-contents)  
 
+## **Usage**  
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Poddy is designed to provide an **effortless podcast experience**. Simply visit [Poddy](#) and start exploring!  
 
+🎙️ **What you can do:**  
+✅ **Browse & Search** – Discover podcasts by title, genre, or description  
+✅ **Sort & Filter** – Organize your feed based on preferences  
+✅ **Save Favorites** – Bookmark episodes for later listening  
+✅ **Auto-Play & Resume** – Continue where you left off seamlessly  
 
+Give Poddy a try and see how it transforms your podcast experience!  
 
-### Built With
+[🔝 Back to top](#table-of-contents)  
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+## **Roadmap**  
 
-* [![React][React.js]][React-url]
-* Vite
-* MUI
+✅ **Initial Release**  
+📌 **Code Refactoring & Documentation** (in progress)  
+🚀 **Performance Optimization & New Features** (coming soon)  
 
+[🔝 Back to top](#table-of-contents)  
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## **Contributing**  
 
+🚀 **Want to contribute?** Poddy welcomes improvements, bug fixes, and new features!  
 
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-Welcome to Poddy, a responsive and unique Podcast web app experience. 
-To dive right in and use Poddy, click here [Poddy](https://poddy.netlify.app/). Otherwise, read on for more information.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Fork, and then clone the repo
+To contribute:  
+1️⃣ **Fork the repository**  
+2️⃣ **Create a feature branch**:  
    ```sh
-   git clone https://github.com/RoryGoddard/RORGOD625_FTO2405_GroupA1_Rory-Goddard_DJS11.git
-   ```
-2. Install NPM packages
+   git checkout -b feature/amazing-feature
+   ```  
+3️⃣ **Commit your changes**:  
    ```sh
-   npm install
-   ```
-3. Spin up a live server with
+   git commit -m "Add amazing feature"
+   ```  
+4️⃣ **Push to your branch**:  
    ```sh
-   npm run dev
-   ```
+   git push origin feature/amazing-feature
+   ```  
+5️⃣ **Open a Pull Request**  
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+⭐ **Don’t forget to star the repo!**  
 
+[🔝 Back to top](#table-of-contents)  
 
+## **Contact**  
 
-<!-- USAGE EXAMPLES -->
-## Usage
+📩 **Rory Goddard** – goddardrory@gmail.com  
+🔗 **Project Link** – [GitHub Repo](https://github.com/RoryGoddard/Poddy)  
 
-Poddy is a Responsive Podcast web application. Simply go to [Poddy](https://poddy.netlify.app/) to start using the application. You can sort podcasts by title, when they were updated, filter by genre, search for keywords, and more. You are able to save your favourite episodes to the "Favourites" section. Episodes can be played and fucntionality is included that allows you to start your favourite podcast, sit back, relax, and enjoy as Poddy handles going to the next episode for you. You are also able to see where you last left off on each episode. Poddy is equiped with these features and so many more, please try Poddy for yourself!
+[🔝 Back to top](#table-of-contents)  
 
+## **Acknowledgments**  
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+A huge thank you to:  
+💡 **Joshua Richter** – For being an amazing coach!  
+👩‍💻 **Classmates & Open Source Contributors** – For valuable feedback and collaboration  
 
+🚀 **Resources used:**  
+- [GitHub Markdown Guide](https://www.markdownguide.org/)  
+- [MUI Documentation](https://mui.com/)  
+- [Redux Toolkit](https://redux-toolkit.js.org/)  
 
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Initial Release
-- [ ] Refactor and documentaion
-- [ ] Optimise functions and state management further
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - Rory Goddard - goddardrory@gmail.com
-
-Project Link: [https://github.com/RoryGoddard/RORGOD625_FTO2405_GroupA1_Rory-Goddard_DJS11](https://github.com/RoryGoddard/RORGOD625_FTO2405_GroupA1_Rory-Goddard_DJS11)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-Joshua Richter for being a phenomenal coach, as well as the classmates I have grown with.
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[🔝 Back to top](#table-of-contents)
