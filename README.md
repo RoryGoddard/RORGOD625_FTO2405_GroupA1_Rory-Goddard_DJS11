@@ -26,7 +26,7 @@ With **advanced search, sorting, and playlist management**, Poddy makes it easy 
 ✅ **Continuous Playback** – Auto-play the next episode in your queue  
 ✅ **Favorites & History** – Save episodes and track listening progress  
 
-🚀 **Try it out here:** [Poddy](#)  
+🚀 **Try it out here:** [Poddy](https://poddy.netlify.app)  
 
 [🔝 Back to top](#table-of-contents)  
 
